@@ -1,5 +1,5 @@
-# New ports collection makefile for: fidogate5
-# Whom:                 Andrey Slusar <rusfidogate@users.sourceforge.net>
+# New ports collection makefile for: fidogateds
+# Whom:                 Andrey Slusar <vasallia@ukr.net>
 # Date created:         29 Aug 2003
 # $FreeBSD$
 #
@@ -19,11 +19,11 @@ USE_PERL5=		yes
 
 INSTALL_SHLIB=		yes
 
-SPOOLDIR?=		/var/spool/fido/gate
-BTBASEDIR?=		/var/spool/fido/bt
-LOCKDIR?=		/var/run/fidogate
-LOGDIR?=		/var/log/fido/gate
-VARDIR?=		${PREFIX}/var/fidogate
+SPOOLDIR?=/var/spool/fido/gate
+BTBASEDIR?=/var/spool/fido/bt
+LOCKDIR?=/var/run/fidogate
+LOGDIR?=/var/log/fido/gate
+VARDIR?=${PREFIX}/var/fidogate
 
 PLIST_SUB+=		SPOOLDIR=${SPOOLDIR} \
 			BTBASEDIR=${BTBASEDIR} \
@@ -65,14 +65,9 @@ CONFIGURE_ARGS+=	--libexec=${PREFIX}/libexec/fidogate \
 			--with-spooldir=${SPOOLDIR} \
 			--with-btbasedir=${BTBASEDIR}
 
-do-install:
-	(cd ${WRKSRC}; ${MAKE} -f ${MAKEFILE} ${MAKE_ARGS} install)
-	${MKDIR} ${VARDIR}/seq
-	${CHOWN} news:news ${VARDIR}
-	${CHOWN} news:news ${VARDIR}/seq
-	${CHOWN} news:news ${PREFIX}/etc/fido/gate
-	${CHOWN} news:news ${PREFIX}/lib/fidogate
-	${CHOWN} news:news ${PREFIX}/libexec/fidogate
+.include <bsd.port.pre.mk>
+
+post-install:
 
 .if !defined(NOPORTDOCS)
 	${MKDIR} ${PREFIX}/share/doc/fidogateds/old
@@ -89,7 +84,7 @@ do-install:
 	${INSTALL_DATA} ${WRKSRC}/doc/mailer/sendmail/mklinks ${PREFIX}/share/examples/fidogateds/mailer/sendmail/mklinks
 	${MKDIR} ${PREFIX}/share/examples/fidogateds/mailer/sendmail/mailer
 	${INSTALL_DATA} ${WRKSRC}/doc/mailer/sendmail/mailer/ftn.m4  ${PREFIX}/share/examples/fidogateds/mailer/sendmail/mailer/ftn.m4
-	${INSTALL_DATA} ${WRKSRC}/doc/old/FAQ_Fidogate ${PREFIX}/share/doc/fidogateds/old/FAQ_Fidogate
+	${INSTALL_DATA} ${WRKSRC}/doc/old/FAQ_fidogate ${PREFIX}/share/doc/fidogateds/old/FAQ_fidogate
 	${INSTALL_DATA} ${WRKSRC}/doc/old/FIDOGATE_ftrack ${PREFIX}/share/doc/fidogateds/old/FIDOGATE_ftrack
 	${MKDIR} ${PREFIX}/share/examples/fidogateds/dyff
 	${INSTALL_DATA} ${WRKSRC}/doc/examples/dyff/acl.sample ${PREFIX}/share/examples/fidogateds/dyff/acl.sample
@@ -117,31 +112,4 @@ do-install:
 	${INSTALL_DATA} ${WRKSRC}/doc/examples/point/routing ${PREFIX}/share/examples/fidogateds/point/routing
 .endif
 
-post-install:
-	${STRIP_CMD} ${PREFIX}/bin/ftnaf
-	${STRIP_CMD} ${PREFIX}/bin/ftnafutil
-	${STRIP_CMD} ${PREFIX}/bin/ftnexpire
-	${STRIP_CMD} ${PREFIX}/bin/ftnfattach
-	${STRIP_CMD} ${PREFIX}/bin/ftnhatch
-	${STRIP_CMD} ${PREFIX}/bin/ftnoutpkt
-	${STRIP_CMD} ${PREFIX}/bin/ngoper
-	${STRIP_CMD} ${PREFIX}/bin/pktdebug
-	${STRIP_CMD} ${PREFIX}/bin/pkttmpl
-	${STRIP_CMD} ${PREFIX}/bin/runinc
-	${STRIP_CMD} ${PREFIX}/bin/sumcrc
-	${STRIP_CMD} ${PREFIX}/libexec/fidogate/confval
-	${STRIP_CMD} ${PREFIX}/libexec/fidogate/ftn2ftn
-	${STRIP_CMD} ${PREFIX}/libexec/fidogate/ftn2rfc
-	${STRIP_CMD} ${PREFIX}/libexec/fidogate/ftnafmail
-	${STRIP_CMD} ${PREFIX}/libexec/fidogate/ftnafpkt
-	${STRIP_CMD} ${PREFIX}/libexec/fidogate/ftnflo
-	${STRIP_CMD} ${PREFIX}/libexec/fidogate/ftnin
-	${STRIP_CMD} ${PREFIX}/libexec/fidogate/ftninpost
-	${STRIP_CMD} ${PREFIX}/libexec/fidogate/ftnmail
-	${STRIP_CMD} ${PREFIX}/libexec/fidogate/ftnpack
-	${STRIP_CMD} ${PREFIX}/libexec/fidogate/ftnroute
-	${STRIP_CMD} ${PREFIX}/libexec/fidogate/ftntick
-	${STRIP_CMD} ${PREFIX}/libexec/fidogate/ftntoss
-	${STRIP_CMD} ${PREFIX}/libexec/fidogate/rfc2ftn
-
-.include <bsd.port.mk>
+.include <bsd.port.post.mk>
