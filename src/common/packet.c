@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: packet.c,v 1.6 2004/06/12 18:45:50 rusfidogate Exp $
+ * $Id: packet.c,v 1.7 2004/06/12 19:21:04 rusfidogate Exp $
  *
  * Functions to read/write packets and messages
  *
@@ -502,19 +502,15 @@ time_t pkt_get_date(FILE *fp)
     }
     // firts date format - FTS         `20 Dec 02  14:26:03'
     // second date dormat - nostandart `Thu 12 Dec 02 18:19'
-    if(buf[2]==' ' && buf[6]==' ' && buf[9]==' ')
+    if( !( (buf[2]==' ' && buf[6]==' ' && buf[9]== ' ' && buf[10]==' ' &&
+		    buf[13] == ':' && buf[16] == ':') ||
+	   (buf[3]==' ' && buf[6]==' ' && buf[10]==' ' && buf[13]==' ' &&
+		    buf[16] == ':') ) )
     {
-	if(buf[10]==' ' && buf[13]==':' && buf[16]==':')
-	    return parsedate(buf, NULL);
-	if(buf[12]==':' && buf[15]==':' && buf[18]==' ')
-	{
-	    fglog("WARNING: unnecessary space in message date header \'%s\'", buf);
-	    return parsedate(buf, NULL);
-	}
+	fglog("WARNING: wrong or corrupted format message date header \'%s\'", buf);
     }
-
-    fglog("ERROR: wrong format message date header \'%s\'", buf);
-    return ERROR;
+    
+    return parsedate(buf, NULL);
 
 }
 
