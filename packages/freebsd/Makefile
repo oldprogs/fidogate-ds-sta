@@ -5,7 +5,7 @@
 #
 
 PORTNAME=		fidogateds
-PORTVERSION=		5.1.0
+PORTVERSION=		5.1.1
 CATEGORIES=		russian news mail
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE}
 MASTER_SITE_SUBDIR=	rusfidogate
@@ -21,7 +21,6 @@ RUN_DEPENDS=		${LOCALBASE}/news/bin/innconfval:${PORTSDIR}/news/inn
 USE_BZIP2=		yes
 GNU_CONFIGURE=		yes
 USE_PERL5=		yes
-
 INSTALL_SHLIB=		yes
 
 SPOOLDIR?=/var/spool/fido/gate
