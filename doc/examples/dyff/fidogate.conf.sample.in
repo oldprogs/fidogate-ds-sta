@@ -1,5 +1,5 @@
 #
-# $Id: fidogate.conf.sample.in,v 1.3 2004/01/23 02:47:54 rusfidogate Exp $
+# $Id: fidogate.conf.sample.in,v 1.4 2004/02/15 23:56:13 rusfidogate Exp $
 #
 # NEW!!! (FIDOGATE 5.0.0) single common config file
 #
@@ -608,7 +608,7 @@ AreasXlate              |               -
 #     1  -  ^ARFC-Xxxx kludges for some headers (config.h, RFC_LVL_1_HEADERS)
 #     2  -  ^ARFC-Xxxx kludges for all headers
 #     3  -  ^ARFC-Xxxx kludges for all headers and MIME headers
-RFCLevel		3
+RFCLevel		0
 
 # Don't generate From: line at beginning of text body.
 NoFromLine

@@ -13,6 +13,10 @@ DISTNAME=		fidogate5.1.0ds
 MAINTAINER=		rusfidogate@users.sourceforge.net
 COMMENT=		Fido-Internet Gateway and Tosser
 
+# you may commet out this line if you have another newsserver or
+# no use newsserver
+RUN_DEPENDS=    ${LOCALBASE}/news/innconfval:${PORTSDIR}/news/inn
+
 USE_BZIP2=		yes
 GNU_CONFIGURE=		yes
 USE_PERL5=		yes
