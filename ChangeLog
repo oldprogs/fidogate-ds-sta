@@ -1,3 +1,9 @@
+2004-06-08  Andrey Slusar <rusfidogate@users.sourceforge.net>
+
+	* version.h: update to 5.1.1ds-rc4
+	* scripts/nodelist/nl-autoupd.in: add detecting
+	    DIFFDIR, NLDIR, NLFDIR in fidogate.conf
+
 2004-06-06  Andrey Slusar <rusfidogate@users.sourceforge.net>
 
 	* version.h: update version number to 5.1.1ds-rc3
