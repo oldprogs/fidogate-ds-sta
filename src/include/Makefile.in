@@ -15,7 +15,7 @@
 
 #:ts=8
 #
-#    $Id: Makefile.in,v 1.13 2004/07/05 17:24:46 anray Exp $
+#    $Id: Makefile.in,v 1.14 2004/07/09 00:25:56 anray Exp $
 #
 #    Makefile for FIDOGATE src/include/
 #
