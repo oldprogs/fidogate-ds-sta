@@ -1,5 +1,13 @@
 2003-11-04  Andrey Slusar <rusfidogate@users.sourceforge.net>
 
+	======= Release 5.1.0ds =============================
+	------- CVS tag R510 --------------------------------
+	------- CVS ci --------------------------------------
+	
+	* version.h: update version number
+
+2003-11-04  Andrey Slusar <rusfidogate@users.sourceforge.net>
+
 	* source: copy to stable
 	* test: remove
 	* doc/news/leafnode: remove, move to current
