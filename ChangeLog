@@ -1,3 +1,9 @@
+2004-01-27  Andrey Slusar <rusfidogate@users.sourceforge.net>
+
+	* src/gate/rfc2ftn.c: fix generate MSGID
+	* config.h.in: change FTN_RFC_HEADERS,
+	    RFC_LVL_1_HEADERS, RFC_LVL_3_HEADERS
+
 2004-01-25  Andrey Slusar <rusfidogate@users.sourceforge.net>
 
 	* src/areafix/areafix.c: change disable AF_AVAIL

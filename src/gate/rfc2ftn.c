@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway software UNIX <-> FIDO
  *
- * $Id: rfc2ftn.c,v 1.3 2004/01/20 19:11:19 rusfidogate Exp $
+ * $Id: rfc2ftn.c,v 1.4 2004/01/27 18:57:46 rusfidogate Exp $
  *
  * Read mail or news from standard input and convert it to a FIDO packet.
  *
@@ -39,7 +39,7 @@
 
 
 #define PROGRAM 	"rfc2ftn"
-#define VERSION 	"$Revision: 1.3 $"
+#define VERSION 	"$Revision: 1.4 $"
 #define CONFIG		DEFAULT_CONFIG_GATE
 
 
@@ -1397,7 +1397,7 @@ int snd_message(Message *msg, Area *parea,
     /***** ^A kludges *******************************************************/
 
     /* Add kludges for MSGID / REPLY */
-    if(!x_flags_m && !xpost_flag)			/* ! X-Flags: m */
+    if(!x_flags_m)			/* ! X-Flags: m */
     {
 	if((header = s_header_getcomplete("Message-ID")))
 	{
