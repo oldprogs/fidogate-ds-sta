@@ -1,5 +1,7 @@
 2004-07-12  Andrey Slusar <anray@users.sourceforge.net>
 
+	* src/toss/ngoper.c: if AutoCreateRenumberCmd not
+	    defined, this is silently skipped
 	* src/gate/send-fidogate.in: fixed confval warning
 
 2004-07-09  Andrey Slusar <anray@users.sourceforge.net>
@@ -26,7 +28,7 @@
 	* version.h: update to 5.1.1ds-rc5
 	* packages/freebsd: update
 	* src/toss/runinc.c: add -c option, if tmpunpack
-	    dirs not extist, create it
+	    dirs not exsist, create it
 	* src/areafix/areafix.c: fix traping cmd_listall
 
 2004-06-11  Andrey Slusar <rusfidogate@users.sourceforge.net>
