@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: areafix.c,v 1.4 2004/01/23 02:47:58 rusfidogate Exp $
+ * $Id: areafix.c,v 1.5 2004/01/25 13:02:46 rusfidogate Exp $
  *
  * Common Areafix functions
  *
@@ -680,9 +680,11 @@ int areafix_do_cmd(Node *node, char *line, Textlist *out, Textlist *upl)
 	    cmd = CMD_ACTIVE;
 	else if(!stricmp(buf, "resume"))
 	    cmd = CMD_ACTIVE;
-#ifdef AF_AVAIL
 	else if(!stricmp(buf, "avail"))
+#ifdef AF_AVAIL
 	    cmd = CMD_AVAIL;
+#else
+	    cmd = CMD_LISTALL;
 #endif /* AF_AVAIL */
 	else
 	{

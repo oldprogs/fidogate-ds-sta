@@ -1,3 +1,7 @@
+2004-01-25  Andrey Slusar <rusfidogate@users.sourceforge.net>
+
+	* src/areafix/areafix.c: change disable AF_AVAIL
+
 2004-01-20  Andrey Slusar <rusfidogate@users.sourceforge.net>
 
 	* src/gate/rfc2ftn.c: fix disable FIDO_STYLE_MSGID
