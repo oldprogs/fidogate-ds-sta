@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway software UNIX <-> FIDO
  *
- * $Id: rfc2ftn.c,v 1.7 2004/07/22 22:58:14 anray Exp $
+ * $Id: rfc2ftn.c,v 1.8 2004/08/26 18:39:39 anray Exp $
  *
  * Read mail or news from standard input and convert it to a FIDO packet.
  *
@@ -39,7 +39,7 @@
 
 
 #define PROGRAM 	"rfc2ftn"
-#define VERSION 	"$Revision: 1.7 $"
+#define VERSION 	"$Revision: 1.8 $"
 #define CONFIG		DEFAULT_CONFIG_GATE
 
 
@@ -2204,11 +2204,13 @@ int main(int argc, char **argv)
 	debug(8, "config: HostsRestricted");
 	addr_restricted(TRUE);
     }
+#ifndef FIDO_STYLE_MSGID
     if( (p = cf_get_string("RFCLevel", TRUE)) )
     {
 	debug(8, "config: RFCLevel %s", p);
 	default_rfc_level = atoi(p);
     }
+#endif
     if(cf_get_string("UseOrganizationForOrigin", TRUE))
     {
 	debug(8, "config: UseOrganizationForOrigin");

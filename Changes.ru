@@ -1,5 +1,8 @@
 Version 5.1.1ds
 ~~~~~~~~~~~~~~~
+- При компиляции с FIDO_STYLE_MSGID RFCLevel в fidogate.conf игнорируется,
+  и всегда равен "0".
+- Если включен SingleArticles, игнорируется опция FTNInRecombine.
 - AREAFIXMAXSTR теперь 150 строк.
 
 Version 5.1.1ds-rc6

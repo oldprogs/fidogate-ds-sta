@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: ftninpost.c,v 1.4 2004/07/21 23:54:34 anray Exp $
+ * $Id: ftninpost.c,v 1.5 2004/08/26 18:39:39 anray Exp $
  *
  * Processing inbound packets
  *
@@ -34,7 +34,7 @@
 
 
 #define PROGRAM 	"ftninpost"
-#define VERSION 	"$Revision: 1.4 $"
+#define VERSION 	"$Revision: 1.5 $"
 #define CONFIG		DEFAULT_CONFIG_MAIN
 
 typedef struct split_t {
@@ -353,13 +353,16 @@ int main(int argc, char **argv)
     else
 	debug(9, "WARNING: FTNInRnews not defined in %s", c_flag ? c_flag : CONFIG);
 
-    if( (p = cf_get_string("FTNInRecombine", TRUE)) )
+    if(!cf_get_string("SingleArticles", TRUE))
     {
-	debug(8, "config: FTNInRecombine %s", p);
-	BUF_EXPAND(buf, p);
+	if( (p = cf_get_string("FTNInRecombine", TRUE)) )
+	{
+	    debug(8, "config: FTNInRecombine %s", p);
+	    BUF_EXPAND(buf, p);
+	}
+	else
+	    debug(9, "WARNING: FTNInRecombine not defined in %s", c_flag ? c_flag : CONFIG);
     }
-    else
-	debug(9, "WARNING: FTNInRecombine not defined in %s", c_flag ? c_flag : CONFIG);
 
     if(*buf)
 	run_system(buf);
