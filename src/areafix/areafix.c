@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: areafix.c,v 1.15 2004/05/26 19:33:21 rusfidogate Exp $
+ * $Id: areafix.c,v 1.16 2004/06/11 03:11:50 rusfidogate Exp $
  *
  * Common Areafix functions
  *
@@ -2420,7 +2420,7 @@ void areafix_set_changed(void)
 }
 
 /*
- * Sending subscribe/unsubscribe requset to uplinks
+ * Sending subscribe/unsubscribe requests to uplinks
  */
 void send_request(Textlist *upl)
 {
