@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: acl_ftn.c,v 1.1 2003/11/05 00:50:56 rusfidogate Exp $
+ * $Id: acl_ftn.c,v 1.2 2004/01/28 00:14:50 rusfidogate Exp $
  *
  * Active group
  *
@@ -104,12 +104,12 @@ static ftn_acl_t *ftnacl_parse_line( char *buf ) {
         else if(strieq(t1, "mandatory") )
             atype = TYPE_MANDATORY;
 	else 
-	    log("acl_ftn: area mask not specified, ignoring line");
+	    fglog("acl_ftn: area mask not specified, ignoring line");
     } else {
         if( strieq( t1, "include" ) )
 	    ftnacl_do_file( t2 );
         else if( ( mtype == '\0' ) || ( atype == '\0' ) )
-	    log("acl_ftn: acl type not specified, ignoring line");
+	    fglog("acl_ftn: acl type not specified, ignoring line");
         else {
             a = xmalloc( sizeof( ftn_acl_t ) );
             lon_init( &a->nodes );
@@ -127,7 +127,7 @@ static ftn_acl_t *ftnacl_parse_line( char *buf ) {
 	            old = node;
 	            lon_add(&a->nodes, &node);
 	        } else {
-	            log("acl_ftn: parse error");
+	            fglog("acl_ftn: parse error");
 	            lon_delete(&a->nodes);
 	            xfree(a);
 	            return NULL;
@@ -185,7 +185,7 @@ void ftnacl_do_file( char *name ) {
         }
         fclose( fp );
     } else {
-	log( "$acl_ftn: can't open %s", name );
+	fglog( "$acl_ftn: can't open %s", name );
     }
     
     return;

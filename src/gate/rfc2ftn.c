@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway software UNIX <-> FIDO
  *
- * $Id: rfc2ftn.c,v 1.4 2004/01/27 18:57:46 rusfidogate Exp $
+ * $Id: rfc2ftn.c,v 1.5 2004/01/28 00:14:50 rusfidogate Exp $
  *
  * Read mail or news from standard input and convert it to a FIDO packet.
  *
@@ -39,7 +39,7 @@
 
 
 #define PROGRAM 	"rfc2ftn"
-#define VERSION 	"$Revision: 1.4 $"
+#define VERSION 	"$Revision: 1.5 $"
 #define CONFIG		DEFAULT_CONFIG_GATE
 
 
@@ -617,7 +617,7 @@ char *mail_receiver(RFCAddr *rfc, Node *node)
 	 * Address is argument
 	 */
 	if(rfc_parse(rfc, name, node, TRUE) == ERROR) {
-	    log("BOUNCE: <%s>, %s", s_rfcaddr_to_asc(rfc, TRUE),
+	    fglog("BOUNCE: <%s>, %s", s_rfcaddr_to_asc(rfc, TRUE),
 		(*address_error ? address_error : "unknown")  );
 	    return NULL;
 	}
@@ -871,7 +871,7 @@ int snd_mail(RFCAddr rfc_to, long size)
 	if(limitsize>0 && size>limitsize)
 	{
 	    /* Too large, don't gate it */
-	    log("message too big (%ldb, limit %ldb) for mail %s -> %s",
+	    fglog("message too big (%ldb, limit %ldb) for mail %s -> %s",
 		size, limitsize, s_rfcaddr_to_asc(&rfc_from, TRUE),
 		s_rfcaddr_to_asc(&rfc_to, TRUE)                            );
 	    sendback("Address %s:\n  message too big (%ldb, limit %ldb)",
@@ -896,14 +896,14 @@ int snd_mail(RFCAddr rfc_to, long size)
 		else
 		{
 		    if(flags)
-			log("NON-LOCAL From: %s, Reply-To: %s, X-Flags: %s",
+			fglog("NON-LOCAL From: %s, Reply-To: %s, X-Flags: %s",
 			    hf ? hf : "<>", hr ? hr : "<>", flags           );
 		    flags = p = NULL;
 		}
 	    }
 	    /* Let's at least log what's going on ... */
 	    if(flags)
-		log("X-Flags: %s, From: %s", flags, hf ? hf : "<>");
+		fglog("X-Flags: %s, From: %s", flags, hf ? hf : "<>");
 	    
 	    p = flags;
 	    if(p)
@@ -941,7 +941,7 @@ int snd_mail(RFCAddr rfc_to, long size)
 
 	    /* Log what's going on ... */
 	    if(flags)
-		log("FORBIDDEN X-Flags: %s, From: %s", flags, hf ? hf : "<>");
+		fglog("FORBIDDEN X-Flags: %s, From: %s", flags, hf ? hf : "<>");
 	    flags = NULL;
 	}
 	
@@ -1062,12 +1062,12 @@ int snd_mail(RFCAddr rfc_to, long size)
 		{
 		    if(pna_notify(s_rfcaddr_to_asc(&rfc_from, FALSE)))
 		    {
-			log("BOUNCE: Postings from address `%s' to group `%s' not allowed - skipped, sent notify",
+			fglog("BOUNCE: Postings from address `%s' to group `%s' not allowed - skipped, sent notify",
 			    s_rfcaddr_to_asc(&rfc_from, FALSE), pa->group);
 			bounce_mail("acl", &rfc_from, &msg, pa->group, &body);
 		    }
 		    else
-			log("BOUNCE: Postings from address `%s' to group `%s' not allowed - skipped",
+			fglog("BOUNCE: Postings from address `%s' to group `%s' not allowed - skipped",
 			    s_rfcaddr_to_asc(&rfc_from, FALSE), pa->group);
 		    continue;
 		}
@@ -1077,7 +1077,7 @@ int snd_mail(RFCAddr rfc_to, long size)
 		if(limitsize>0 && size>limitsize)
 		{
 		    /* Too large, don't gate it */
-		    log("message too big (%ldb, limit %ldb) for area %s",
+		    fglog("message too big (%ldb, limit %ldb) for area %s",
 			size, limitsize, pa->area                        );
 		    continue;
 		}
@@ -1109,7 +1109,7 @@ int snd_mail(RFCAddr rfc_to, long size)
 	{
 		debug(5, "Gateway netmail from address `%s' to `%s' - o.k.",
 		      s_rfcaddr_to_asc(&rfc_from, FALSE), asc_node_to);
-	log("MAIL: %s -> %s",
+	fglog("MAIL: %s -> %s",
 	    s_rfcaddr_to_asc(&rfc_from, TRUE), s_rfcaddr_to_asc(&rfc_to, TRUE));
 	msg.area      = NULL;
 	msg.node_from = node_from;
@@ -1122,13 +1122,13 @@ int snd_mail(RFCAddr rfc_to, long size)
 	{
 	    if(pna_notify(s_rfcaddr_to_asc(&rfc_from, FALSE)))
 	    {
-		log("BOUNCE: Gateway netmail from address `%s' to `%s' not allowed - skipped, sent notify",
+		fglog("BOUNCE: Gateway netmail from address `%s' to `%s' not allowed - skipped, sent notify",
 		    s_rfcaddr_to_asc(&rfc_from, FALSE), asc_node_to);
 		bounce_mail("acl_netmail", &rfc_from, &msg, asc_node_to, &body);
 	    }
 	    else
 	    {
-		log("BOUNCE: Gateway netmail from address `%s' to `%s' not allowed - skipped",
+		fglog("BOUNCE: Gateway netmail from address `%s' to `%s' not allowed - skipped",
 		    s_rfcaddr_to_asc(&rfc_from, FALSE), asc_node_to);
 	    }
 
@@ -2182,7 +2182,7 @@ int main(int argc, char **argv)
 	debug(8, "config: MaxMsgSize %s", p);
 	sz = atol(p);
 	if(sz <= 0)
-	    log("WARNING: illegal MaxMsgSize value %s", p);
+	    fglog("WARNING: illegal MaxMsgSize value %s", p);
 	else
 	    areas_maxmsgsize(sz);
     }
@@ -2193,7 +2193,7 @@ int main(int argc, char **argv)
 	debug(8, "config: LimitMsgSize %s", p);
 	sz = atol(p);
 	if(sz <= 0)
-	    log("WARNING: illegal LimitMsgSize value %s", p);
+	    fglog("WARNING: illegal LimitMsgSize value %s", p);
 	else
 	    areas_limitmsgsize(sz);
     }
@@ -2386,7 +2386,7 @@ int main(int argc, char **argv)
 	debug(3, "processing article list %s", f_flag);
 	if( ! (fp = fopen_expand_name(f_flag, R_MODE, TRUE)) )
 	    if(log_artnf)
-		log("WARNING: article %s not found", f_flag);
+		fglog("WARNING: article %s not found", f_flag);
 	BUF_COPY2(posfile, f_flag, ".pos");
 	if(check_access(posfile, CHECK_FILE) == TRUE)
 	{
@@ -2398,7 +2398,7 @@ int main(int argc, char **argv)
 	    debug(3, "re-positioning to offset %ld", pos);
 	    fclose(fppos);
 	    if( fseek(fp, pos, SEEK_SET) == ERROR )
-		log("$WARNING: can't seek to offset %ld in file %s",
+		fglog("$WARNING: can't seek to offset %ld in file %s",
 		    pos, f_flag);
 	}
     }
@@ -2436,7 +2436,7 @@ int main(int argc, char **argv)
 	    if(! (fpart = fopen_expand_name(article, R_MODE_T, FALSE)) )
 	    {
 		if(log_artnf)
-		    log("WARNING: article %s not found", article);
+		    fglog("WARNING: article %s not found", article);
 		continue;
 	    }
 	    debug(3, "processing article file %s", article);
@@ -2449,7 +2449,7 @@ int main(int argc, char **argv)
 	{
 	    size = read_rnews_size(fpart);
 	    if(size == -1)
-		log("ERROR: reading news batch");
+		fglog("ERROR: reading news batch");
 	    if(size <= 0)
 		break;
 	    debug(3, "Batch: message #%ld size %ld", nmsg, size);

@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: crc32.c,v 1.1 2003/11/05 00:51:38 rusfidogate Exp $
+ * $Id: crc32.c,v 1.2 2004/01/28 00:14:50 rusfidogate Exp $
  *
  * Compute 32 bit CRC value
  *
@@ -194,7 +194,7 @@ unsigned long crc32_file(char *name)
     
     if((fp = fopen(name, R_MODE)) == NULL)
     {
-	log("$crc32_file(): can't open %s", name);
+	fglog("$crc32_file(): can't open %s", name);
 	return 0;
     }
     

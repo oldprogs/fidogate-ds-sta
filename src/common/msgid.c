@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: msgid.c,v 1.2 2004/01/20 19:11:19 rusfidogate Exp $
+ * $Id: msgid.c,v 1.3 2004/01/28 00:14:50 rusfidogate Exp $
  *
  * MSGID <-> Message-ID conversion handling. See also ../doc/msgid.doc
  *
@@ -439,7 +439,7 @@ char *s_msgid_rfc_to_fido(int *origid_flag, char *message_id,
 	log ("can't open dbc file");
     }
     if(hi_write_dbc(message_id, hexid, dont_flush) == ERROR)
-        log ("can't write to dbc file");
+        fglog ("can't write to dbc file");
     hi_close();
     unlock_program(cf_p_lock_history());
 #endif /* DBC_HISTORY && FIDO_STYLE_MSGID*/

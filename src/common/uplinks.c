@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: uplinks.c,v 1.1 2003/11/05 00:49:30 rusfidogate Exp $
+ * $Id: uplinks.c,v 1.2 2004/01/28 00:14:50 rusfidogate Exp $
  *
  * Read area uplinks list from file. The format is as follows:
  *	ROBOT_TYPE   AREAS   Z:N/F.P   ROBOT_NAME    PASSWORD
@@ -86,14 +86,14 @@ static AreaUplink *uplinks_parse_line(char *buf)
     
     if( asc_to_node(n, &uplink, FALSE) == ERROR )
     {
-	log("uplinks: illegal FTN address %s", n);
+	fglog("uplinks: illegal FTN address %s", n);
 	return NULL;
     }
 
 #ifdef DEBUG
     if( uplinks_check_dups ((!strcmp (t, "af"))?TRUE:FALSE, &uplink) )
     {
-	log("uplinks: duplicate uplink entry %s", n);
+	fglog("uplinks: duplicate uplink entry %s", n);
 	return NULL;
     }
 #endif /* DEBUG */

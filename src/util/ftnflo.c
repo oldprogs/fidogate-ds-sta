@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: ftnflo.c,v 1.1 2003/11/05 00:57:34 rusfidogate Exp $
+ * $Id: ftnflo.c,v 1.2 2004/01/28 00:14:51 rusfidogate Exp $
  *
  * Run script for every entry in FLO file for node
  *
@@ -36,7 +36,7 @@
 
 
 #define PROGRAM		"ftnflo"
-#define VERSION		"$Revision: 1.1 $"
+#define VERSION		"$Revision: 1.2 $"
 #define CONFIG		DEFAULT_CONFIG_MAIN
 
 
@@ -69,7 +69,7 @@ int do_flo(Node *node)
     /* Open FLO file */
     if(flo_open(node, TRUE) == ERROR)
     {
-/*	log("nothing on hold for %s", znfp1(node)); */
+/*	fglog("nothing on hold for %s", znfp1(node)); */
 	return OK;
     }
 
@@ -102,7 +102,7 @@ int do_flo(Node *node)
 		debug(2, "Exit code=%d", ret);
 		if(ret)
 		{
-		    log("ERROR: running command %s", buf);
+		    fglog("ERROR: running command %s", buf);
 		    flo_close(node, TRUE, FALSE);
 		    return ERROR;
 		}
@@ -114,7 +114,7 @@ int do_flo(Node *node)
 		    /* ... delete */
 		    debug(2, "Removing %s", line);
 		    if(unlink(line) == ERROR)
-			log("ERROR: can't remove %s", line);
+			fglog("ERROR: can't remove %s", line);
 		    break;
 
 		case '#':
@@ -122,10 +122,10 @@ int do_flo(Node *node)
 		    debug(2, "Truncating %s", line);
 #if 0 /* truncate() is not a POSIX function */
 		    if(truncate(line, 0) == ERROR)
-			log("ERROR: can't truncate %s", line);
+			fglog("ERROR: can't truncate %s", line);
 #endif
 		    if( (fd = open(line, O_WRONLY|O_TRUNC)) == ERROR )
-			log("ERROR: can't truncate %s", line);
+			fglog("ERROR: can't truncate %s", line);
 		    close(fd);
 		    break;
 		}

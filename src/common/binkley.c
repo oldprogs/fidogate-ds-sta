@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: binkley.c,v 1.1 2003/11/05 00:51:19 rusfidogate Exp $
+ * $Id: binkley.c,v 1.2 2004/01/28 00:14:50 rusfidogate Exp $
  *
  * BinkleyTerm-style outbound directory functions
  *
@@ -338,7 +338,7 @@ int bink_attach(Node *node, int mode, char *name, char *flav, int bsy)
 	n = cf_dos_xlate(name);
 	if(!n)
 	{
-	    log("can't convert file name to MSDOS: %s", name);
+	    fglog("can't convert file name to MSDOS: %s", name);
 	    return ERROR;
 	}
 	debug(4, "attach MSDOS name=%s", n);
@@ -353,7 +353,7 @@ int bink_attach(Node *node, int mode, char *name, char *flav, int bsy)
     /* seek to start of flo file */
     if(fseek(fp, 0L, SEEK_SET) == ERROR)
     {
-	log("$fseek EOF FLO file node %s failed", znfp1(node));
+	fglog("$fseek EOF FLO file node %s failed", znfp1(node));
 	flo_close(node, TRUE, FALSE);
 	return ERROR;
     }
@@ -438,7 +438,7 @@ int bink_mkdir(Node *node)
     {
 	if(mkdir(buf, DIR_MODE) == -1)
 	{
-	    log("$WARNING: can't create dir %s", buf);
+	    fglog("$WARNING: can't create dir %s", buf);
 	    return ERROR;
 	}
 	chmod(buf, DIR_MODE);
@@ -455,7 +455,7 @@ int bink_mkdir(Node *node)
 	{
 	    if(mkdir(buf, DIR_MODE) == -1)
 	    {
-		log("$WARNING: can't create dir %s", buf);
+		fglog("$WARNING: can't create dir %s", buf);
 		return ERROR;
 	    }
 	    chmod(buf, DIR_MODE);

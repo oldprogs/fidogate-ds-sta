@@ -1,6 +1,6 @@
 #include "fidogate.h"
 
-#define DEFAULT_MAILER	"/usr/lib/sendmail -t"
+#define DEFAULT_MAILER	"/usr/sbin/sendmail -t"
 
 char   *areafix_name		(void);
 
@@ -23,7 +23,7 @@ FILE *mailer_open(char *to, int forward, char *robotname, char *password)
     fp = popen(mailer, W_MODE);
     if(!fp)
     {
-	log("ERROR: can't open pipe to %s", mailer);
+	fglog("ERROR: can't open pipe to %s", mailer);
 	return NULL;
     }
     

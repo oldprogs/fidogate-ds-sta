@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: fopen.c,v 1.1 2003/11/05 00:52:05 rusfidogate Exp $
+ * $Id: fopen.c,v 1.2 2004/01/28 00:14:50 rusfidogate Exp $
  *
  * Specialized fopen()-like functions
  *
@@ -47,11 +47,11 @@ FILE *fopen_expand_name( char *name, char *mode, int err_abort ) {
         fp = fopen( xname, mode );
         if( fp == NULL ) {
 	    if( err_abort ) {
-	        log( "$ERROR: can't open %s", xname );
+	        fglog( "$ERROR: can't open %s", xname );
 	        exit( EX_OSFILE );
 	    }
 	    else
-	        log( "$WARNING: can't open %s", xname );
+	        fglog( "$WARNING: can't open %s", xname );
         }
     }
     return fp;

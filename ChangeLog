@@ -1,5 +1,7 @@
 2004-01-27  Andrey Slusar <rusfidogate@users.sourceforge.net>
 
+	* src/tick/ftntick.c: fix logging TickFileAction
+	* src: change log() to fglog()
 	* src/gate/rfc2ftn.c: fix generate MSGID
 	* config.h.in: change FTN_RFC_HEADERS,
 	    RFC_LVL_1_HEADERS, RFC_LVL_3_HEADERS

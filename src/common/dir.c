@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: dir.c,v 1.1 2003/11/05 00:51:59 rusfidogate Exp $
+ * $Id: dir.c,v 1.2 2004/01/28 00:14:50 rusfidogate Exp $
  *
  * Reading/sorting directories
  *
@@ -308,7 +308,7 @@ int mkdir_r(char *dir, mode_t mode)
 
 	if(check_access(tmp, CHECK_DIR) != TRUE)
 	{
-	    log("make directory %s", tmp);
+	    fglog("make directory %s", tmp);
 	    if(mkdir(tmp, mode) != 0)
 		return ERROR;
 	}

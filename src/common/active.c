@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: active.c,v 1.1 2003/11/05 00:50:56 rusfidogate Exp $
+ * $Id: active.c,v 1.2 2004/01/28 00:14:50 rusfidogate Exp $
  *
  * Active group
  *
@@ -105,7 +105,7 @@ short active_init( void ) {
         }
         fclose( active );
     } else {
-	log( "$ERROR: open news active file %s failed", name );
+	fglog( "$ERROR: open news active file %s failed", name );
 	return ERROR;
     }
 

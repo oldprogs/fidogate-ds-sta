@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: ftn2rfc.c,v 1.2 2003/12/02 14:36:44 rusfidogate Exp $
+ * $Id: ftn2rfc.c,v 1.3 2004/01/28 00:14:50 rusfidogate Exp $
  *
  * Convert FTN mail packets to RFC mail and news batches
  *
@@ -39,7 +39,7 @@
 
 
 #define PROGRAM 	"ftn2rfc"
-#define VERSION 	"$Revision: 1.2 $"
+#define VERSION 	"$Revision: 1.3 $"
 #define CONFIG		DEFAULT_CONFIG_GATE
 
 
@@ -249,12 +249,12 @@ Area *news_msg(char *line, Node *to)
 		if ( cf_get_string("AutoCreateNG", TRUE) )
 		{
 		    debug(8, "config: AutoCreateNG");
-		    log("create newsgroup %s", pa->group);
+		    fglog("create newsgroup %s", pa->group);
 	    	    BUF_COPY2(buffer, "%N/ngoper create ", pa->group);
 	    	    sprintf(exec_line, "%s/ngoper create %s", cf_p_bindir(), pa->group);
 		    debug(8, "run: %s", exec_line);
 		    if (0 != run_system(exec_line))
-			log("can't create newsgroup (rc != 0)");
+			fglog("can't create newsgroup (rc != 0)");
 		    return pa;
 		}
 		else
@@ -358,7 +358,7 @@ static int msg_get_line_length(void)
 	    if(message_line_length < 20 ||
 	       message_line_length > MAX_LINE_LENGTH) 
 	    {
-		log("WARNING: illegal MessageLineLength value %d",
+		fglog("WARNING: illegal MessageLineLength value %d",
 		    message_line_length);
 		message_line_length = DEFAULT_LINE_LENGTH;
 	    }
@@ -497,11 +497,11 @@ int unpack(FILE *pkt_file, Packet *pkt)
     {
 	if(feof(pkt_file))
 	{
-	    log("WARNING: premature EOF reading input packet");
+	    fglog("WARNING: premature EOF reading input packet");
 	    return OK;
 	}
 	
-	log("ERROR: reading input packet");
+	fglog("ERROR: reading input packet");
 	return ERROR;
     }
 
@@ -519,7 +519,7 @@ int unpack(FILE *pkt_file, Packet *pkt)
 	
 	if( pkt_get_msg_hdr(pkt_file, &msg) == ERROR )
 	{
-	    log("ERROR: reading input packet");
+	    fglog("ERROR: reading input packet");
 	    ret = ERROR;
 	    break;
 	}
@@ -538,7 +538,7 @@ int unpack(FILE *pkt_file, Packet *pkt)
 	 */
 
 	if( pkt_get_body_parse(pkt_file, &body, &msg.node_from, &msg.node_to) != OK )
-	    log("ERROR: parsing message body");
+	    fglog("ERROR: parsing message body");
 	/* Retrieve address information from kludges for NetMail */
 	if(body.area == NULL)
 	{
@@ -547,7 +547,7 @@ int unpack(FILE *pkt_file, Packet *pkt)
 	    {
 	        debug(7, "ftnacl_lookup(): From=%s, To=%s",
 			    znfp1(&msg.node_orig), znfp2(&msg.node_to));
-		log("BOUNCE: Postings from address `%s' to  `%s' not allowed - skipped",
+		fglog("BOUNCE: Postings from address `%s' to  `%s' not allowed - skipped",
 			znfp1(&msg.node_orig), znfp2(&msg.node_to));
 		tl_clear(&theader);
 		tl_clear(&tbody);
@@ -570,7 +570,7 @@ int unpack(FILE *pkt_file, Packet *pkt)
 	    {
 	        debug(7, "ftnacl_lookup(): From=%s, echo=%s",
 			    znfp1(&msg.node_orig), body.area);
-		log("BOUNCE: Postings from address `%s' to area `%s' not allowed - skipped",
+		fglog("BOUNCE: Postings from address `%s' to area `%s' not allowed - skipped",
 			znfp1(&msg.node_orig), body.area);
 		tl_clear(&theader);
 		tl_clear(&tbody);
@@ -646,7 +646,7 @@ int unpack(FILE *pkt_file, Packet *pkt)
 	    /* Skip, if unknown and FTNJunkGroup not set */
 	    if(!area->group && !ftn_junk_group)
 	    {
-		log("unknown area %s", area->area);
+		fglog("unknown area %s", area->area);
 		tl_clear(&theader);
 		tl_clear(&tbody);
 		tl_clear(&tl);
@@ -854,7 +854,7 @@ int unpack(FILE *pkt_file, Packet *pkt)
 	    /* ^A SPLIT */
 	    if( (p = kludge_get(&body.kludge, "SPLIT", NULL)) )
 	    {
-		log("skipping split message, origin=%s", znfp1(&msg.node_orig));
+		fglog("skipping split message, origin=%s", znfp1(&msg.node_orig));
 		tl_clear(&theader);
 		tl_clear(&tbody);
 		tl_clear(&tl);
@@ -871,7 +871,7 @@ int unpack(FILE *pkt_file, Packet *pkt)
 	{
 	    if(msgbody_rfc_from)
 	    {
-		log("skipping message from gateway, area %s, origin=%s",
+		fglog("skipping message from gateway, area %s, origin=%s",
 		    area->area, znfp1(&msg.node_orig));
 		tl_clear(&theader);
 		tl_clear(&tbody);
@@ -884,7 +884,7 @@ int unpack(FILE *pkt_file, Packet *pkt)
 	    if( (p = kludge_get(&body.kludge, "PID", NULL))  &&
 	       !strnicmp(p, "GIGO", 4)                         )
 	    {
-		log("skipping message from gateway (GIGO), area %s, origin=%s",
+		fglog("skipping message from gateway (GIGO), area %s, origin=%s",
 		    area->area, znfp1(&msg.node_orig));
 		tl_clear(&theader);
 		tl_clear(&tbody);
@@ -896,7 +896,7 @@ int unpack(FILE *pkt_file, Packet *pkt)
 	    /* Broken FidoZerb message splitting */
 	    if( (p = kludge_get(&body.kludge, "X-FZ-SPLIT", NULL)) )
 	    {
-		log("skipping message from gateway (X-FZ-SPLIT), area %s, origin=%s",
+		fglog("skipping message from gateway (X-FZ-SPLIT), area %s, origin=%s",
 		    area->area, znfp1(&msg.node_orig));
 		tl_clear(&theader);
 		tl_clear(&tbody);
@@ -987,7 +987,7 @@ int unpack(FILE *pkt_file, Packet *pkt)
 	if(area==NULL && t_flag && msgbody_rfc_to)
 	{
 	    debug(1, "Insecure message with To line");
-	    log("BOUNCE: insecure mail from %s",
+	    fglog("BOUNCE: insecure mail from %s",
 		s_rfcaddr_to_asc(&addr_from, TRUE));
 	    bounce_mail("insecure", &addr_from, &msg, msgbody_rfc_to, &tbody);
 	    tl_clear(&theader);
@@ -1033,7 +1033,7 @@ int unpack(FILE *pkt_file, Packet *pkt)
 		/* Not registered in HOSTS */
 		debug(1, "Not a registered node: %s",
 		      znfp1(&msg.node_orig));
-		log("BOUNCE: mail from unregistered %s",
+		fglog("BOUNCE: mail from unregistered %s",
 		    s_rfcaddr_to_asc(&addr_from, TRUE));
 		bounce_mail("restricted", &addr_from, &msg,
 			    msgbody_rfc_to, &tbody);
@@ -1049,7 +1049,7 @@ int unpack(FILE *pkt_file, Packet *pkt)
 	    {
 		debug(1, "Registered node is down: %s",
 		      znfp1(&msg.node_orig));
-		log("BOUNCE: mail from down %s",
+		fglog("BOUNCE: mail from down %s",
 		    s_rfcaddr_to_asc(&addr_from, TRUE));
 		bounce_mail("down", &addr_from, &msg,
 			    msgbody_rfc_to, &tbody);
@@ -1074,7 +1074,7 @@ int unpack(FILE *pkt_file, Packet *pkt)
 		if(no_address_in_to_field)
 		{
 		    debug(1, "Message with address in mail_to: %s", mail_to);
-		    log("BOUNCE: mail from %s with address in to field: %s",
+		    fglog("BOUNCE: mail from %s with address in to field: %s",
 			s_rfcaddr_to_asc(&addr_from, TRUE), mail_to           );
 		    bounce_mail("addrinto",
 				&addr_from, &msg, mail_to, &tbody);
@@ -1104,7 +1104,7 @@ int unpack(FILE *pkt_file, Packet *pkt)
 	    {
 		/* Addressed to `UUCP' or `GATEWAY', but no To: line */
 		debug(1, "Message to `UUCP' or `GATEWAY' without To line");
-		log("BOUNCE: mail from %s without To line",
+		fglog("BOUNCE: mail from %s without To line",
 		    s_rfcaddr_to_asc(&addr_from, TRUE));
 		bounce_mail("noto", &addr_from, &msg, msgbody_rfc_to, &tbody);
 		tl_clear(&theader);
@@ -1175,7 +1175,7 @@ int unpack(FILE *pkt_file, Packet *pkt)
 	    {
 		if(!strncmp(p, "<NOMSGID_", 9))
 		{
-		    log("MSGID: %s, not gated", p);
+		    fglog("MSGID: %s, not gated", p);
 		    tl_clear(&theader);
 		    tl_clear(&tbody);
 		    tl_clear(&tl);
@@ -1186,7 +1186,7 @@ int unpack(FILE *pkt_file, Packet *pkt)
 		if(no_unknown_msgid_zones)
 		    if(id_zone>=-1 && !cf_zones_check(id_zone))
 		    {
-			log("MSGID %s: malformed or unknown zone, not gated", p);
+			fglog("MSGID %s: malformed or unknown zone, not gated", p);
 			tl_clear(&theader);
 			tl_clear(&tbody);
 			tl_clear(&tl);
@@ -1198,7 +1198,7 @@ int unpack(FILE *pkt_file, Packet *pkt)
 	    {
 		if(no_messages_without_msgid)
 		{
-		    log("MSGID: none, not gated");
+		    fglog("MSGID: none, not gated");
 		    tl_clear(&theader);
 		    tl_clear(&tbody);
 		    tl_clear(&tl);
@@ -1211,7 +1211,7 @@ int unpack(FILE *pkt_file, Packet *pkt)
 	/* Can't happen, but who knows ... ;-) */
 	if(!id_line)
 	{
-	    log("ERROR: id_line==NULL, strange.");
+	    fglog("ERROR: id_line==NULL, strange.");
 	    tl_clear(&theader);
 	    tl_clear(&tbody);
 	    tl_clear(&tl);
@@ -1234,7 +1234,7 @@ int unpack(FILE *pkt_file, Packet *pkt)
 
 	/* Different header for mail and news */
 	if(area==NULL) {			/* Mail */
-	    log("MAIL: %s -> %s", from_line, to_line);
+	    fglog("MAIL: %s -> %s", from_line, to_line);
 	    
 	    tl_appendf(&theader,
 		       "From %s %s\n", s_rfcaddr_to_asc(&addr_from, FALSE),
@@ -1615,7 +1615,7 @@ int unpack_file(char *pkt_name)
     /* Open packet and read header */
     pkt_file = fopen(pkt_name, R_MODE);
     if(!pkt_file) {
-	log("$ERROR: can't open packet %s", pkt_name);
+	fglog("$ERROR: can't open packet %s", pkt_name);
 	if(n_flag)
 	    return ERROR;
 	else
@@ -1626,7 +1626,7 @@ int unpack_file(char *pkt_name)
     }
     if(pkt_get_hdr(pkt_file, &pkt) == ERROR)
     {
-	log("ERROR: reading header from %s", pkt_name);
+	fglog("ERROR: reading header from %s", pkt_name);
 	if(n_flag)
 	    return ERROR;
 	else
@@ -1637,12 +1637,12 @@ int unpack_file(char *pkt_name)
     }
     
     /* * Unpack it */
-    log("packet %s (%ldb) from %s to %s", pkt_name, check_size(pkt_name),
+    fglog("packet %s (%ldb) from %s to %s", pkt_name, check_size(pkt_name),
 	znfp1(&pkt.from), znfp2(&pkt.to) );
     
     if(unpack(pkt_file, &pkt) == ERROR) 
     {
-	log("ERROR: processing %s", pkt_name);
+	fglog("ERROR: processing %s", pkt_name);
 	if(n_flag)
 	    return ERROR;
 	else
@@ -1655,7 +1655,7 @@ int unpack_file(char *pkt_name)
     fclose(pkt_file);
     
     if(!n_flag && unlink(pkt_name)==ERROR) {
-	log("$ERROR: can't unlink packet %s", pkt_name);
+	fglog("$ERROR: can't unlink packet %s", pkt_name);
 	rename_bad(pkt_name);
 	return OK;
     }
@@ -1996,7 +1996,7 @@ int main(int argc, char **argv)
 	dir_sortmode(DIR_SORTMTIME);
 	if(dir_open(in_dir, "*.pkt", TRUE) == ERROR)
 	{
-	    log("$ERROR: can't open directory %s", in_dir);
+	    fglog("$ERROR: can't open directory %s", in_dir);
 	    if(l_flag)
 		unlock_program(PROGRAM);
 	    exit_free();

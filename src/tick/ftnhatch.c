@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: ftnhatch.c,v 1.1 2003/11/05 00:55:50 rusfidogate Exp $
+ * $Id: ftnhatch.c,v 1.2 2004/01/28 00:14:50 rusfidogate Exp $
  *
  * Hatch file into file area
  *
@@ -36,7 +36,7 @@
 
 
 #define PROGRAM		"ftnhatch"
-#define VERSION		"$Revision: 1.1 $"
+#define VERSION		"$Revision: 1.2 $"
 #define CONFIG		DEFAULT_CONFIG_MAIN
 
 
@@ -81,7 +81,7 @@ int hatch(char *area, char *file, char *desc)
     if( (bbs = areasbbs_lookup(area)) == NULL )
     {
 	/* Unknown area: log it, dump it. ;-) */
-	log("ERROR: unknown area %s", area);
+	fglog("ERROR: unknown area %s", area);
 	return EXIT_ERROR;
     }
     if( bbs->zone != -1 )
@@ -99,7 +99,7 @@ int hatch(char *area, char *file, char *desc)
     BUF_COPY3(file_name, bbs->dir, "/", file);
     if(stat(file_name, &st) == ERROR)
     {
-	log("$ERROR: can't stat() file %s", file_name);
+	fglog("$ERROR: can't stat() file %s", file_name);
 	return EXIT_ERROR;
     }
     file_size = st.st_size;
@@ -322,7 +322,7 @@ int main(int argc, char **argv)
     /* Read FAreas.BBS */
     if(areasbbs_init(areas_bbs) == ERROR)
     {
-	log("$ERROR: can't open %s", areas_bbs);
+	fglog("$ERROR: can't open %s", areas_bbs);
 	ret = EX_OSFILE;
     }
     

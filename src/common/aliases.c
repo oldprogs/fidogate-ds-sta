@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: aliases.c,v 1.1 2003/11/05 00:51:03 rusfidogate Exp $
+ * $Id: aliases.c,v 1.2 2004/01/28 00:14:50 rusfidogate Exp $
  *
  * Read user name aliases from file. The alias.users format is as follows:
  *	username    Z:N/F.P    Full Name
@@ -85,7 +85,7 @@ static Alias *alias_parse_line( char *buf ) {
             }
             if( f != NULL ) {
                 if( asc_to_node( n, &node, FALSE ) == ERROR ) {
-	            log( "hosts: illegal FTN address %s", n );
+	            fglog( "hosts: illegal FTN address %s", n );
 	            return NULL;
                 }
                 p = ( Alias * )xmalloc( sizeof( Alias ) );
