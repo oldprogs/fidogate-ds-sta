@@ -6,6 +6,7 @@
 
 PORTNAME=		fidogateds
 PORTVERSION=		5.1.0
+PORTREVISION=		1
 CATEGORIES=		russian news mail
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE}
 MASTER_SITE_SUBDIR=	rusfidogate
@@ -37,7 +38,7 @@ PLIST_SUB+=		SPOOLDIR=${SPOOLDIR} \
 			PREFIX=${PREFIX}
 
 HAS_CONFIGURE=		yes
-.if !defined(WITHOUT_INN)
+.if defined(WITHOUT_INN)
 CONFIGURE_ARGS+=	--without-news
 .endif
 .if !defined(WITH_BSO)
