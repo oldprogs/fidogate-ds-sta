@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: ftnafutil.c,v 1.2 2004/01/28 00:14:50 rusfidogate Exp $
+ * $Id: ftnafutil.c,v 1.3 2004/02/25 18:16:43 rusfidogate Exp $
  *
  * Utility program for Areafix.
  *
@@ -36,7 +36,7 @@
 
 
 #define PROGRAM		"ftnafutil"
-#define VERSION		"$Revision: 1.2 $"
+#define VERSION		"$Revision: 1.3 $"
 #define CONFIG		DEFAULT_CONFIG_MAIN
 
 
@@ -262,10 +262,10 @@ int do_areasbbs(int cmd)
 		      p->area, n, state, znfp1(uplink), tm);
 		if(do_mail(uplink, p->area, "-", a) != ERROR)
 		{
-		    for ( l = lon->first->next; NULL != l; l = l->next )
+		    while((l = lon->first->next) != NULL )
 		    {
 			do_mail_notify(&l->node, p->area, "request is timed out in", tm);
-			xfree( l );
+			lon_remove(lon, &l->node);
 		    }
 		    lon->first->next = NULL;
 		    lon->last = lon->first;
@@ -310,10 +310,10 @@ int do_areasbbs(int cmd)
 		      p->area, n, state, znfp1(uplink), tm);
 		if(do_mail(uplink, p->area, "-", a) != ERROR)
 		{
-		    for (l = lon->first->next; NULL != l; l = l->next)
+		    while((l = lon->first->next) != NULL)
 		    {
 			do_mail_notify(&l->node, p->area, "no traffic for", tm);
-			xfree(l);
+			lon_remove(lon, &l->node);
 		    }
 		    lon->first->next = NULL;
 		    lon->last = lon->first;
