@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: histdb.c,v 1.2 2004/01/28 00:14:50 rusfidogate Exp $
+ * $Id: histdb.c,v 1.3 2004/02/05 06:26:03 rusfidogate Exp $
  *
  * MSGID history functions and dupe checking
  *
@@ -344,7 +344,7 @@ char *hi_fetch(char *key_string, int flag)
 {
     datum key, val;
     static char out[MAXPATH];
-    
+
     if(flag == 0)
 	key_string = strchr(key_string, ' ') + 1;
     debug(7, "search key %s", key_string);

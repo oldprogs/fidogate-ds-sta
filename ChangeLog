@@ -1,5 +1,12 @@
+2004-02-05  Andrey Slusar <rusfidogate@users.sourceforge.net>
+
+	* src/areafix/areafix.c: fix support gcc<3.0
+	* src/gate/rfc2ftn.c: fix disable FIDO_STYLE_MSGID
+	    (thanks to Andrew Porohin)
+
 2004-02-02  Andrey Slusar <rusfidogate@users.sourceforge.net>
 
+	* acconfig.h: change rfc_lvl_1
 	* src/toss/runinc.c: add ftpin, uuin support
 	    (thanks to Andrew Zhuravlev)
 
