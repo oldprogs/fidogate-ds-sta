@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway software UNIX <-> FIDO
  *
- * $Id: rfc2ftn.c,v 1.6 2004/02/05 06:26:03 rusfidogate Exp $
+ * $Id: rfc2ftn.c,v 1.7 2004/07/22 22:58:14 anray Exp $
  *
  * Read mail or news from standard input and convert it to a FIDO packet.
  *
@@ -39,7 +39,7 @@
 
 
 #define PROGRAM 	"rfc2ftn"
-#define VERSION 	"$Revision: 1.6 $"
+#define VERSION 	"$Revision: 1.7 $"
 #define CONFIG		DEFAULT_CONFIG_GATE
 
 
@@ -1897,17 +1897,12 @@ int print_local_msgid(FILE *fp, Node *node_from)
  */
 int print_via(FILE *fp, Node *node_from)
 {
-    if(node_eq(node_from, cf_addr()))
-    fprintf(fp, "\001Via FIDOGATE/%s %s, %s\r",
-	    PROGRAM, znf1(node_from),
-	    date(DATE_VIA, NULL)  );
-    else
 #ifndef FTS_VIA
     fprintf(fp, "\001Via FIDOGATE/%s %s, %s\r",
 	    PROGRAM, znf1(cf_addr()),
 	    date(DATE_VIA, NULL)  );
 #else
-    fprintf(fp, "\001Via %s @@%s FIDOGATE/%s\r",
+    fprintf(fp, "\001Via %s @%s FIDOGATE/%s\r",
 	    znf1(cf_addr()),
 	    date(DATE_VIA, NULL), PROGRAM );
 #endif /* FTS_VIA */

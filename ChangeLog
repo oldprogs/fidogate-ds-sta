@@ -1,3 +1,8 @@
+2004-07-23  Andrey Slusar <anray@users.sourceforge.net>
+
+	* src/gate/rfc2ftn.c: fix FTS_VIA(thanks to
+	    Alex Soukhotine)
+
 2004-07-22  Andrey Slusar <anray@users.sourceforge.net>
 
 	* src/gate/ftninpost.c: change system() to
