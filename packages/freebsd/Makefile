@@ -6,7 +6,6 @@
 
 PORTNAME=		fidogate
 PORTVERSION=		5.1.0
-PORTREVISION=		ds
 CATEGORIES=		news mail
 MASTER_SITES=		http://node126.narod.ru/files/
 DISTNAME=		fidogate5.1.0ds

@@ -1,5 +1,5 @@
 #
-# $Id: fidogate.conf.in,v 1.1 2003/11/05 00:40:39 rusfidogate Exp $
+# $Id: fidogate.conf.in,v 1.2 2004/01/12 21:40:59 rusfidogate Exp $
 #
 # NEW!!! (FIDOGATE 5.0.0) single common config file
 #
@@ -600,7 +600,7 @@ Regex1stLine  ^[ 	]*([^>|].*) (writes|wrote|schreibt|schrieb):$
 
 # Line length for formatting long paragraphs in Fido messages
 # (replaces old MAX_LINELEN from config.h)
-MessageLineLength	78
+MessageLineLength	72
 
 # Default newsgroup for junk messages and keys for it (see also "areas"
 # config-file)
@@ -609,7 +609,7 @@ FTNJunkGroup junk
 
 # Carbon group and name for search in "To:" field to put into this newsgroup
 #
-CarbonNameGroup Dmitry_Fedotov sysop.carbon
+CarbonNameGroup Dmitry_Fedotov cc.sysop
 
 # Enable autocreate newsgroups
 AutoCreateNG
