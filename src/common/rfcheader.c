@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: rfcheader.c,v 1.3 2004/02/26 18:59:32 rusfidogate Exp $
+ * $Id: rfcheader.c,v 1.4 2004/03/30 17:19:33 rusfidogate Exp $
  *
  * Functions to process RFC822 header lines from messages
  *
@@ -80,10 +80,10 @@ void header_ca_rfc(FILE *out, int rfc_level)
 		}
 	    }
 	    if(ok)
-#ifdef RECODE_ALL_RFC
+#ifndef RECODE_ALL_RFC
 		fprintf(out, "\001RFC-%s\r\n", p->line);
 #else
-		fprintf(out, "\001RFC-%s\r\n", xlat_s(NULL, p->line));
+		fprintf(out, "\001RFC-%s\r\n", xlat_s(p->line, NULL));
 #endif /* RECODE_ALL_RFC */
 	}
     }
@@ -100,10 +100,10 @@ void header_ca_rfc(FILE *out, int rfc_level)
 	{
 	    if(*p->line && !is_space(p->line[0])) 
 	    {
-#ifdef RECODE_ALL_RFC
+#ifndef RECODE_ALL_RFC
 		fprintf(out, "%s\001RFC-%s", crlf, p->line);
 #else
-		fprintf(out, "%s\001RFC-%s", crlf, xlat_s(NULL ,p->line));
+		fprintf(out, "%s\001RFC-%s", crlf, xlat_s(p->line, NULL));
 #endif /* RECODE_ALL_RFC */
 	    } else {
 		for( i = 0; is_space(p->line[i]); i++ );
@@ -140,10 +140,10 @@ void header_ca_rfc(FILE *out, int rfc_level)
 		    }
 		}
 		if(ok)
-#ifdef RECODE_ALL_RFC
+#ifndef RECODE_ALL_RFC
 		    fprintf(out, "%s\001RFC-%s", crlf, p->line);
 #else
-		    fprintf(out, "%s\001RFC-%s", crlf, xlat_s(NULL, p->line));
+		    fprintf(out, "%s\001RFC-%s", crlf, xlat_s(p->line, NULL));
 #endif /* RECODE_ALL_RFC */
 
 	    } else {
