@@ -438,7 +438,7 @@
  *
  *   HAVE_HARDLINKS		hardlinks supported by link() and filesystem
  *
- *   HAVE_REGEX_H		POSIX regcomp(), regexec() etc. supported
+ *   HAS_POSIX_REGEX		POSIX regcomp(), regexec() etc. supported
  *
  *   HAVE_SYS_VFS_H		Do you have statfs() in sys/vfs.h
  *
@@ -477,7 +477,7 @@
 
 /* Standard config: POSIX UNIX */
 # undef HAVE_LINK
-# undef HAVE_REGEX_H
+# undef HAS_POSIX_REGEX
 
 /***** (MSDOS, OS/2, Windows) ************************************************/
 #ifdef MSDOS			/* MSDOS, DJGPP GNU gcc */
