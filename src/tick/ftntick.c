@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: ftntick.c,v 1.3 2004/02/10 23:47:42 rusfidogate Exp $
+ * $Id: ftntick.c,v 1.4 2004/02/11 18:29:10 rusfidogate Exp $
  *
  * Process incoming TIC files
  *
@@ -37,7 +37,7 @@
 
 
 #define PROGRAM		"ftntick"
-#define VERSION		"$Revision: 1.3 $"
+#define VERSION		"$Revision: 1.4 $"
 #define CONFIG		DEFAULT_CONFIG_MAIN
 
 
@@ -310,7 +310,7 @@ int process_tic(Tick *tic)
 #ifdef FECHO_PASSTHROUGHT
     char full_farea_dir[MAXPATH];
 #endif /* FECHO_PASSTHROUGHT */
-    char tmp [30];
+    char *tmp = NULL;
     short create_flag = FALSE;
     char *s1;
     int errlvl;

@@ -2,6 +2,8 @@
 
 	* src/tick/ftntick.c: fix the AutoCreateFileechoLine
 	    problem
+	* src/areafix/areafix.c: fix the problem of similar
+	    path to autocreate fechos in FAreas.bbs
 
 2004-02-09  Andrey Slusar <rusfidogate@users.sourceforge.net>
 
