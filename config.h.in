@@ -60,7 +60,7 @@
 #undef HAVE_NDIR_H
 
 /* Define if you have the <regex.h> header file.  */
-#undef HAVE_REGEX_H
+#undef HAS_POSIX_REGEX
 
 /* Define if you have the <sys/dir.h> header file.  */
 #undef HAVE_SYS_DIR_H

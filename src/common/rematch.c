@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: rematch.c,v 1.2 2004/10/29 00:54:05 anray Exp $
+ * $Id: rematch.c,v 1.3 2004/11/18 23:53:14 anray Exp $
  *
  * Regular expression (POSIX functions) handling for FIDOGATE
  *
@@ -33,7 +33,7 @@
 #include "fidogate.h"
 
 
-#ifdef HAVE_REGEX_H /*********************************************************/
+#ifdef HAS_POSIX_REGEX /******************************************************/
 
 #include <regex.h>
 
@@ -192,7 +192,7 @@ void regex_init(void)
 }
 
 
-#endif /** HAVE_POSIX_H ******************************************************/
+#endif /** HAS_POSIX_REGEX ***************************************************/
 
     
 
@@ -220,7 +220,7 @@ void debug_subs(void)
  */
 int main(int argc, char *argv[])
 {
-#ifdef HAVE_REGEX_H
+#ifdef HAS_POSIX_REGEX
     char buf[MAXINETADDR];
     
     regex_init();

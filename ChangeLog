@@ -1,55 +1,66 @@
-2004-11-02  Andrey Slusar <anray@users.sourceforge.net>
+2004-11-18  Andrey Slusar  <anray@users.sourceforge.net>
+
+	* version.h: bump to 5.1.2ds-rc3
+	* configure.in: ditto
+	* src/common/rematch.c: rename HAVE_REGEX_H to
+	HAS_POSIX_REGEX
+	* acconfig.h: ditto
+	* src/include/prototypes.h: ditto
+	* src/gate/rfc2ftn.c: rename HAVE_REGEX_H to
+	HAS_POSIX_REGEX, fix HAS_POSIX_REGEX
+
+2004-11-02  Andrey Slusar  <anray@users.sourceforge.net>
 
 	* version.h: bump to 5.1.2ds-rc2
 	* configure.in: ditto
 	* src/gate/rfc2ftn.c: add X-FTN-Tearline mime_deheader,
-	    Origin mime_deheader when UseOrganizationForOrigin
-	    enabled
+	Origin mime_deheader when UseOrganizationForOrigin
+	enabled
 
-2004-10-29  Andrey Slusar <anray@users.sourceforge.net>
+2004-10-29  Andrey Slusar  <anray@users.sourceforge.net>
 
 	* version.h: bump to 5.1.2ds-rc1
 	* configure.in: ditto
 	* build/config.make.in: added NETMAILDIR, UUINBOUND,
-	    FTPINBOUND
+	FTPINBOUND
 	* src/common/message.c: added option INSERT_ORIGIN
-	    (see Changes for details)
+	(see Changes for details)
 	* src/common/msgid.c: added checking references
-	    line to s_msgid_fido_to_rfc(), added advanced
-	    support X-Flags 'm'
+	line to s_msgid_fido_to_rfc(), added advanced
+	support X-Flags 'm'
 	* src/gate/rfc2ftn.c: remove define REPLY_IF_X_FLAGS_M,
-	    added advanced supporting X-Flags 'm'
+	added advanced supporting X-Flags 'm'
 	* src/common/packet.c: pretty checking message date
-	    header
+	header
 	* src/charset/Makefile.am: add charsetc to installed
-	    libexec programs
+	libexec programs
 	* src/gate/ftn2rfc.c: add option GateRfcKludge, fix
-	    cs_out definition
+	cs_out definition
 	* src/tick/ftntick.c: fixed TickFileAction message
 	* src/toss/ftnpack.c: fixed define DO_NOT_TOSS_NETMAIL
 	* src/toss/ftntoss.c: ditto
 	* src/include/prototypes.h: add new parameters to
-	    s_msgid_fido_to_rfc() and s_msgid_rfc_to_fido()
+	s_msgid_fido_to_rfc() and s_msgid_rfc_to_fido()
 	* scripts/www/gate.cgi.in: fixed working
 	* doc/FIDOGATE+tracker.ru: added russian tracker+fidogate
-	    FAQ(thanks to Andrew Zhuravlev)
+	FAQ(thanks to Andrew Zhuravlev)
 
 2004-09-10  Andrey Slusar <anray@users.sourceforge.net>
 
 	* src/areafix/areafix.c: added option
-	    AllowEmptyPwd(see Changes)
+	AllowEmptyPwd(see Changes)
 
 2004-08-26  Andrey Slusar <anray@users.sourceforge.net>
 
 	* src/gate/ftninpost.c: if SingleArticles defined,
-	    not using FTNInRecombine
+	not using FTNInRecombine
 	* src/gate/ftn2rfc.c: fix SingleArticles
 	* doc/FAQ.ru: add s-news configure
 
 2004-08-21  Andrey Slusar <anray@users.sourceforge.net>
 
 	* src/common/log.c: removed getenv()s, create
-	    security risk for setuid news programs
+	security risk for setuid news programs
 
 2004-08-07  Andrey Slusar <anray@users.sourceforge.net>
 
@@ -71,12 +82,12 @@
 2004-07-23  Andrey Slusar <anray@users.sourceforge.net>
 
 	* src/gate/rfc2ftn.c: fix FTS_VIA(thanks to
-	    Alex Soukhotine)
+	Alex Soukhotine)
 
 2004-07-22  Andrey Slusar <anray@users.sourceforge.net>
 
 	* src/gate/ftninpost.c: change system() to
-	    portable run_system()
+	portable run_system()
 
 2004-07-20  Andrey Slusar <anray@users.sourceforge.net>
 
@@ -85,7 +96,7 @@
 2004-07-12  Andrey Slusar <anray@users.sourceforge.net>
 
 	* src/toss/ngoper.c: if AutoCreateRenumberCmd not
-	    defined, this is silently skipped
+	defined, this is silently skipped
 	* src/gate/send-fidogate.in: fixed confval warning
 
 2004-07-09  Andrey Slusar <anray@users.sourceforge.net>
