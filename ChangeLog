@@ -1,3 +1,8 @@
+2004-09-10  Andrey Slusar <anray@users.sourceforge.net>
+
+	* src/areafix/areafix.c: added option
+	    AllowEmptyPwd(see Changes)
+
 2004-08-26  Andrey Slusar <anray@users.sourceforge.net>
 
 	* src/gate/ftninpost.c: if SingleArticles defined,
