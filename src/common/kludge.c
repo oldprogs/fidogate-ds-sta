@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: kludge.c,v 1.1 2003/11/05 00:52:32 rusfidogate Exp $
+ * $Id: kludge.c,v 5.1 2004/12/10 19:09:58 anray Exp $
  *
  * Processing of FTN ^A kludges in message body
  *

@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: passwd.c,v 1.1 2003/11/05 00:53:35 rusfidogate Exp $
+ * $Id: passwd.c,v 5.1 2004/12/10 19:09:58 anray Exp $
  *
  * Read PASSWD file for ftnaf and other programs
  *

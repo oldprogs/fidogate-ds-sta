@@ -1,5 +1,5 @@
 #
-# $Id: charset.map,v 1.2 2003/12/03 15:28:36 rusfidogate Exp $
+# $Id: charset.map,v 5.1 2004/12/10 19:09:57 anray Exp $
 #
 # Character set mapping table (to be compiled by charsetc)
 #

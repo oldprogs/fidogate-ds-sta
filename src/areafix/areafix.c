@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: areafix.c,v 1.19 2004/11/02 01:27:47 anray Exp $
+ * $Id: areafix.c,v 5.1 2004/12/10 19:09:56 anray Exp $
  *
  * Common Areafix functions
  *

@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: ftnafutil.c,v 1.3 2004/02/25 18:16:43 rusfidogate Exp $
+ * $Id: ftnafutil.c,v 5.1 2004/12/10 19:09:56 anray Exp $
  *
  * Utility program for Areafix.
  *
@@ -36,7 +36,7 @@
 
 
 #define PROGRAM		"ftnafutil"
-#define VERSION		"$Revision: 1.3 $"
+#define VERSION		"$Revision: 5.1 $"
 #define CONFIG		DEFAULT_CONFIG_MAIN
 
 

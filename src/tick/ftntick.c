@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: ftntick.c,v 1.8 2004/10/29 00:54:06 anray Exp $
+ * $Id: ftntick.c,v 5.1 2004/12/10 19:10:01 anray Exp $
  *
  * Process incoming TIC files
  *
@@ -37,7 +37,7 @@
 
 
 #define PROGRAM		"ftntick"
-#define VERSION		"$Revision: 1.8 $"
+#define VERSION		"$Revision: 5.1 $"
 #define CONFIG		DEFAULT_CONFIG_MAIN
 
 

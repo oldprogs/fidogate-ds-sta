@@ -1,6 +1,6 @@
 #!<SHELL>
 #
-# $Id: send-fidogate.in,v 1.4 2004/10/29 00:54:06 anray Exp $
+# $Id: send-fidogate.in,v 5.1 2004/12/10 19:09:59 anray Exp $
 #
 # SH script to send batches to FIDOGATE
 #

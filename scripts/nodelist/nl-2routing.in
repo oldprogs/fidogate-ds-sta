@@ -1,7 +1,7 @@
 #!<PERL5>
 #:ts=8
 #
-# $Id: nl-2routing.in,v 1.1 2003/11/05 00:47:37 rusfidogate Exp $
+# $Id: nl-2routing.in,v 5.1 2004/12/10 19:09:55 anray Exp $
 #
 # nl-2routing --- konvertiert Network-File in eine Routing-Tabelle
 #                 um Hub-Routing mit Fidogate (oder Squish (ungetestet!))

@@ -136,7 +136,7 @@ for (@DIRS) {
 print
   $q->hr, "\n",
   $q->p, "\n",
-  '<font size=-2>FIDOGATE $Id: gate.cgi.in,v 1.2 2004/10/29 00:54:05 anray Exp $ <br>',
+  '<font size=-2>FIDOGATE $Id: gate.cgi.in,v 5.1 2004/12/10 19:09:56 anray Exp $ <br>',
   '&copy; Copyright 1994-2004',
   '<a href="mailto:anray@users.sourceforge.net">Andrey Slusar</a></font>',
   $q->end_html, "\n";

@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: ftnfattach.c,v 1.1 2003/11/05 00:57:34 rusfidogate Exp $
+ * $Id: ftnfattach.c,v 5.1 2004/12/10 19:10:02 anray Exp $
  *
  * Attach file to FLO entry in outbound
  *
@@ -36,7 +36,7 @@
 
 
 #define PROGRAM		"ftnfattach"
-#define VERSION		"$Revision: 1.1 $"
+#define VERSION		"$Revision: 5.1 $"
 #define CONFIG		DEFAULT_CONFIG_MAIN
 
 

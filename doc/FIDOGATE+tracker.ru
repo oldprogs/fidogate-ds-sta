@@ -1,5 +1,5 @@
 
-    $Id: FIDOGATE+tracker.ru,v 1.1 2004/10/29 00:57:08 anray Exp $
+    $Id: FIDOGATE+tracker.ru,v 5.1 2004/12/10 19:09:49 anray Exp $
 
 Настройка трекера для совместной работы с FidoGate.
 

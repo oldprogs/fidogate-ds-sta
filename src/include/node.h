@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: node.h,v 1.1 2003/11/05 00:55:22 rusfidogate Exp $
+ * $Id: node.h,v 5.1 2004/12/10 19:10:00 anray Exp $
  *
  * Node structure (zone, net, node, point, domain)
  *

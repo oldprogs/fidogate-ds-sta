@@ -1,6 +1,6 @@
 #!<PERL5>
 #
-# $Id: recvuu.in,v 1.1 2003/11/05 00:47:31 rusfidogate Exp $
+# $Id: recvuu.in,v 5.1 2004/12/10 19:09:55 anray Exp $
 #
 # Process UUENCODEd arcmail packet mails in stdin
 #

@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #
-# $Id: subst.pl,v 1.1 2003/11/05 00:39:32 rusfidogate Exp $
+# $Id: subst.pl,v 5.1 2004/12/10 19:09:49 anray Exp $
 #
 # Substitute directory names for FIDOGATE scripts
 #

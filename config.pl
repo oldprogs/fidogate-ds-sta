@@ -1,6 +1,6 @@
 ##############################################################################
 #
-# $Id: config.pl,v 1.1 2003/11/05 00:35:03 rusfidogate Exp $
+# $Id: config.pl,v 5.1 2004/12/10 19:09:46 anray Exp $
 #
 # Perl functions to read FIDOGATE config file,
 # included by <INCLUDE config.pl> when running subst.pl

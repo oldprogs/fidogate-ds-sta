@@ -1,6 +1,6 @@
 #:ts=8
 #
-# $Id: orodruin-check.mc,v 1.1 2003/11/05 00:41:27 rusfidogate Exp $
+# $Id: orodruin-check.mc,v 5.1 2004/12/10 19:09:53 anray Exp $
 #
 # orodruin.Fido.DE
 #
@@ -18,7 +18,7 @@ define(`confDEF_USER_ID',``8:12'')
 
 define(`ALIAS_FILE',`/etc/aliases,/usr/local/majordomo/majordomo.aliases')
 
-VERSIONID(`$Id: orodruin-check.mc,v 1.1 2003/11/05 00:41:27 rusfidogate Exp $')
+VERSIONID(`$Id: orodruin-check.mc,v 5.1 2004/12/10 19:09:53 anray Exp $')
 
 OSTYPE(linux)dnl
 

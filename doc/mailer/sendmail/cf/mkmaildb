@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: mkmaildb,v 1.1 2003/11/05 00:41:27 rusfidogate Exp $
+# $Id: mkmaildb,v 5.1 2004/12/10 19:09:53 anray Exp $
 #
 # Update db maps in /etc/mail
 #

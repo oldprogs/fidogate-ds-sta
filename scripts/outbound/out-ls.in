@@ -1,6 +1,6 @@
 #!<PERL5>
 #
-# $Id: out-ls.in,v 1.1 2003/11/05 00:47:51 rusfidogate Exp $
+# $Id: out-ls.in,v 5.1 2004/12/10 19:09:55 anray Exp $
 #
 # This script lists the outbound of a FIDOGATE system
 #

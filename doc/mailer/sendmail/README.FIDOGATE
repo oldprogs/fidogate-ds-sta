@@ -1,6 +1,6 @@
 -*- Indented-Text -*-
 
-$Id: README.FIDOGATE,v 1.1 2003/11/05 00:41:27 rusfidogate Exp $
+$Id: README.FIDOGATE,v 5.1 2004/12/10 19:09:52 anray Exp $
 
 This directory contains the sendmail m4 configuration file from the
 RedHat 4.1 (Vanderbilt) / sendmail 8.8.5 release with some additional

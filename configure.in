@@ -1,11 +1,11 @@
-dnl $Id: configure.in,v 1.19 2004/12/01 19:09:40 anray Exp $
+dnl $Id: configure.in,v 5.1 2004/12/10 19:09:48 anray Exp $
 dnl
 dnl Copyright (c) 2003-2004 Andrey Slusar <anray@users.sourceforge.net>
 dnl Copyright (c) 2003-2004 Alexandr Dobroslavskiy <dsas@users.sourceforge.net>
 dnl
-AC_REVISION([$Revision: 1.19 $])
+AC_REVISION([$Revision: 5.1 $])
 AC_PREREQ(2.53)
-AC_INIT([fidogate],[5.1.2ds-rc4],[anray@users.sourceforge.net])
+AC_INIT([fidogate],[5.1.2ds],[anray@users.sourceforge.net])
 AM_CONFIG_HEADER([config.h])
 AC_CONFIG_SRCDIR([src/common/config.c])
 AC_CONFIG_AUX_DIR([build])

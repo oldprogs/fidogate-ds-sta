@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: read.c,v 1.1 2003/11/05 00:53:35 rusfidogate Exp $
+ * $Id: read.c,v 5.1 2004/12/10 19:09:58 anray Exp $
  *
  * Read lines from stdio FILE, optionally limited by size parameter
  *

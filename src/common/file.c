@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: file.c,v 1.2 2004/01/28 00:14:50 rusfidogate Exp $
+ * $Id: file.c,v 5.1 2004/12/10 19:09:58 anray Exp $
  *
  * File-oriented functions
  *

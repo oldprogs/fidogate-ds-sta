@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: sequencer.c,v 1.2 2004/01/28 00:14:50 rusfidogate Exp $
+ * $Id: sequencer.c,v 5.1 2004/12/10 19:09:58 anray Exp $
  *
  * Number sequencer using sequence file in VARDIR
  *

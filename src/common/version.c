@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway software UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: version.c,v 1.1 2003/11/05 00:54:02 rusfidogate Exp $
+ * $Id: version.c,v 5.1 2004/12/10 19:09:58 anray Exp $
  *
  * FIDOGATE version number handling stuff
  *

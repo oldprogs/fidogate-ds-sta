@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: history.c,v 1.1 2003/11/05 00:57:04 rusfidogate Exp $
+ * $Id: history.c,v 5.1 2004/12/10 19:10:01 anray Exp $
  *
  * MSGID history functions and dupe checking
  *

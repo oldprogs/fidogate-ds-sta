@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: pktdebug.c,v 1.1 2003/11/05 00:57:52 rusfidogate Exp $
+ * $Id: pktdebug.c,v 5.1 2004/12/10 19:10:02 anray Exp $
  *
  * Debug contents of FTN packet
  *
@@ -37,7 +37,7 @@
 
 
 #define PROGRAM		"pktdebug"
-#define VERSION		"$Revision: 1.1 $"
+#define VERSION		"$Revision: 5.1 $"
 
 static void debug_line		(FILE *, char *, int);
 void	msg_body_debug		(FILE *, MsgBody *, char);

@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: ftn2ftn.c,v 1.2 2004/01/28 00:14:51 rusfidogate Exp $
+ * $Id: ftn2ftn.c,v 5.1 2004/12/10 19:10:01 anray Exp $
  *
  * FTN-FTN gateway for NetMail, using the %Z:N/F.P addressing in the
  * from/to fields.
@@ -35,7 +35,7 @@
 
 
 #define PROGRAM 	"ftn2ftn"
-#define VERSION 	"$Revision: 1.2 $"
+#define VERSION 	"$Revision: 5.1 $"
 #define CONFIG		DEFAULT_CONFIG_MAIN
 
 

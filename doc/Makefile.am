@@ -1,5 +1,5 @@
 #
-# $Id: Makefile.am,v 1.1 2003/11/05 00:39:32 rusfidogate Exp $
+# $Id: Makefile.am,v 5.1 2004/12/10 19:09:49 anray Exp $
 #
 # Makefile.am FIDOGATE doc/
 #

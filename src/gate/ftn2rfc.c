@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: ftn2rfc.c,v 1.10 2004/10/29 00:54:06 anray Exp $
+ * $Id: ftn2rfc.c,v 5.1 2004/12/10 19:09:59 anray Exp $
  *
  * Convert FTN mail packets to RFC mail and news batches
  *
@@ -39,7 +39,7 @@
 
 
 #define PROGRAM 	"ftn2rfc"
-#define VERSION 	"$Revision: 1.10 $"
+#define VERSION 	"$Revision: 5.1 $"
 #define CONFIG		DEFAULT_CONFIG_GATE
 
 

@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: message.c,v 1.4 2004/10/29 00:54:05 anray Exp $
+ * $Id: message.c,v 5.1 2004/12/10 19:09:58 anray Exp $
  *
  * Reading and processing FTN text body
  *

@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: ftninpost.c,v 1.5 2004/08/26 18:39:39 anray Exp $
+ * $Id: ftninpost.c,v 5.1 2004/12/10 19:09:59 anray Exp $
  *
  * Processing inbound packets
  *
@@ -34,7 +34,7 @@
 
 
 #define PROGRAM 	"ftninpost"
-#define VERSION 	"$Revision: 1.5 $"
+#define VERSION 	"$Revision: 5.1 $"
 #define CONFIG		DEFAULT_CONFIG_MAIN
 
 typedef struct split_t {

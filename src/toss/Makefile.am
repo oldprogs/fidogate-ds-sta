@@ -1,6 +1,6 @@
 #:ts=8
 #
-#    $Id: Makefile.am,v 1.2 2004/02/19 18:23:54 rusfidogate Exp $
+#    $Id: Makefile.am,v 5.1 2004/12/10 19:10:01 anray Exp $
 #
 #    Makefile for FIDOGATE src/toss/
 #

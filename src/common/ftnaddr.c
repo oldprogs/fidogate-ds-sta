@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: ftnaddr.c,v 1.1 2003/11/05 00:52:05 rusfidogate Exp $
+ * $Id: ftnaddr.c,v 5.1 2004/12/10 19:09:58 anray Exp $
  *
  * Function for handling FTN addresses
  *

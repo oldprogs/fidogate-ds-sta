@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway software UNIX <-> FIDO
  *
- * $Id: fidogate.h,v 1.1 2003/11/05 00:55:22 rusfidogate Exp $
+ * $Id: fidogate.h,v 5.1 2004/12/10 19:10:00 anray Exp $
  *
  * Common header file
  *

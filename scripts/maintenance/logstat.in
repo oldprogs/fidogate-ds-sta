@@ -1,6 +1,6 @@
 #!<PERL5>
 #
-# $Id: logstat.in,v 1.1 2003/11/05 00:47:24 rusfidogate Exp $
+# $Id: logstat.in,v 5.1 2004/12/10 19:09:55 anray Exp $
 #
 # Statistics for ftntoss/ftnroute/ftnpack log files
 #

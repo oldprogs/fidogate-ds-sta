@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: pkttmpl.c,v 1.2 2004/01/28 00:14:50 rusfidogate Exp $
+ * $Id: pkttmpl.c,v 5.1 2004/12/10 19:09:56 anray Exp $
  *
  * Template for utility processing FTN packets
  *
@@ -37,7 +37,7 @@
 
 
 #define PROGRAM 	"pkttmpl"
-#define VERSION 	"$Revision: 1.2 $"
+#define VERSION 	"$Revision: 5.1 $"
 #define CONFIG		DEFAULT_CONFIG_MAIN
 
 

@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: tmps.c,v 1.2 2003/12/02 14:36:44 rusfidogate Exp $
+ * $Id: tmps.c,v 5.1 2004/12/10 19:09:58 anray Exp $
  *
  * Function for handling temporary strings
  *
