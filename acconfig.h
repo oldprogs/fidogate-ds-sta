@@ -390,6 +390,11 @@
  */
 #undef USE_SYSLOG
 
+/*
+ * Enable old style tosting
+ */
+#undef OLD_TOSS
+
 /***** System dependend configuration ***************************************
  *
  *   HAVE_FCNTL_LOCK		Do you have file locking with fcntl()

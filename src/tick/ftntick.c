@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: ftntick.c,v 1.4 2004/02/11 18:29:10 rusfidogate Exp $
+ * $Id: ftntick.c,v 1.5 2004/02/22 15:35:06 rusfidogate Exp $
  *
  * Process incoming TIC files
  *
@@ -37,7 +37,7 @@
 
 
 #define PROGRAM		"ftntick"
-#define VERSION		"$Revision: 1.4 $"
+#define VERSION		"$Revision: 1.5 $"
 #define CONFIG		DEFAULT_CONFIG_MAIN
 
 
@@ -651,7 +651,7 @@ int process_tic(Tick *tic)
 	/*
 	 * TickFileAction
 	 */
-	sprintf(buffer,"TickFileAction", tic->area);
+	sprintf(buffer,"TickFileAction");
 
 	for( s1 = cf_get_string(buffer, TRUE); s1 && *s1;
 	     s1 = cf_get_string(buffer, FALSE) )
