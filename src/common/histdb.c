@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: histdb.c,v 1.3 2004/02/05 06:26:03 rusfidogate Exp $
+ * $Id: histdb.c,v 1.4 2004/02/26 18:59:32 rusfidogate Exp $
  *
  * MSGID history functions and dupe checking
  *
@@ -131,7 +131,8 @@ short int hi_init(char *his_file)
     /* Open the DBZ file */
     dbzincore(1);
     /**dbzwritethrough(1);**/
-    if (dbminit(buffer) == -1) {
+    if (dbminit(buffer) == -1)
+    {
 	fglog("$ERROR: dbminit %s failed", buffer);
 	return ERROR;
     }
@@ -174,7 +175,7 @@ short int hi_write_dbc(char *rfc_msgid, char *fido_msgid, short int dont_flush)
     if (hi_file)
     {
     /* Get offset in history text file */ 
-    if( (offset = ftell(hi_file)) == ERROR) 
+     if( (offset = ftell(hi_file)) == ERROR) 
      {
 	fglog("$ERROR: ftell DBC MSGID history failed");
 	return ERROR;
@@ -182,11 +183,13 @@ short int hi_write_dbc(char *rfc_msgid, char *fido_msgid, short int dont_flush)
     } 
     else 
     { 
-     fglog("$ERROR: can't open MSGID history file"); 
-     return ERROR; 
+	fglog("$ERROR: can't open MSGID history file"); 
+	return ERROR; 
     }
 
     /* Write MSGID line to history text file */
+    if(strlen(fido_msgid) > 8)
+    fido_msgid = strrchr(fido_msgid, ' ') + 1;
     debug(7, "dbc history: offset=%ld: %s %s %ld", offset, fido_msgid,
 		rfc_msgid, ti.time);
     ret = fprintf(hi_file, "%s\t%s\t%ld\n", fido_msgid, rfc_msgid, ti.time);
@@ -201,7 +204,8 @@ short int hi_write_dbc(char *rfc_msgid, char *fido_msgid, short int dont_flush)
     key.dsize = strlen(fido_msgid) + 1;
     val.dptr  = (char *)&offset;		/* Value */
     val.dsize = sizeof offset;
-    if (dbzstore(key, val) < 0) {
+    if (dbzstore(key, val) < 0)
+    {
 	fglog("ERROR: dbzstore of record for DBC MSGID history failed");
 	return ERROR;
     }
@@ -250,7 +254,8 @@ short int hi_write_t(time_t t, time_t msgdate, char *msgid)
     key.dsize = strlen(msgid) + 1;
     val.dptr  = (char *)&offset;		/* Value */
     val.dsize = sizeof offset;
-    if (dbzstore(key, val) < 0) {
+    if (dbzstore(key, val) < 0)
+    {
 	fglog("ERROR: dbzstore of record for MSGID history failed");
 	return ERROR;
     }
@@ -310,7 +315,8 @@ short int hi_write_avail(char *area, char *desc)
     key.dsize = strlen(area) + 1;
     val.dptr  = (char *)&offset;		/* Value */
     val.dsize = sizeof offset;
-    if (dbzstore(key, val) < 0) {
+    if (dbzstore(key, val) < 0)
+    {
 	fglog("ERROR: dbzstore of record for MSGID history failed");
 	return ERROR;
     }

@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: packet.c,v 1.3 2004/02/25 18:16:43 rusfidogate Exp $
+ * $Id: packet.c,v 1.4 2004/02/26 18:59:32 rusfidogate Exp $
  *
  * Functions to read/write packets and messages
  *
@@ -789,7 +789,11 @@ int pkt_get_hdr(FILE *fp, Packet *pkt)
     if(val == 0)
 	val = tm->tm_year;
     else if(val < 1900 || val > 2099)
+#ifdef FIX_BAD_PKT_YEAR
+	;
+#else
 	retVal = ERROR;
+#endif
     else
 	t.tm_year = val - 1900;
     /* Month */

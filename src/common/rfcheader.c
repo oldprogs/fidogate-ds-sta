@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: rfcheader.c,v 1.2 2004/01/29 20:17:06 rusfidogate Exp $
+ * $Id: rfcheader.c,v 1.3 2004/02/26 18:59:32 rusfidogate Exp $
  *
  * Functions to process RFC822 header lines from messages
  *
@@ -253,6 +253,17 @@ char *rfcheader_get(Textlist *tl, char *name)
 	if(!strnicmp(p->line, name, len) && p->line[len]==':')
 	{
 	    for(s=p->line+len+1; is_space(*s); s++) ;
+	    /*
+	     * Strip space anb tab in QP Subject
+	     */
+	    if(!strnicmp(name, "Subject", len))
+	    {
+		char *s1;
+		if((s1 = strstr(s, "?= =?")) != NULL)
+		    strncpy(s1 + 2, s1 + 3, strlen(s) - 2 - (int)(s1 - s));
+		if((s1 = strstr(s, "?=\t=?")) != NULL)
+		    strncpy(s1 + 2, s1 + 3, strlen(s) - 2 - (int)(s1 - s));
+	    }
 	    last_header = p;
 	    return s;
 	}
