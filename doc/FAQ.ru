@@ -1,5 +1,5 @@
 
-        $Id: FAQ.ru,v 1.8 2004/05/26 19:59:26 rusfidogate Exp $
+    $Id: FAQ.ru,v 1.9 2004/05/27 00:32:10 rusfidogate Exp $
 
 Создатель Andrey Slusar 2:467/126, vasallia at ukr.net
 
@@ -292,8 +292,8 @@ Subject: GATE-PORT
    rpm -i fidogate5.1.0_ds.rpm.
 
   Для Debian:
-   Пакеты для Debian лучше всего брать не у меня, а на kaliuta.basnet.by/debian,
-  так как я больше не собираю пакетов для Debian.
+   Пакеты для Debian лучше всего брать не у меня, а на
+  kaliuta.basnet.by/debian, так как я больше не собираю пакетов для Debian.
    Устанавливаем пакет:
   dpkg -i fidogate5.1.0_ds.deb
 
@@ -308,7 +308,7 @@ Subject: GATE-PORT
   /**************************************************************************
   * FIDOGATE --- Gateway software UNIX Mail/News <-> FIDO NetMail/EchoMail
   *
-  * $Id: FAQ.ru,v 1.8 2004/05/26 19:59:26 rusfidogate Exp $
+  * $Id: FAQ.ru,v 1.9 2004/05/27 00:32:10 rusfidogate Exp $
   *
   * Global version number, patch level
   ***************************************************************************
@@ -324,7 +324,7 @@ Subject: GATE-PORT
   дирректории файл fidogate5.2.0ds-alpha1.tar.bz2, копируем этот файл в
   /usr/ports/distfiles, дирректорию <fidogate-src>/packages/freebsd
   полностью копируем в дирректорию /usr/ports/news/fidogateds-devel,
-  если в version.h написано, что STATE "beta", или в fidogateds, если
+  если в version.h написано, что STATE "beta" или в fidogateds, если
   STATE "stable". Потом делаем cd /usr/ports/news/fidogateds{-devel} и
   там даем команду make makesum для генерации md5sum, далее делаем все,
   что требуется от порта - make, потом make install для установки порта
@@ -716,6 +716,11 @@ Subject: GATE-PORT
   done
   ===
     Пути к соответствующим файлам подправить.
+  Если все-же хочется пользоваться storage-методом tradspool, то рекомендую
+  апгрейдить inn до версии >= 2.4.0 и уменьшить значение icdsynccount в inn.conf
+  до 1.
+  На вопрос "почему так?" может ответить внимантельное прочтение файла NEWS в
+  комплекте с inn >= 2.4.0
 
 -----------------------------------------------------------------------------
   
