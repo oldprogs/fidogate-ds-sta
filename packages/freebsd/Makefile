@@ -13,11 +13,11 @@ DISTNAME=		fidogate5.1.0ds
 MAINTAINER=		rusfidogate@users.sourceforge.net
 COMMENT=		Fido-Internet Gateway and Tosser
 
-USE_BZIP2=      	yes
-GNU_CONFIGURE=  	yes
-USE_PERL5=      	yes
+USE_BZIP2=		yes
+GNU_CONFIGURE=		yes
+USE_PERL5=		yes
 
-INSTALL_SHLIB=  	yes
+INSTALL_SHLIB=		yes
 
 SPOOLDIR?=		/var/spool/fido/gate
 BTBASEDIR?=		/var/spool/fido/bt
@@ -48,13 +48,13 @@ CONFIGURE_ARGS+=	--enable-dbc-history
 CONFIGURE_ARGS+=	--enable-dnt-netmail
 .endif
 .if defined(WITHOUT_FMSGID)
-CONFIGURE_ARGS+=        --disable-fs-msgid
+CONFIGURE_ARGS+=	--disable-fs-msgid
 .endif
 .if !defined(WITH_AVAIL)
-CONFIGURE_ARGS+=        --disable-af-avail
+CONFIGURE_ARGS+=	--disable-af-avail
 .endif
 .if defined(WITHOUT_BEST_AKA)
-CONFIGURE_ARGS+=        --disable-best-aka
+CONFIGURE_ARGS+=	--disable-best-aka
 .endif
 CONFIGURE_ARGS+=	--libexec=${PREFIX}/libexec/fidogate \
 			--sysconfdir=${PREFIX}/etc/fido/gate \
@@ -75,19 +75,22 @@ do-install:
 	${CHOWN} news:news ${PREFIX}/libexec/fidogate
 
 .if !defined(NOPORTDOCS)
-	${MKDIR} ${PREFIX}/share/doc/fidogateds
+	${MKDIR} ${PREFIX}/share/doc/fidogateds/old
 	${INSTALL_DATA} ${WRKSRC}/doc/README.ru ${PREFIX}/share/doc/fidogateds/README.ru
 	${INSTALL_DATA} ${WRKSRC}/doc/README ${PREFIX}/share/doc/fidogateds/README
 	${INSTALL_DATA} ${WRKSRC}/doc/FAQ.ru ${PREFIX}/share/doc/fidogateds/FAQ.ru
 	${INSTALL_DATA} ${WRKSRC}/ChangeLog ${PREFIX}/share/doc/fidogateds/ChangeLog
-	${MKDIR} ${PREFIX}/share/fidogateds/mailer/postfix
-	${INSTALL_DATA} ${WRKSRC}/doc/mailer/postfix/master.cf ${PREFIX}/share/fidogateds/mailer/postfix/master.cf
-	${INSTALL_DATA} ${WRKSRC}/doc/mailer/postfix/transport ${PREFIX}/share/fidogateds/mailer/postfix/transport
-	${MKDIR} ${PREFIX}/share/fidogateds/mailer/sendmail/mailer
-	${INSTALL_DATA} ${WRKSRC}/doc/mailer/sendmail/README.FIDOGATE ${PREFIX}/share/fidogateds/mailer/README.FIDOGATE
-	${INSTALL_DATA} ${WRKSRC}/doc/mailer/sendmail/mkclean ${PREFIX}/share/fidogateds/mailer/sendmail/mkclean
-	${INSTALL_DATA} ${WRKSRC}/doc/mailer/sendmail/mklinks ${PREFIX}/share/fidogateds/mailer/sendmail/mklinks
-	${INSTALL_DATA} ${WRKSRC}/doc/mailer/sendmail/mailer/ftn.m4  ${PREFIX}/share/fidogateds/mailer/sendmail/mailer/ftn.m4
+	${MKDIR} ${PREFIX}/share/examples/fidogateds/mailer/postfix
+	${INSTALL_DATA} ${WRKSRC}/doc/mailer/postfix/master.cf ${PREFIX}/share/examples/fidogateds/mailer/postfix/master.cf
+	${INSTALL_DATA} ${WRKSRC}/doc/mailer/postfix/transport ${PREFIX}/share/examples/fidogateds/mailer/postfix/transport
+	${MKDIR} ${PREFIX}/share/examples/fidogateds/mailer/sendmail
+	${INSTALL_DATA} ${WRKSRC}/doc/mailer/sendmail/README.FIDOGATE ${PREFIX}/share/examples/fidogateds/mailer/sendmail/README.FIDOGATE
+	${INSTALL_DATA} ${WRKSRC}/doc/mailer/sendmail/mkclean ${PREFIX}/share/examples/fidogateds/mailer/sendmail/mkclean
+	${INSTALL_DATA} ${WRKSRC}/doc/mailer/sendmail/mklinks ${PREFIX}/share/examples/fidogateds/mailer/sendmail/mklinks
+	${MKDIR} ${PREFIX}/share/examples/fidogateds/mailer/sendmail/mailer
+	${INSTALL_DATA} ${WRKSRC}/doc/mailer/sendmail/mailer/ftn.m4  ${PREFIX}/share/examples/fidogateds/mailer/sendmail/mailer/ftn.m4
+	${INSTALL_DATA} ${WRKSRC}/doc/old/FAQ_Fidogate ${PREFIX}/share/doc/fidogateds/old/FAQ_Fidogate
+	${INSTALL_DATA} ${WRKSRC}/doc/old/FIDOGATE_ftrack ${PREFIX}/share/doc/fidogateds/old/FIDOGATE_ftrack
 	${MKDIR} ${PREFIX}/share/examples/fidogateds/dyff
 	${INSTALL_DATA} ${WRKSRC}/doc/examples/dyff/acl.sample ${PREFIX}/share/examples/fidogateds/dyff/acl.sample
 	${INSTALL_DATA} ${WRKSRC}/doc/examples/dyff/aliases.sample ${PREFIX}/share/examples/fidogateds/dyff/aliases.sample

@@ -308,7 +308,7 @@ Subject: GATE-PORT
   /**************************************************************************
   * FIDOGATE --- Gateway software UNIX Mail/News <-> FIDO NetMail/EchoMail
   *
-  * $Id: FAQ.ru,v 1.3 2004/01/12 21:40:59 rusfidogate Exp $
+  * $Id: FAQ.ru,v 1.4 2004/02/01 00:24:48 rusfidogate Exp $
   *
   * Global version number, patch level
   ***************************************************************************
@@ -814,6 +814,7 @@ Subject: GATE-PORT
  1.Elohin Igor 2:5070/222.52
  2.Zhenya Kaluta 2:450/254
  3.Alexandr Dobroslavskiy 2:5020/1356
+ 4.Andrew Zhuravlev 2:5035/67
 
  А также составителям "старого" FAQ по FIDOGATE.
  
