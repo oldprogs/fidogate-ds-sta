@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: areafix.c,v 1.2 2003/12/02 14:36:44 rusfidogate Exp $
+ * $Id: areafix.c,v 1.3 2004/01/19 18:46:11 rusfidogate Exp $
  *
  * Common Areafix functions
  *
@@ -1392,8 +1392,10 @@ int cmd_list(Node *node, int flag)	/* FALSE -> %avail; TRUE -> %list */
     areafix_printf("");
     
     /* Check for unscribed areas & define echolist in config file */
+#idef AF_AVAIL
     if (flag == TRUE || !(s = cf_get_string("AvailFile", TRUE)))
     {
+#endif
 	char *mark;
 #ifdef FTN_ACL
 	char *mark_r, *mark_m;
@@ -1478,7 +1480,7 @@ int cmd_list(Node *node, int flag)	/* FALSE -> %avail; TRUE -> %list */
 		areafix_printf("%s",buffer);
 	}
     } 
-#ifdef AVAIL_FILE
+#ifdef AF_AVAIL
      /* Check for define echolist in config file */
     else 
     {
@@ -1498,7 +1500,7 @@ int cmd_list(Node *node, int flag)	/* FALSE -> %avail; TRUE -> %list */
 	}
     }
     
-#endif /* AVAIL_FILE */
+#endif /* AF_AVAIL */
 
     areafix_printf("");
     areafix_printf("* = linked to this area");
