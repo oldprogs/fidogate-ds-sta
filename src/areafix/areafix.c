@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: areafix.c,v 1.9 2004/03/03 18:10:42 rusfidogate Exp $
+ * $Id: areafix.c,v 1.10 2004/03/15 01:16:36 rusfidogate Exp $
  *
  * Common Areafix functions
  *
@@ -1154,7 +1154,7 @@ int cmd_listall(Node *node)
     AreaUplink *a;
     LON *l;
     int first, find;
-    char *n, *f, *f1, *f2;
+    char *n, *f1, *f2;
     char *t;
     FILE *fp;
     char buf[AREAFIXMAXSTR];
@@ -1262,17 +1262,15 @@ int cmd_listall(Node *node)
 		    {
 			if(!*buf)
 			    continue;
-			f = xstrtok(buf,  " \t");
+			f2 = xstrtok(str_upper(buf),  " \t");
 			f1 = xstrtok(NULL,  "\n");
 
 			find = FALSE;
-			if(hi_test(f))
+			if(hi_test(f2))
 			    find = TRUE;
 
 			if(!find)
 			{
-			    f2 = str_upper(f);
-
 			    if(f1)
 			    {
 				hi_write_avail(f2, f1);

@@ -1,7 +1,7 @@
 
 		Установка FIDOGATE ver 1.2
 
-Создатель Andrey Slusar 2:467/126, rusfidogate at users.sourceforge.net
+Создатель Andrey Slusar 2:467/126, vasallia at ukr.net
 
 Самую свежую версию этого документа можно получить написав нетмейлом письмо:
 ===
@@ -308,7 +308,7 @@ Subject: GATE-PORT
   /**************************************************************************
   * FIDOGATE --- Gateway software UNIX Mail/News <-> FIDO NetMail/EchoMail
   *
-  * $Id: FAQ.ru,v 1.5 2004/02/19 06:15:50 rusfidogate Exp $
+  * $Id: FAQ.ru,v 1.6 2004/03/15 01:16:36 rusfidogate Exp $
   *
   * Global version number, patch level
   ***************************************************************************
