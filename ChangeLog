@@ -1,3 +1,13 @@
+2004-08-01  Andrey Slusar <anray@users.sourceforge.net>
+
+	* src/toss/ftnexpire.c: fix format warnings
+	* src/toss/ftntoss.c: fix format warnings
+	* src/tick/ftnhatch.c: fix format warnings
+	* src/tick/ftntick.c: fix format warnings
+	* src/common/histdb.c: fix format warnings
+	* src/common/log.c: fix incompatible type warning
+	* src/common/tick.c: fix format warnings
+
 2004-07-23  Andrey Slusar <anray@users.sourceforge.net>
 
 	* src/gate/rfc2ftn.c: fix FTS_VIA(thanks to

@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: tick.c,v 1.2 2004/01/28 00:14:50 rusfidogate Exp $
+ * $Id: tick.c,v 1.3 2004/08/02 18:44:06 anray Exp $
  *
  * TIC file processing
  *
@@ -128,7 +128,7 @@ int tick_put(Tick *tic, char *name, mode_t mode)
     fprintf(fp, "CRC %08lX\r\n", tic->crc);
     fprintf(fp, "Created %s\r\n", tic->created);
     fprintf(fp, "Size %lu\r\n", tic->size);
-    fprintf(fp, "Date %ld\r\n", tic->date);
+    fprintf(fp, "Date %ld\r\n", (long)tic->date);
     for(pl=tic->path.first; pl; pl=pl->next)
 	fprintf(fp, "Path %s\r\n", pl->line);
     for(p=tic->seenby.first; p; p=p->next)
@@ -289,8 +289,8 @@ void tick_debug(Tick *tic, int lvl)
     for(p=tic->seenby.first; p; p=p->next)
 	debug(lvl, "Seenby   : %s", znfp1(&p->node));
     debug(lvl, "Pw       : %s", tic->pw);
-    debug(lvl, "Release  : %ld", tic->release);
-    debug(lvl, "Date     : %ld", tic->date);
+    debug(lvl, "Release  : %ld", (long)tic->release);
+    debug(lvl, "Date     : %ld", (long)tic->date);
     for(pl=tic->app.first; pl; pl=pl->next)
 	debug(lvl, "App      : %s", pl->line);
 }
@@ -489,7 +489,7 @@ void tick_add_path(Tick *tic)
 
     now = time(NULL);
     tl_appendf(&tic->path, "%s %ld %s",
-	       znf1(cf_addr()), now, date(DATE_TICK_PATH, &now));
+	       znf1(cf_addr()), (long)now, date(DATE_TICK_PATH, &now));
 
 }
 

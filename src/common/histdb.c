@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: histdb.c,v 1.5 2004/03/04 19:42:20 rusfidogate Exp $
+ * $Id: histdb.c,v 1.6 2004/08/02 18:44:06 anray Exp $
  *
  * MSGID history functions and dupe checking
  *
@@ -191,8 +191,8 @@ short int hi_write_dbc(char *rfc_msgid, char *fido_msgid, short int dont_flush)
     if(strchr(fido_msgid, ' '))
 	fido_msgid = strrchr(fido_msgid, ' ') + 1;
     debug(7, "dbc history: offset=%ld: %s %s %ld", offset, fido_msgid,
-		rfc_msgid, ti.time);
-    ret = fprintf(hi_file, "%s\t%s\t%ld\n", fido_msgid, rfc_msgid, ti.time);
+		rfc_msgid, (long)ti.time);
+    ret = fprintf(hi_file, "%s\t%s\t%ld\n", fido_msgid, rfc_msgid, (long)ti.time);
     if ( ret == ERROR || (!dont_flush && fflush(hi_file) == ERROR) )
     {
 	fglog("$ERROR: write to DBC MSGID history failed");
@@ -241,8 +241,8 @@ short int hi_write_t(time_t t, time_t msgdate, char *msgid)
     }
     
     /* Write MSGID line to history text file */
-    debug(7, "history: offset=%ld: %s %ld", offset, msgid, t);
-    ret = fprintf(hi_file, "%s\t%ld\n", msgid, t);
+    debug(7, "history: offset=%ld: %s %ld", offset, msgid, (long)t);
+    ret = fprintf(hi_file, "%s\t%ld\n", msgid, (long)t);
     if (ret == ERROR || fflush(hi_file) == ERROR)
     {
 	fglog("$ERROR: write to MSGID history failed");

@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: ftntick.c,v 1.6 2004/03/30 17:19:33 rusfidogate Exp $
+ * $Id: ftntick.c,v 1.7 2004/08/02 18:44:06 anray Exp $
  *
  * Process incoming TIC files
  *
@@ -37,7 +37,7 @@
 
 
 #define PROGRAM		"ftntick"
-#define VERSION		"$Revision: 1.6 $"
+#define VERSION		"$Revision: 1.7 $"
 #define CONFIG		DEFAULT_CONFIG_MAIN
 
 
@@ -149,7 +149,7 @@ int do_tic(int w_flag)
 	    }
 	    
 	    debug (4,"file: name=%s time=%ld now=%ld wait=%d",
-		    tic.file, st.st_mtime, now,
+		    tic.file, (long)st.st_mtime, (long)now,
 		    tic_wait ? tic_wait*3600 : tic_wait);
 		    
 	    if (tic_wait && (now-3600*tic_wait)<st.st_mtime)

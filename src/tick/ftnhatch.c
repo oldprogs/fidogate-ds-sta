@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: ftnhatch.c,v 1.2 2004/01/28 00:14:50 rusfidogate Exp $
+ * $Id: ftnhatch.c,v 1.3 2004/08/02 18:44:06 anray Exp $
  *
  * Hatch file into file area
  *
@@ -36,7 +36,7 @@
 
 
 #define PROGRAM		"ftnhatch"
-#define VERSION		"$Revision: 1.2 $"
+#define VERSION		"$Revision: 1.3 $"
 #define CONFIG		DEFAULT_CONFIG_MAIN
 
 
@@ -107,7 +107,7 @@ int hatch(char *area, char *file, char *desc)
     file_crc  = crc32_file(file_name);
     
     debug(4, "file: name=%s size=%ld time=%ld crc=%08lx",
-	  file_name, file_size, file_time, file_crc);
+	  file_name, file_size, (long)file_time, file_crc);
 
 
     /*
@@ -127,7 +127,7 @@ int hatch(char *area, char *file, char *desc)
     tic.created = CREATOR;
     tic.size    = file_size;
     tl_appendf(&tic.path, "%s %ld %s",
-	       znf1(cf_addr()), now, date(NULL, &now) );
+	       znf1(cf_addr()), (long)now, date(NULL, &now) );
     lon_add(&tic.seenby, cf_addr());
     lon_join(&tic.seenby, &bbs->nodes);
     /* tic.pw set by hatch_one() */
