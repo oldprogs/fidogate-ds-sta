@@ -1,3 +1,8 @@
+2004-06-11  Andrey Slusar <rusfidogate@users.sourceforge.net>
+
+	* src/common/packet.c: change checking pkt date
+	    format
+
 2004-06-08  Andrey Slusar <rusfidogate@users.sourceforge.net>
 
 	* version.h: update to 5.1.1ds-rc4
