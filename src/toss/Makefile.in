@@ -15,7 +15,7 @@
 
 #:ts=8
 #
-#    $Id: Makefile.in,v 1.6 2004/02/05 06:26:03 rusfidogate Exp $
+#    $Id: Makefile.in,v 1.7 2004/02/19 18:23:54 rusfidogate Exp $
 #
 #    Makefile for FIDOGATE src/toss/
 #
@@ -586,7 +586,9 @@ clean-am:
 	rm -f report_traffic
 
 install-exec-am:
-	chown news $(DESTDIR)$(bindir)/ngoper
+	if test `id -u` -eq 0; then \
+	chown news $(DESTDIR)$(bindir)/ngoper; \
+	fi
 	chmod 4550 $(DESTDIR)$(bindir)/ngoper
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -1,3 +1,7 @@
+2004-02-19  Andrey Slusar <rusfidogate@users.sourceforge.net>
+
+	* all: fix Makefiles
+
 2004-02-17  Andrey Slusar <rusfidogate@users.sourceforge.net>
 
 	* src/gate/ftn2rfc.c: fix area-flag

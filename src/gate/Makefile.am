@@ -1,6 +1,6 @@
 #:ts=8
 #
-#    $Id: Makefile.am,v 1.1 2003/11/05 00:54:09 rusfidogate Exp $
+#    $Id: Makefile.am,v 1.2 2004/02/19 18:23:54 rusfidogate Exp $
 #
 #    Makefile for FIDOGATE src/gate/
 #
@@ -36,6 +36,8 @@ install-exec-am:
 	@if test -e $(srcdir)/ftnnews$(EXEEXT); then \
 	chmod 4750 $(DESTDIR)$(libexecdir)/ftnnews$(EXEEXT); \
 	echo " chmod 4750 $(DESTDIR)$(libexecdir)/ftnnews$(EXEEXT)"; \
+	if test `id -u` -eq 0; then \
 	chown news $(DESTDIR)$(libexecdir)/ftnnews$(EXEEXT); \
 	echo " chown news $(DESTDIR)$(libexecdir)/ftnnews$(EXEEXT)"; \
+	fi; \
 	fi

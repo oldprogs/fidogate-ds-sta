@@ -1,6 +1,6 @@
 #:ts=8
 #
-#    $Id: Makefile.am,v 1.1 2003/11/05 00:56:03 rusfidogate Exp $
+#    $Id: Makefile.am,v 1.2 2004/02/19 18:23:54 rusfidogate Exp $
 #
 #    Makefile for FIDOGATE src/toss/
 #
@@ -34,5 +34,7 @@ clean-am:
 	rm -f report_traffic
 
 install-exec-am:
-	chown news $(DESTDIR)$(bindir)/ngoper
+	if test `id -u` -eq 0; then \
+	chown news $(DESTDIR)$(bindir)/ngoper; \
+	fi
 	chmod 4550 $(DESTDIR)$(bindir)/ngoper
