@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: msgid.c,v 1.1 2003/11/05 00:52:58 rusfidogate Exp $
+ * $Id: msgid.c,v 1.2 2004/01/20 19:11:19 rusfidogate Exp $
  *
  * MSGID <-> Message-ID conversion handling. See also ../doc/msgid.doc
  *
@@ -271,9 +271,14 @@ char *s_msgid_default(Message *msg)
 /*
  * Convert RFC Message-ID/References to FIDO ^AMSGID/^AREPLY
  */
+#ifdef FIDO_STYLE_MSGID
 char *s_msgid_rfc_to_fido(int *origid_flag, char *message_id,
 			  int part, int split, char *area, short int dont_flush,
 			  int for_reply)
+#else
+char *s_msgid_rfc_to_fido(int *origid_flag, char *message_id,
+			  int part, int split, char *area)
+#endif
     /* origid_flag - Flag for ^AORIGID */
     /* message_id  - Original RFC-ID */
     /* part        - part number */

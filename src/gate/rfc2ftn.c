@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway software UNIX <-> FIDO
  *
- * $Id: rfc2ftn.c,v 1.2 2004/01/19 18:46:11 rusfidogate Exp $
+ * $Id: rfc2ftn.c,v 1.3 2004/01/20 19:11:19 rusfidogate Exp $
  *
  * Read mail or news from standard input and convert it to a FIDO packet.
  *
@@ -39,7 +39,7 @@
 
 
 #define PROGRAM 	"rfc2ftn"
-#define VERSION 	"$Revision: 1.2 $"
+#define VERSION 	"$Revision: 1.3 $"
 #define CONFIG		DEFAULT_CONFIG_GATE
 
 
@@ -1401,10 +1401,10 @@ int snd_message(Message *msg, Area *parea,
     {
 	if((header = s_header_getcomplete("Message-ID")))
 	{
+#ifdef FIDO_STYLE_MSGID
 	    if((id = s_msgid_rfc_to_fido(&flag, header, part, split != 0, msg->area,
 					 dont_flush_dbc_history, 0)))
 	    {
-#ifdef FIDO_STYLE_MSGID
 	     if(!echogate_alias)
 		fprintf(sf, "\001MSGID: %s %s\r\n", znfp1(&msg->node_from), id);
 	     else
@@ -1420,7 +1420,11 @@ int snd_message(Message *msg, Area *parea,
 	if((header = s_header_getcomplete("References")) ||
 	   (header = s_header_getcomplete("In-Reply-To")))
 	{
+#ifdef FIDO_STYLE_MSGID
 	    if((id = s_msgid_rfc_to_fido(&flag, header, 0, 0, msg->area, 0, 1)))
+#else
+	    if((id = s_msgid_rfc_to_fido(&flag, header, 0, 0, msg->area)))
+#endif
 		fprintf(sf, "\001REPLY: %s\r\n", id);
 	}
     }
@@ -1433,7 +1437,11 @@ int snd_message(Message *msg, Area *parea,
 	if((header = s_header_getcomplete("References")) ||
 	   (header = s_header_getcomplete("In-Reply-To")))
 	{
+#ifdef FIDO_STYLE_MSGID
 	    if((id = s_msgid_rfc_to_fido(&flag, header, 0, 0, msg->area, 0, 1)))
+#else
+	    if((id = s_msgid_rfc_to_fido(&flag, header, 0, 0, msg->area)))
+#endif
 		fprintf(sf, "\001REPLY: %s\r\n", id);
 	}
     }
