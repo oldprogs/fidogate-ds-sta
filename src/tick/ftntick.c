@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: ftntick.c,v 1.2 2004/01/28 00:14:51 rusfidogate Exp $
+ * $Id: ftntick.c,v 1.3 2004/02/10 23:47:42 rusfidogate Exp $
  *
  * Process incoming TIC files
  *
@@ -37,7 +37,7 @@
 
 
 #define PROGRAM		"ftntick"
-#define VERSION		"$Revision: 1.2 $"
+#define VERSION		"$Revision: 1.3 $"
 #define CONFIG		DEFAULT_CONFIG_MAIN
 
 
@@ -368,11 +368,20 @@ int process_tic(Tick *tic)
 	    }
 	    
 	    if( (a = uplinks_line_get(FALSE, &tic->from)) )
+	    {
+	    	tmp = (char*) xmalloc(strlen(tic->area) + strlen(autocreate_line) + strlen(a->options) + 3);
 		sprintf(tmp,"%s %s %s", tic->area, autocreate_line, a->options);
+	    }
 	    else
-		BUF_COPY3(tmp, tic->area, " ", autocreate_line);
+	    {
+		tmp = (char*) xmalloc(strlen(tic->area) + strlen(autocreate_line) + 2);
+		sprintf(tmp, "%s %s", tic->area, autocreate_line);
+	    }
 
-	    if ( cmd_new_int (&tic->from, tmp, "-") == ERROR )
+	    errlvl = cmd_new_int (&tic->from, tmp, "-");
+	    if( tmp != NULL )
+		xfree(tmp);
+	    if ( errlvl == ERROR )
 	    {
 		fglog("can't create filarea %s from %s (cmd_new() returned ERROR)",
 	    	    tic->area, znfp1(&tic->from));
