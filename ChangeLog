@@ -1,3 +1,7 @@
+2004-07-20  Andrey Slusar <anray@users.sourceforge.net>
+
+	* configure.in: change innconfval -s parsing
+
 2004-07-12  Andrey Slusar <anray@users.sourceforge.net>
 
 	* src/toss/ngoper.c: if AutoCreateRenumberCmd not
