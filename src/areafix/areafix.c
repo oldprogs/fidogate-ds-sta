@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: areafix.c,v 1.16 2004/06/11 03:11:50 rusfidogate Exp $
+ * $Id: areafix.c,v 1.17 2004/06/14 23:16:49 rusfidogate Exp $
  *
  * Common Areafix functions
  *
@@ -1164,7 +1164,7 @@ int cmd_listall(Node *node)
     char *n, *f1, *f2;
     char *t;
     FILE *fp;
-    char buf[AREAFIXMAXSTR];
+    char buf[BUFSIZ];
     
 #ifdef AFSEND_ECHO_STATUS
     char tmp[35];
