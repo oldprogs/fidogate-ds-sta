@@ -1,7 +1,7 @@
 #
-# $Id: fidogate.conf.sample.in,v 1.6 2004/05/30 10:42:23 rusfidogate Exp $
+# $Id: fidogate.conf.sample.in,v 1.7 2004/05/30 23:39:13 rusfidogate Exp $
 #
-# NEW!!! (FIDOGATE 5.0.0) single common config file
+# NEW!!! (FIDOGATE 5.x.xds) single common config file
 #
 # dyff example config
 #
@@ -155,7 +155,7 @@ Zone	6	.fidonet.org		fidonet		out.006
 AreaFixMailer	<SENDMAIL> -t
 
 # CC of reply mails
-AreaFixCc	postmaster@corex.izhora.spb.ru
+AreaFixCc	postmaster@<HOSTNAME><DOMAINNAME>
 
 # Location of help file
 AreaFixHelp	%C/areafix.help
@@ -444,7 +444,7 @@ TickWaitHour 168
 # Action if time limit was finished ("delete" or "bad")
 TickWaitAction	delete
 
-# Kill dupe tick's with correspod file
+# Kill dupe tick's with correspond file
 #KillTickDupe
 
 # Number of days a CRC entry stays in the history database
@@ -577,7 +577,7 @@ FTNJunkGroup		fido.junk
 FTNJunkGroup
 
 # Errors-To header
-Errors-To		dyff@corex.izhora.spb.ru
+Errors-To		dyff@<HOSTNAME><DOMAINNAME>
 
 
 # Translation of chars for automatic areas <-> newsgroup conversion
@@ -735,7 +735,7 @@ Regex1stLine  ^[ 	]*([^>|].*) (writes|wrote|schreibt|schrieb):$
 
 # Line length for formatting long paragraphs in Fido messages
 # (replaces old MAX_LINELEN from config.h)
-MessageLineLength	72
+MessageLineLength	90
 
 # Default newsgroup for junk messages and keys for it (see also "areas"
 # config-file)
