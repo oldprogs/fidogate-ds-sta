@@ -1,7 +1,9 @@
 2004-06-15  Andrey Slusar <rusfidogate@users.sourceforge.net>
 
 	* version.h: update to 5.1.1ds-rc5
-	* src/toss/runinc.c: add -c option
+	* packages/freebsd: update
+	* src/toss/runinc.c: add -c option, if tmpunpack
+	    dirs not extist, create it
 	* src/areafix/areafix.c: fix traping cmd_listall
 
 2004-06-11  Andrey Slusar <rusfidogate@users.sourceforge.net>

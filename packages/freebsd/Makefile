@@ -4,38 +4,38 @@
 # $FreeBSD$
 #
 
-PORTNAME=		fidogateds
+PORTNAME=		fidogate
 PORTVERSION=		5.1.1
-CATEGORIES=		russian news mail
+CATEGORIES=		news mail
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE}
 MASTER_SITE_SUBDIR=	rusfidogate
-DISTNAME=		fidogate5.1.1ds-rc3
+PKGNAMESUFFIX=		-ds
+DISTNAME=		fidogate${PORTVERSION}ds
 
 MAINTAINER=		vasallia@ukr.net
 COMMENT=		Fido-Internet Gateway and Tosser
 
 .if !defined(WITHOUT_INN)
-RUN_DEPENDS=		${LOCALBASE}/news/bin/innconfval:${PORTSDIR}/news/inn
+BUILD_DEPENDS=		${LOCALBASE}/news/bin/innconfval:${PORTSDIR}/news/inn
 .endif
 
 USE_BZIP2=		yes
-GNU_CONFIGURE=		yes
+HAS_CONFIGURE=		yes
 USE_PERL5=		yes
-INSTALL_SHLIB=		yes
 
-SPOOLDIR?=/var/spool/fido/gate
-BTBASEDIR?=/var/spool/fido/bt
-LOCKDIR?=/var/run/fidogate
-LOGDIR?=/var/log/fido/gate
-VARDIR?=${PREFIX}/var/fidogate
+SPOOLDIR=/var/spool/fido/gate
+BTBASEDIR=/var/spool/fido/bt
+LOCKDIR=/var/run/fidogate
+LOGDIR=/var/log/fido/gate
+VARDIR=${PREFIX}/var/fidogate
 
 PLIST_SUB+=		SPOOLDIR=${SPOOLDIR} \
 			BTBASEDIR=${BTBASEDIR} \
 			LOGDIR=${LOGDIR} \
 			LOCKDIR=${LOCKDIR} \
+			VARDIR=${VARDIR} \
 			PREFIX=${PREFIX}
 
-HAS_CONFIGURE=		yes
 .if defined(WITHOUT_INN)
 CONFIGURE_ARGS+=	--without-news
 .endif
@@ -73,15 +73,14 @@ CONFIGURE_ARGS+=	--libexec=${PREFIX}/libexec/fidogate \
 			--with-btbasedir=${BTBASEDIR}
 CONFIGURE_TARGET=	--build=${MACHINE_ARCH}-portbld-freebsd${OSREL}
 
-EXTRA_DOCS=	doc/README.ru doc/README doc/FAQ.ru ChangeLog Changes.ru \
+DOCS=		doc/README.ru doc/README doc/FAQ.ru ChangeLog Changes.ru \
 		doc/old/FAQ_fidogate doc/old/FIDOGATE_ftrack doc/old/README.snp \
-		doc/old/README.snp.en doc/old/fidogate.txt doc/old/fidogate.texi \
-		doc/old/msgid.doc
+		doc/old/fidogate.txt doc/old/fidogate.texi doc/old/msgid.doc
 
 .if !defined(NOPORTDOCS)
 post-install:
 	${MKDIR} ${DOCSDIR}
-.for a in ${EXTRA_DOCS}
+.for a in ${DOCS}
 	${INSTALL_DATA}	${WRKSRC}/${a} ${DOCSDIR}
 .endfor
 	${MKDIR} ${EXAMPLESDIR}
