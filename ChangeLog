@@ -1,5 +1,6 @@
 2004-08-01  Andrey Slusar <anray@users.sourceforge.net>
 
+	* configure.in: total rewrite and fix more bugs
 	* src/toss/ftnexpire.c: fix format warnings
 	* src/toss/ftntoss.c: fix format warnings
 	* src/tick/ftnhatch.c: fix format warnings
