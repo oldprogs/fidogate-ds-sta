@@ -15,7 +15,7 @@
 
 #:ts=8
 #
-#    $Id: Makefile.in,v 1.16 2004/07/20 19:01:22 anray Exp $
+#    $Id: Makefile.in,v 1.17 2004/08/07 09:16:04 anray Exp $
 #
 #    Makefile for FIDOGATE src/areafix/
 #
@@ -70,6 +70,7 @@ AS = @AS@
 AWK = @AWK@
 BATCHER = @BATCHER@
 CC = @CC@
+CPP = @CPP@
 CXX = @CXX@
 DEPDIR = @DEPDIR@
 DLLTOOL = @DLLTOOL@
@@ -118,6 +119,7 @@ am__include = @am__include@
 am__quote = @am__quote@
 btbasedir = @btbasedir@
 install_sh = @install_sh@
+netmaildir = @netmaildir@
 vardir = @vardir@
 
 INCLUDES = -I$(top_srcdir)/src/include
