@@ -1,5 +1,5 @@
 #
-# $Id: cyrillic.map,v 1.3 2003/11/26 17:41:50 rusfidogate Exp $
+# $Id: cyrillic.map,v 1.4 2003/12/07 18:35:46 rusfidogate Exp $
 #
 # Character set mapping table (to be compiled by charsetc)
 #
@@ -13,12 +13,16 @@ alias	x-alt		cp866
 alias	x-cp866		cp866
 alias	cp1125		cp1125
 alias	ukr		cp1125
+alias	x-ukr		cp1125
+alias	x-cp1125	cp1125
+alias	koi8-r		koi8-r
 alias	koi8-u		koi8-r
 alias	ibm-878		koi8-r
+alias	iso-8859-5	iso-8859-5
 alias	ibm-915		iso-8859-5
 alias	cp1251		cp1251
+alias   windows-1251    cp1251
 alias	x-cp1251	cp1251
-alias	windows-1251	cp1251
 
 # ----------------------------------------------------------------------------
 #       Channel map for translation CP1125 codes to KOI8-R codes
@@ -1032,8 +1036,8 @@ map     \xAE    \x20
 map     \xAF    \xF4
 map     \xB0    \xF8
 map     \xB1    \x20
-map     \xB2    \x20
-map     \xB3    \x20
+map     \xB2    \x49
+map     \xB3    \x69
 map     \xB4    \x20
 map     \xB5    \x20
 map     \xB6    \x20
