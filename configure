@@ -892,6 +892,7 @@ Optional Packages:
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
   --with-logdir=DIR	  set fidogate log DIR
   --with-vardir=DIR	  set fidogate var DIR
+    --with-lockdir=DIR	  set fidogate lock DIR
   --with-spooldir=DIR	  set fidogate spool DIR
   --with-sysconfdir=DIR     set fidogate config DIR
   --with-btbasedir=DIR	  set fidogate BTBASE DIR
@@ -1344,6 +1345,21 @@ echo "$as_me: error: --with-vardir requires an argument; use --with-vardir=DIR" 
    { (exit 1); exit 1; }; } ;;
 ''|no) ;;
 *) vardir="$withval" ;;
+esac
+
+fi;
+
+# Check for a --with-lockdir argument
+
+# Check whether --with-lockdir or --without-lockdir was given.
+if test "${with_lockdir+set}" = set; then
+  withval="$with_lockdir"
+  case "$with_lockdir" in
+yes) { { echo "$as_me:$LINENO: error: --with-lockdir requires an argument; use --with-lockdir=DIR" >&5
+echo "$as_me: error: --with-lockdir requires an argument; use --with-lockdir=DIR" >&2;}
+   { (exit 1); exit 1; }; } ;;
+''|no) ;;
+*) LOCKDIR="$withval" ;;
 esac
 
 fi;
@@ -3536,7 +3552,7 @@ test x"$silent" = xyes && libtool_flags="$libtool_flags --silent"
 case "$host" in
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 3539 "configure"' > conftest.$ac_ext
+  echo '#line 3555 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -5052,8 +5068,8 @@ fi
 
 echo "$as_me:$LINENO: checking for lock directory" >&5
 echo $ECHO_N "checking for lock directory... $ECHO_C" >&6
-if test -d /var/lock; then
-	LOCKDIR=/var/lock/fidogate
+if test "${with_lockdir+set}" = set; then
+	LOCKDIR="$with_lockdir"
 elif test -d /var/run; then
 	LOCKDIR=/var/run/fidogate
 elif test -d /var/spool/lock; then
