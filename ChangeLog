@@ -1,5 +1,7 @@
 2004-10-29  Andrey Slusar <anray@users.sourceforge.net>
 
+	* build/config.make.in: added NETMAILDIR, UUINBOUND,
+	    FTPINBOUND
 	* src/common/message.c: added option INSERT_ORIGIN
 	    (see Changes for details)
 	* src/common/msgid.c: added checking references
