@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: binkley.c,v 1.2 2004/01/28 00:14:50 rusfidogate Exp $
+ * $Id: binkley.c,v 1.3 2004/07/05 17:24:46 anray Exp $
  *
  * BinkleyTerm-style outbound directory functions
  *
@@ -99,7 +99,11 @@ char *bink_out_name(Node *node)
     static char buf[MAXPATH];
     char *out, *outbound;
     
+#ifndef AMIGADOS_4D_OUTBOUND
     out = cf_zones_out(node->zone);
+#else
+    out = cf_zones_out(0);
+#endif
     if(!out)
 	return NULL;
     outbound = cf_p_btbasedir();
@@ -428,7 +432,11 @@ int bink_mkdir(Node *node)
      * Outbound dir + zone dir
      */
     BUF_COPY2(buf, cf_p_btbasedir(), "/");
+#ifndef AMIGADOS_4D_OUTBOUND
     if((base = cf_zones_out(node->zone)) == NULL)
+#else
+    if((base = cf_zones_out(0)) == NULL)
+#endif
 	return ERROR;
     BUF_APPEND(buf, base);
     base = buf + strlen(buf);

@@ -1,3 +1,15 @@
+2004-07-05  Andrey Slusar <anray@users.sourceforge.net>
+
+	* doc/README.ru: update
+	* doc/FAQ.ru: update
+	* src/common/binkley.c: if enable AMIGADOS_4D_OUTBOUND,
+	    then using outbound for default zone
+	* src/toss/ftnpack.c: if enable AMIGADOS_4D_OUTBOUND,
+	    then using outbound for default zone
+	* src/toss/ftnroute.c: if enable AMIGADOS_4D_OUTBOUND,
+	    then using outbound for default zone
+	* src/gate/ftn2rfc.c: fix SingleArticles
+
 2004-06-15  Andrey Slusar <rusfidogate@users.sourceforge.net>
 
 	* version.h: update to 5.1.1ds-rc5

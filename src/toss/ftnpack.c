@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: ftnpack.c,v 1.2 2004/01/28 00:14:51 rusfidogate Exp $
+ * $Id: ftnpack.c,v 1.3 2004/07/05 17:24:46 anray Exp $
  *
  * Pack output packets of ftnroute for Binkley outbound (ArcMail)
  *
@@ -40,7 +40,7 @@
 
 
 #define PROGRAM 	"ftnpack"
-#define VERSION 	"$Revision: 1.2 $"
+#define VERSION 	"$Revision: 1.3 $"
 #define CONFIG		DEFAULT_CONFIG_MAIN
 
 
@@ -413,7 +413,11 @@ char *arcmail_name(Node *node, char *dir)
     else
     {
 	/* Outbound dir + zone dir */
+#ifndef AMIGADOS_4D_OUTBOUND
 	if((base = cf_zones_out(node->zone)) == NULL)
+#else
+	if((base = cf_zones_out(0)) == NULL)
+#endif
 	    return NULL;
 	BUF_COPY4(buf, cf_p_btbasedir(), "/", base, "/");
     }

@@ -1,3 +1,8 @@
+Version 5.1.1ds-rc6
+~~~~~~~~~~~~~~~~~~~
+- При компиляции с опцией AMIGADOS_4D_OUTBOUND, для исходящих пакетов
+  используется outbound для Zone = default.
+
 Version 5.1.1ds-rc4
 ~~~~~~~~~~~~~~~~~~~
 - nl-autoupd берет DIFFDIR, NLDIR, NLFDIR из основного конфига.

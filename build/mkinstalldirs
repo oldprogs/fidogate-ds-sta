@@ -4,7 +4,7 @@
 # Created: 1993-05-16
 # Public domain
 
-# $Id: mkinstalldirs,v 1.12 2004/06/15 00:52:44 rusfidogate Exp $
+# $Id: mkinstalldirs,v 1.13 2004/07/05 17:24:45 anray Exp $
 
 errstatus=0
 

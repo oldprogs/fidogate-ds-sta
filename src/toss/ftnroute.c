@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: ftnroute.c,v 1.3 2004/02/22 15:35:06 rusfidogate Exp $
+ * $Id: ftnroute.c,v 1.4 2004/07/05 17:24:46 anray Exp $
  *
  * Route FTN NetMail/EchoMail
  *
@@ -39,7 +39,7 @@
 
 
 #define PROGRAM 	"ftnroute"
-#define VERSION 	"$Revision: 1.3 $"
+#define VERSION 	"$Revision: 1.4 $"
 #define CONFIG		DEFAULT_CONFIG_MAIN
 
 
@@ -1110,14 +1110,26 @@ int main(int argc, char **argv)
 
 	repack_mode = TRUE;
 
+#ifdef AMIGADOS_4D_OUTBOUND
+	if( (base = cf_out_get(0)) == NULL )
+	{
+	    fglog("$ERROR: can't open directory %s/%s", btbase, base);
+	    exit_free();
+	    exit(EX_OSERR);
+	}
+	else
+#else
 	for(c=0; (base = cf_out_get(c)) != NULL; c++)
+#endif
 	{
 	    BUF_COPY3(buf, btbase, "/", base);
 
 	    if(do_repack(buf, pattern, repack_time) == ERROR)
 	    {
 		debug(1, "error processing %s", buf);
+#ifndef AMIGADOS_4D_OUTBOUND
 		continue;
+#endif
 	    }
 
 #ifndef AMIGADOS_4D_OUTBOUND
