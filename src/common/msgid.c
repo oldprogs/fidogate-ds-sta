@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: msgid.c,v 1.9 2004/10/29 00:54:05 anray Exp $
+ * $Id: msgid.c,v 1.10 2004/11/02 01:27:48 anray Exp $
  *
  * MSGID <-> Message-ID conversion handling. See also ../doc/msgid.doc
  *
@@ -458,7 +458,7 @@ char *s_msgid_rfc_to_fido(int *origid_flag, char *message_id,
 	{
     	    return tmps->s;
 	}
-	if (hi_init_dbc() == ERROR)
+	if(hi_init_dbc() == ERROR)
 	{
 	    fglog ("can't open dbc file");
 	}

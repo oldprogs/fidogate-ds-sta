@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway software UNIX <-> FIDO
  *
- * $Id: rfc2ftn.c,v 1.9 2004/10/29 00:54:06 anray Exp $
+ * $Id: rfc2ftn.c,v 1.10 2004/11/02 01:27:48 anray Exp $
  *
  * Read mail or news from standard input and convert it to a FIDO packet.
  *
@@ -39,7 +39,7 @@
 
 
 #define PROGRAM 	"rfc2ftn"
-#define VERSION 	"$Revision: 1.9 $"
+#define VERSION 	"$Revision: 1.10 $"
 #define CONFIG		DEFAULT_CONFIG_GATE
 
 
@@ -334,12 +334,13 @@ RFCAddr rfc_sender(int mime_qp)
 		rfc = rfc1;
 	    else if(!dont_use_reply_to)
 	    {
-		/* If Reply-To contains only an address which is the same as
-		 * the one in From, don't replace From RFCAddr */
-		if( !( rfc1.real[0]==0               &&
-		       !stricmp(rfc.user, rfc1.user) &&
-		       !stricmp(rfc.addr, rfc1.addr)   )
-		    )
+		/*
+		 * If Reply-To contains only an address which is the same as
+		 * the one in From, don't replace From RFCAddr
+		 */
+		if( ! ( rfc1.real[0]==0               &&
+			!stricmp(rfc.user, rfc1.user) &&
+			!stricmp(rfc.addr, rfc1.addr)   ) )
 		    rfc = rfc1;
 	    }
 	}
@@ -387,7 +388,7 @@ int rfc_parse(RFCAddr *rfc, char *name, Node *node, int gw)
     Node nn;
     Node *n;
     Host *h;
-
+    
     rfc_isfido_flag = FALSE;
 
     debug(3, "    Name:     %s", rfc->user[0] ? rfc->user : rfc->real);
@@ -407,7 +408,7 @@ int rfc_parse(RFCAddr *rfc, char *name, Node *node, int gw)
 	    p++;
 	    len = strlen(p);
 	    if(p[len-1] == '\"')	/* " makes C-mode happy */
-		p[len-1] = 0;
+	    p[len-1] = 0;
 	}
 	mime_deheader(name, MSG_MAXNAME, p);
     }
@@ -511,7 +512,7 @@ void cvt_user_name(char *s)
      * If name contains one or more percent character it's rfc address.
      * So convert last '%' into '@' and don't make other changes.
      */
-    if ( ( t = strrchr( s, '%' ) ) )
+    if( ( t = strrchr( s, '%' ) ) )
     {
 	*t = '@';
 	return;
@@ -525,9 +526,11 @@ void cvt_user_name(char *s)
     convert_flag = isupper(*s) ? -1 : 1;
     us_flag      = strchr(s, '_') || strchr(s, ' ') || strchr(s, '@');
     
-    for(; *s; s++) {
+    for(; *s; s++)
+    {
 	c = *s;
-	switch(c) {
+	switch(c)
+	{
 	case '_':
 	case '.':
 	    if( c=='_' || (!us_flag && c=='.') )
@@ -541,7 +544,8 @@ void cvt_user_name(char *s)
 		convert_flag = 2;
 	    /**Fall thru**/
 	default:
-	    if(convert_flag > 0) {
+	    if(convert_flag > 0)
+	    {
 		*s = islower(c) ? toupper(c) : c;
 		if(convert_flag == 1)
 		    convert_flag = 0;
@@ -618,7 +622,8 @@ char *mail_receiver(RFCAddr *rfc, Node *node)
 	/*
 	 * Address is argument
 	 */
-	if(rfc_parse(rfc, name, node, TRUE) == ERROR) {
+	if(rfc_parse(rfc, name, node, TRUE) == ERROR)
+	{
 	    fglog("BOUNCE: <%s>, %s", s_rfcaddr_to_asc(rfc, TRUE),
 		  (*address_error ? address_error : "unknown")  );
 	    return NULL;
@@ -631,7 +636,7 @@ char *mail_receiver(RFCAddr *rfc, Node *node)
 	 */
 	*node = cf_n_uplink();
 	BUF_COPY(name, "All");
-
+    
 	/*
 	 * User-defined header line X-Comment-To for gateway software
 	 * (can be patched into news reader)
@@ -662,7 +667,8 @@ time_t mail_date(void)
     time_t timevar = -1;
     char *header_date;
 
-    if((header_date = header_get("Date"))) {
+    if((header_date = header_get("Date")))
+    {
 	/* try to extract date and other information from it */
 	debug(5, "RFC Date: %s", header_date);
 	timevar = parsedate(header_date, NULL);
@@ -710,7 +716,7 @@ char *mail_sender(RFCAddr *rfc, Node *node)
     {
 	debug(5, "Alias found: %s %s %s", alias->username,
 	      znfp1(&alias->node), alias->fullname);
-	if ( !strcmp( alias->fullname, "*" ) )
+	if( !strcmp( alias->fullname, "*" ) )
 	    BUF_COPY(name, rfc->real);
 	else
 	    BUF_COPY(name, alias->fullname);
@@ -726,7 +732,7 @@ char *mail_sender(RFCAddr *rfc, Node *node)
 	alias_extended = TRUE;
 	debug(5, "Alias found: %s@@%s %s %s", alias->username, alias->userdom,
 	      znfp1(&alias->node), alias->fullname);
-	if ( !strcmp( alias->fullname, "*" ) )
+	if( !strcmp( alias->fullname, "*" ) )
 	    BUF_COPY(name, rfc->real);
 	else
 	    BUF_COPY(name, alias->fullname);
@@ -759,7 +765,8 @@ int check_downlinks(char *area)
     
     n = a->nodes.size;
     debug(5, "area %s, LON size %d", area, n);
-    if( a->nodes.first && node_eq(&a->nodes.first->node, cf_addr()) ) {
+    if( a->nodes.first && node_eq(&a->nodes.first->node, cf_addr()) )
+    {
 	/* 1st downlink is gateway, don't include in # of downlinks */
 	n--;
 	debug(5, "     # downlinks is %d", n);
@@ -819,8 +826,7 @@ int snd_mail(RFCAddr rfc_to, long size)
      * To name/node
      */
     p = mail_receiver(&rfc_to, &node_to);
-    if(!p)
-    {
+    if(!p) {
 	if(*address_error)
 	    sendback("Address %s:\n  %s",
 		     s_rfcaddr_to_asc(&rfc_to, TRUE), address_error);
@@ -956,7 +962,8 @@ int snd_mail(RFCAddr rfc_to, long size)
 	    msg.attr |= MSG_RRREQ;
     }
     
-    if(newsmode) {
+    if(newsmode)
+    {
 	Area *pa;
 
 	acl_ngrp(rfc_from, TYPE_ECHOMAIL);
@@ -1102,7 +1109,8 @@ int snd_mail(RFCAddr rfc_to, long size)
 
 	tl_clear(&tl);
     }
-    else {
+    else
+    {
 	/*
 	 * NetMail message
 	 */
@@ -1113,14 +1121,13 @@ int snd_mail(RFCAddr rfc_to, long size)
 	{
 	    debug(5, "Gateway netmail from address `%s' to `%s' - o.k.",
 		  s_rfcaddr_to_asc(&rfc_from, FALSE), asc_node_to);
-	    fglog("MAIL: %s -> %s", s_rfcaddr_to_asc(&rfc_from, TRUE),
-		  s_rfcaddr_to_asc(&rfc_to, TRUE));
+	    fglog("MAIL: %s -> %s",
+		  s_rfcaddr_to_asc(&rfc_from, TRUE), s_rfcaddr_to_asc(&rfc_to, TRUE));
 	    msg.area      = NULL;
 	    msg.node_from = node_from;
 	    msg.node_to   = node_to;
 	    status = snd_message(&msg, NULL, rfc_from, rfc_to,
-				 subj, size, flags, fido, mime,
-				 &node_from,mime_qp);
+				 subj, size, flags, fido, mime, &node_from,mime_qp);
 	    TMPS_RETURN(status);
 	}
 	else
@@ -1150,17 +1157,16 @@ int snd_message(Message *msg, Area *parea,
 		RFCAddr rfc_from, RFCAddr rfc_to, char *subj,
 		long size, char *flags, int fido, MIMEInfo *mime,
 		Node *node_from, int mime_qp)
-/*
- * msg   	FTN message structure
- * parea 	area/newsgroup description structure
- * rfc_from     Internet sender
- * rfc_to       Internet recipient
- * subj  	Internet Subject line
- * size         Message size
- * flags 	X-Flags header
- * fido  	TRUE: recipient is FTN address
- * mime  	MIME stuff
- * node_from    sender node from mail_sender()
+/* msg       FTN nessage structure
+ * parea     area/newsgroup description structure
+ * rfc_from  Internet sender
+ * rfc_to    Internet recipient
+ * subj      Internet Subject line
+ * size      Message size
+ * flags     X-Flags header
+ * fido      TRUE: recipient is FTN address
+ * mime      MIME stuff
+ * node_from sender node from mail_sender()
  */
 {
     static int nmsg = 0;
@@ -1206,9 +1212,9 @@ int snd_message(Message *msg, Area *parea,
     cs_in   = CHARSET_STDRFC;
     cs_save = NULL;
     cs_out  = NULL;
-    if(mime->type_charset) {
+    if(mime->type_charset)
         cs_in = mime->type_charset;
-    }
+
     if(parea)					/* News */
     {
 	if(parea->charset)
@@ -1219,9 +1225,8 @@ int snd_message(Message *msg, Area *parea,
 	}
     }
     else					/* Mail */
-    {
 	cs_out = netmail_charset_out;
-    }
+    
     /* defaults */
     if(!cs_out)
         cs_out = default_charset_out;
@@ -1250,12 +1255,12 @@ int snd_message(Message *msg, Area *parea,
     if( (!o_flag && cf_zone()!=last_zone) ||
 	(maxmsg  && nmsg >= maxmsg)         )
 #else
-	if(pkt_isopen())
+    if(pkt_isopen())
 #endif /* !SEP_RFC2FTN_PKT */
-	{
-	    pkt_close();
-	    nmsg = 0;
-	}
+    {
+	pkt_close();
+	nmsg = 0;
+    }
     if(!pkt_isopen())
     {
 	int   crash = msg->attr & MSG_CRASH;
@@ -1334,7 +1339,7 @@ int snd_message(Message *msg, Area *parea,
      */
     p = body.first;
     
- again:
+again:
 
     pt = xlat_s(subj, NULL);
 
@@ -1361,7 +1366,7 @@ int snd_message(Message *msg, Area *parea,
 
 
     pt = xlat_s(msg->name_to, pt);
-    if (pt)
+    if(pt)
     {
 #ifdef MAXMSGHEADRLEN
 	if(strlen(msg->name_to) > MAXMSGHEADRLEN)
@@ -1370,18 +1375,18 @@ int snd_message(Message *msg, Area *parea,
 	    sprintf(buffer,"To: %s\n", msg->name_to);
 	    BUF_APPEND(buffer, tmp_msg);
 	    size++;
-	    if (!parea && msg->node_to.node == 128)
+	    if(!parea && msg->node_to.node == 128)
 		BUF_COPY(msg->subject, "UUCP");
 	    else
 		BUF_COPY(msg->subject, "SysOp");
 	}
 	else
 #endif /* MAXMSGHEADRLEN */
-	BUF_COPY(msg->name_to, pt);
+	    BUF_COPY(msg->name_to, pt);
     }
 
     pt = xlat_s(msg->name_from, pt);
-    if (pt)
+    if(pt)
     {
 #ifdef MAXMSGHEADRLEN
 	if(strlen(msg->name_from) > MAXMSGHEADRLEN )
@@ -1393,7 +1398,7 @@ int snd_message(Message *msg, Area *parea,
 	}
 	else
 #endif /* MAXMSGHEADRLEN */
-	BUF_COPY(msg->name_from, pt);
+	    BUF_COPY(msg->name_from, pt);
     }
     
 
@@ -1408,8 +1413,8 @@ int snd_message(Message *msg, Area *parea,
     if((header = s_header_getcomplete("Message-ID")))
     {
 #ifdef FIDO_STYLE_MSGID
-	if((id = s_msgid_rfc_to_fido(&flag, header, part, split != 0,
-				     msg->area, dont_flush_dbc_history, 0)))
+	if((id = s_msgid_rfc_to_fido(&flag, header, part, split != 0, msg->area,
+				     dont_flush_dbc_history, 0)))
 	{
 	    if(!echogate_alias)
 		fprintf(sf, "\001MSGID: %s %s\r\n", znfp1(&msg->node_from), id);
@@ -1417,8 +1422,8 @@ int snd_message(Message *msg, Area *parea,
 		fprintf(sf, "\001MSGID: %s %s\r\n", znf1(node_from), id);
 	}
 #else
-	if((id = s_msgid_rfc_to_fido(&flag, header, part, split != 0,
-				     msg->area, x_flags_m, 0)))
+	if((id = s_msgid_rfc_to_fido(&flag, header, part, split != 0, msg->area,
+				     x_flags_m, 0)))
 	{
 	    if(!x_flags_m)					/* X-Flags: m */
 		fprintf(sf, "\001MSGID: %s\r\n", id);
@@ -1435,18 +1440,18 @@ int snd_message(Message *msg, Area *parea,
     else
 	print_local_msgid(sf, node_from);
 	
-    if((header = s_header_getcomplete("References")) ||
-       (header = s_header_getcomplete("In-Reply-To")))
-    {
+	if((header = s_header_getcomplete("References")) ||
+	   (header = s_header_getcomplete("In-Reply-To")))
+	{
 #ifdef FIDO_STYLE_MSGID
-	if((id = s_msgid_rfc_to_fido(&flag, header, 0, 0, msg->area,
+	    if((id = s_msgid_rfc_to_fido(&flag, header, 0, 0, msg->area,
 					 0, 1)))
 #else
 	    if((id = s_msgid_rfc_to_fido(&flag, header, 0, 0, msg->area,
 					 x_flags_m, 1)))
 #endif
 		fprintf(sf, "\001REPLY: %s\r\n", id);
-    }
+	}
 
     if(!no_fsc_0035)
 	if(!x_flags_n && !(alias_found && no_fsc_0035_if_alias))
@@ -1495,22 +1500,22 @@ int snd_message(Message *msg, Area *parea,
 	if(mime->version && rfc_level>0 &&
 	   (mime->type_type ? strnicmp( mime->type_type, "text/plain", 10 ) : 0) )
 #else
-	    if(mime->version && rfc_level>0 && rfc_level!=2 &&
-	       (mime->type_type ? strnicmp( mime->type_type, "text/plain", 10 ) : 0) )
+	if(mime->version && rfc_level>0 && rfc_level!=2 &&
+	   (mime->type_type ? strnicmp( mime->type_type, "text/plain", 10 ) : 0) )
 #endif /* DEL_MIME_IF_RFC2 */
-		fprintf(sf,
-			"\001RFC-MIME-Version: 1.0\r\n"
-			"\001RFC-Content-Type: %s\r\n"
-			"\001RFC-Content-Transfer-Encoding: %s\r\n",
-			mime->type,
-			cs_enc);
+	    fprintf(sf,
+		    "\001RFC-MIME-Version: 1.0\r\n"
+		    "\001RFC-Content-Type: %s\r\n"
+		    "\001RFC-Content-Transfer-Encoding: %s\r\n",
+		    mime->type,
+		    cs_enc);
 	/* Add ^AGATEWAY header */
 	if(!no_gateway_kludge)
 	{
 	    if( (header = s_header_getcomplete("X-Gateway")) )
 		fprintf(sf, "\001GATEWAY: RFC1036/822 %s [FIDOGATE %s], %s\r\n",
 			cf_fqdn(), version_global(), header                     );
-	    else	
+	    else
 		fprintf(sf, "\001GATEWAY: RFC1036/822 %s [FIDOGATE %s]\r\n",
 			cf_fqdn(), version_global()                         );
 	}
@@ -1533,7 +1538,7 @@ int snd_message(Message *msg, Area *parea,
     if(tzutc_kludge)
         fprintf( sf, "\001TZUTC: %s\r\n", date("%O", NULL));
 #ifdef PID_READER_TID_GTV
-    if ( (header = s_header_getcomplete("User-Agent")) )
+    if( (header = s_header_getcomplete("User-Agent")) )
 	fprintf( sf, "\001PID: %s\r\n", header );
     fprintf( sf, "\001TID: FIDOGATE-%s\r\n", version_global());
 #endif  /* PID_READER_TID_GTV */
@@ -1675,11 +1680,18 @@ int snd_message(Message *msg, Area *parea,
 		if(parea && parea->origin)
 		    origin = parea->origin;
 		else if(use_organization_for_origin && organization)
+		{
 		    origin = organization;
+		    mime_deheader(buffer, sizeof(buffer), origin);
+		    pt = xlat_s(buffer, pt);
+		    print_origin(sf, pt ? pt : buffer, node_from);
+		}
 		else
+		{
 		    origin = cf_p_origin();
-		pt = xlat_s(origin, pt);
-		print_origin(sf, pt ? pt : origin, node_from);
+		    pt = xlat_s(origin, pt);
+		    print_origin(sf, pt ? pt : origin, node_from);
+		}
 	    }
 	    else
 		print_via(sf, node_from);
@@ -1706,11 +1718,18 @@ int snd_message(Message *msg, Area *parea,
 	if(parea && parea->origin)
 	    origin = parea->origin;
 	else if(use_organization_for_origin && organization)
+	{
 	    origin = organization;
+	    mime_deheader(buffer, sizeof(buffer), origin);
+	    pt = xlat_s(buffer, pt);
+	    print_origin(sf, pt ? pt : buffer, node_from);
+	}
 	else
+	{
 	    origin = cf_p_origin();
-	pt = xlat_s(origin, pt);
-	print_origin(sf, pt ? pt : origin, node_from);
+	    pt = xlat_s(origin, pt);
+	    print_origin(sf, pt ? pt : origin, node_from);
+	}
     }
     else
 	print_via(sf, node_from);
@@ -1730,8 +1749,7 @@ int snd_message(Message *msg, Area *parea,
  */
 int print_tear_line(FILE *fp)
 {
-    char *p;
-    char *pt;
+    char *p, *pt;
 
     if(use_x_for_tearline)
     {
@@ -1741,8 +1759,9 @@ int print_tear_line(FILE *fp)
 	    (p = header_get("X-Newsreader"))   ||
 	    (p = header_get("X-GateSoftware"))   )
 	{
-	    pt = xlat_s(p, NULL);
-	    fprintf(fp, "--- %s\r\n", pt ? pt : p);
+	    mime_deheader(buffer, sizeof(buffer), p);
+	    pt = xlat_s(buffer, NULL);
+	    fprintf(fp, "--- %s\r\n", pt ? pt : buffer);
 	    pt = xlat_s(NULL, pt);
 	    return ferror(fp);
 	}
@@ -1775,10 +1794,11 @@ int print_origin(FILE *fp, char *origin, Node *node_from)
 	BUF_COPY(bufa, znf1(node_from));
     else
 #endif
-	if(!echogate_alias)
-	    BUF_COPY(bufa, znf1(cf_addr()));
-	else
-	    BUF_COPY(bufa, znf1(node_from));
+    if(!echogate_alias)
+	BUF_COPY(bufa, znf1(cf_addr()));
+    else
+    	BUF_COPY(bufa, znf1(node_from));
+
 #if defined(PASSTHRU_ECHOMAIL) && !defined(DOMAIN_TO_ORIGIN)
     if( (p = header_get("X-FTN-Origin")) )
 	BUF_APPEND(buf, p);
@@ -1795,8 +1815,10 @@ int print_origin(FILE *fp, char *origin, Node *node_from)
 #endif /* DOMAIN_TO_ORIGIN */
 
 	{
-	    /* Max. allowed length of origin line is 79 (80 - 1) chars, 3
-	     * are used by " ()".  */
+	    /*
+	     * Max. allowed length of origin line is 79 (80 - 1) chars, 3
+	     * are used by " ()".
+	     */
 	    len = 80 - strlen(bufa) - 3;
 
 	    /* Add origin text */
@@ -1846,10 +1868,8 @@ int print_origin(FILE *fp, char *origin, Node *node_from)
      * ^APATH
      */
 #ifdef PASSTHRU_ECHOMAIL
-    /*
-     * Additional ^APATHs from X-FTN-Path headers, ftntoss must be
-     * run afterwards to compact ^APATH
-     */
+    /* Additional ^APATHs from X-FTN-Path headers, ftntoss must be
+       run afterwards to compact ^APATH */
     for( p = header_geth("X-FTN-Path", TRUE);
 	 p;
 	 p = header_geth("X-FTN-Path", FALSE) )
@@ -1976,6 +1996,7 @@ void usage(void)
 {
     fprintf(stderr, "FIDOGATE %s  %s %s\n\n",
 	    version_global(), PROGRAM, version_local(VERSION) );
+    
     fprintf(stderr, "usage:   %s [-options] [user ...]\n\n", PROGRAM);
     fprintf(stderr, "\
 options: -b --news-batch              process news batch\n\
@@ -2025,25 +2046,25 @@ int main(int argc, char **argv)
     int option_index;
     static struct option long_options[] =
 	{
-	    { "news-batch",   0, 0, 'b'},	/* Process news batch */
-	    { "in-dir",       1, 0, 'I'},	/* Set inbound packets directory */
-	    { "binkley",      1, 0, 'B'},	/* Binkley outbound base dir */
-	    { "batch-file",   1, 0, 'f'},	/* Batch file with news articles */
-	    { "out-packet-file",1,0,'o'},	/* Set packet file name */
-	    { "maxmsg",       1, 0, 'm'},	/* Close after N messages */
-	    { "news-mode",    0, 0, 'n'},	/* Set news mode */
-	    { "ignore-hosts", 0, 0, 'i'},	/* Do not bounce unknown hosts */
-	    { "out-dir",      1, 0, 'O'},	/* Set packet directory */
-	    { "write-outbound",1,0, 'w'},	/* Write to Binkley outbound */
-	    { "write-crash",  0, 0, 'W'},	/* Write crash to Binkley outbound */
-	    { "to",           0, 0, 't'},	/* Get recipient from To, Cc, Bcc */
+	    { "news-batch",      0, 0, 'b'},	/* Process news batch */
+	    { "in-dir",          1, 0, 'I'},	/* Set inbound packets directory */
+	    { "binkley",         1, 0, 'B'},	/* Binkley outbound base dir */
+	    { "batch-file",      1, 0, 'f'},	/* Batch file with news articles */
+	    { "out-packet-file", 1, 0, 'o'},	/* Set packet file name */
+	    { "maxmsg",          1, 0, 'm'},	/* Close after N messages */
+	    { "news-mode",       0, 0, 'n'},	/* Set news mode */
+	    { "ignore-hosts",    0, 0, 'i'},	/* Do not bounce unknown hosts */
+	    { "out-dir",         1, 0, 'O'},	/* Set packet directory */
+	    { "write-outbound",  1, 0, 'w'},	/* Write to Binkley outbound */
+	    { "write-crash",     0, 0, 'W'},	/* Write crash to Binkley outbound */
+	    { "to",              0, 0, 't'},	/* Get recipient from To, Cc, Bcc */
 
-	    { "verbose",      0, 0, 'v'},	/* More verbose */
-	    { "help",         0, 0, 'h'},	/* Help */
-	    { "config",       1, 0, 'c'},	/* Config file */
-	    { "addr",         1, 0, 'a'},	/* Set FIDO address */
-	    { "uplink-addr",  1, 0, 'u'},	/* Set FIDO uplink address */
-	    { 0,              0, 0, 0  }
+	    { "verbose",         0, 0, 'v'},	/* More verbose */
+	    { "help",            0, 0, 'h'},	/* Help */
+	    { "config",          1, 0, 'c'},	/* Config file */
+	    { "addr",            1, 0, 'a'},	/* Set FIDO address */
+	    { "uplink-addr",     1, 0, 'u'},	/* Set FIDO uplink address */
+	    { 0,                 0, 0, 0  }
 	};
 
     log_program(PROGRAM);
@@ -2477,7 +2498,7 @@ int main(int argc, char **argv)
 	debug(7, "Message body size %ld (+CR!)", size);
 	if(f_flag)
 	    fclose(fpart);
-	
+
 	rfcaddr_init(&rfc_to);
 	
 	if(newsmode)

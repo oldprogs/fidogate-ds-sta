@@ -1,5 +1,15 @@
+2004-11-02  Andrey Slusar <anray@users.sourceforge.net>
+
+	* version.h: bump to 5.1.2ds-rc2
+	* configure.in: ditto
+	* src/gate/rfc2ftn.c: add X-FTN-Tearline mime_deheader,
+	    Origin mime_deheader when UseOrganizationForOrigin
+	    enabled
+
 2004-10-29  Andrey Slusar <anray@users.sourceforge.net>
 
+	* version.h: bump to 5.1.2ds-rc1
+	* configure.in: ditto
 	* build/config.make.in: added NETMAILDIR, UUINBOUND,
 	    FTPINBOUND
 	* src/common/message.c: added option INSERT_ORIGIN

@@ -15,7 +15,7 @@
 
 #:ts=8
 #
-#    $Id: Makefile.in,v 1.18 2004/10/29 00:54:05 anray Exp $
+#    $Id: Makefile.in,v 1.19 2004/11/02 01:27:47 anray Exp $
 #
 #    Makefile for FIDOGATE src/areafix/
 #

@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: areafix.c,v 1.18 2004/09/10 18:31:47 anray Exp $
+ * $Id: areafix.c,v 1.19 2004/11/02 01:27:47 anray Exp $
  *
  * Common Areafix functions
  *
@@ -248,7 +248,7 @@ int areafix_check_forbidden_area( char *areaname )
     {
 	debug(8, "config: AreaFixCreateForbiddenAreas %s", s);
 
-	if ( wildmatch( areaname, s, TRUE ) )
+	if( wildmatch(areaname, s, TRUE) )
 	    return TRUE;
     }
 
@@ -257,7 +257,7 @@ int areafix_check_forbidden_area( char *areaname )
 	  s = cf_get_string("AreaFixCreateForbiddenAreasFile",FALSE) )
     {
 	debug(8, "config: AreaFixCreateForbiddenAreasFile %s", s);
-	if ( wildmatch_file( areaname, s, TRUE ) )
+	if ( wildmatch_file(areaname, s, TRUE) )
 	    return TRUE;
     }
 
@@ -273,7 +273,7 @@ int filefix_check_forbidden_area( char *areaname )
 	  s = cf_get_string("FileFixCreateForbiddenAreas",FALSE) )
     {
 	debug(8, "config: FileFixCreateForbiddenAreas %s", s);
-	if ( wildmatch( areaname, s, TRUE ) )
+	if( wildmatch(areaname, s, TRUE) )
 	    return TRUE;
     }
 
@@ -282,7 +282,7 @@ int filefix_check_forbidden_area( char *areaname )
 	  s = cf_get_string("FileFixCreateForbiddenAreasFile",FALSE) )
     {
 	debug(8, "config: FileFixCreateForbiddenAreasFile %s", s);
-	if ( wildmatch_file( areaname, s, TRUE ) )
+	if( wildmatch_file(areaname, s, TRUE) )
 	    return TRUE;
     }
 
@@ -327,7 +327,7 @@ int areafix_auth_check(Node *node, char *passwd, int checkpass)
     pwd = passwd_lookup(MY_CONTEXT, node);
     debug(3, "passwd entry: %s", pwd ? pwd->passwd : "-NONE-");
 	
-    if (checkpass == FALSE)
+    if(checkpass == FALSE)
     {
 	debug(3, "no passwd check needed - authorized");
 	authorized = TRUE;
@@ -612,7 +612,7 @@ int areafix_do_cmd(Node *node, char *line, Textlist *out, Textlist *upl)
     debug(2, "node=%s command=%s", znfp1(node), line);
 
 
-    if (areafix)
+    if(areafix)
     {
 	if((fix_name = cf_get_string("AreaFixName", TRUE)) )
 	    debug(8, "config: AreaFixName = %s",fix_name);
@@ -708,7 +708,7 @@ int areafix_do_cmd(Node *node, char *line, Textlist *out, Textlist *upl)
 	    else
 	    {
 		/* Interpret line as area to add */
-		if ( NULL == cf_get_string( "AreaFixSubscribeOnlyIfPlus", TRUE ) )
+		if( NULL == cf_get_string("AreaFixSubscribeOnlyIfPlus", TRUE) )
 		{
 		    debug(8, "config: AreaFixSubscribeOnlyIfPlus");
 		    cmd = CMD_SUB;
@@ -839,7 +839,7 @@ int cmd_new(Node *node, char *line, char *dwnl, int inter)
     {
 	debug(8, "config: ForbiddenChar %s", o1);
 	for (i=0;o1[i]!='\x0';i++)
-	    if (strchr(name,o1[i])!=NULL)
+	    if(strchr(name,o1[i])!=NULL)
 	    {
 		fglog("WARNING: Area \"%s\"  have forbidden char, can't create.", name);
 		areafix_printf("%-41s: have forbidden char, can't create.", name);
@@ -847,14 +847,14 @@ int cmd_new(Node *node, char *line, char *dwnl, int inter)
 	    }
     }
 
-    if ( !authorized_cmdline )
+    if(!authorized_cmdline)
     {
-	if (areafix && areafix_check_forbidden_area(name))
+	if( areafix && areafix_check_forbidden_area(name) )
 	{
 		areafix_printf("%-41s: forbidden area, can't create.", name);
 		return OK;
 	}
-	if (!areafix && filefix_check_forbidden_area(name))
+	if( !areafix && filefix_check_forbidden_area(name) )
 	{
 		areafix_printf("%-41s: forbidden area, can't create.", name);
 		return OK;
@@ -1013,9 +1013,9 @@ int cmd_new(Node *node, char *line, char *dwnl, int inter)
     if(no_create_log_file == 1)
     {
 #endif /* CREATE_LOG_FORWREQ */
-	if (create_log_file)
+	if(create_log_file)
 	{
-	    if ((fd = fopen_expand_name (create_log_file, "a", FALSE)) != NULL)
+	    if( ( fd = fopen_expand_name (create_log_file, "a", FALSE) ) != NULL )
 	    {
 		fprintf (fd, "%s %s %s %s %lu\n", my_context, p->area, znf1 (node),
 		     dwnl ? dwnl : "<null>", (unsigned long)time(NULL));
