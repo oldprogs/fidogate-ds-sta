@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: textlist.c,v 1.1 2003/11/05 00:53:55 rusfidogate Exp $
+ * $Id: textlist.c,v 1.2 2003/12/02 14:36:44 rusfidogate Exp $
  *
  * Store text file as chain of linked text lines in memory
  *
@@ -163,17 +163,7 @@ void tl_appendf(Textlist *list, char *fmt, ...)
 
     va_start(args, fmt);
 
-#ifdef HAVE_SNPRINTF    
     n = vsnprintf(buf, sizeof(buf), fmt, args);
-#else
-    n = vsprintf(buf, fmt, args);
-    if(n >= sizeof(buf))
-    {
-        fatal("Internal error - tl_appendf() buf overflow", EX_SOFTWARE);
-        /**NOT REACHED**/
-        return;
-    }
-#endif
     tl_append(list, (char *)buf);
 
     va_end(args);

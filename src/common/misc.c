@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: misc.c,v 1.1 2003/11/05 00:52:52 rusfidogate Exp $
+ * $Id: misc.c,v 1.2 2003/12/02 14:36:44 rusfidogate Exp $
  *
  * Miscellaneous functions
  *
@@ -61,18 +61,9 @@ void str_printf(char *buf, size_t len, const char *fmt, ...)
 
     va_start(args, fmt);
     
-#ifdef HAVE_SNPRINTF    
     vsnprintf(buf, len, fmt, args);
     /**FIXME: check for n==-1 and errno**/
-#else
 
-    if(vsprintf(buf, fmt, args) >= len)
-    {
-        fatal("Internal error - str_printf() buf overflow", EX_SOFTWARE);
-        /**NOT REACHED**/
-        return;
-    }
-#endif
     /* Make sure that buf[] is terminated with a \0. vsnprintf()
      * should do this automatically as required by the ANSI C99
      * proposal, but one never knows ... see also discussion on

@@ -1,5 +1,6 @@
 Version 5.1.0ds-sta
 ~~~~~~~~~~~~~~~
+- Удалена поддержка vsprintf(). Теперь пользуемся только vsnprintf()
 - Если ориджин во входящем сообщении пустой и включен NOINSERT_ORGANIZATION,
   то при гейтовании в Organization вставляется '(none)'
 - Удален токен DEFAULT_OUTNETMAIL

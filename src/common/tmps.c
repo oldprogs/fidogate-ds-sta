@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: tmps.c,v 1.1 2003/11/05 00:54:02 rusfidogate Exp $
+ * $Id: tmps.c,v 1.2 2003/12/02 14:36:44 rusfidogate Exp $
  *
  * Function for handling temporary strings
  *
@@ -39,12 +39,7 @@
  * not supported, this size must be large enough to hold the complete output
  * string.
  */
-#ifdef HAVE_SNPRINTF
-# define TMPS_PRINTF_BUFSIZE	128
-#else
-# define TMPS_PRINTF_BUFSIZE	4096		/* To be reasonably safe */
-#endif
-
+#define TMPS_PRINTF_BUFSIZE	128
 
 
 /*
@@ -206,7 +201,6 @@ TmpS *tmps_printf(const char *fmt, ...)
     va_start(args, fmt);
 
     p = tmps_alloc(TMPS_PRINTF_BUFSIZE);
-#ifdef HAVE_SNPRINTF    
     do 
     {
 	n = vsnprintf(p->s, p->len, fmt, args);
@@ -215,15 +209,6 @@ TmpS *tmps_printf(const char *fmt, ...)
 	    tmps_realloc(p, p->len * 2);
     }
     while(n == ERROR);
-#else
-    n = vsprintf(p->s, fmt, args);
-    if(n >= p->len)
-    {
-	fatal("Internal error - temp string printf overflow", EX_SOFTWARE);
-	/**NOT REACHED**/
-	return NULL;
-    }
-#endif
     /* Realloc to actual size */
     tmps_realloc(p, strlen(p->s)+1);
 
@@ -349,7 +334,6 @@ char *s_printf(const char *fmt, ...)
     va_start(args, fmt);
 
     p = tmps_alloc(TMPS_PRINTF_BUFSIZE);
-#ifdef HAVE_SNPRINTF    
     do 
     {
 	n = vsnprintf(p->s, p->len, fmt, args);
@@ -358,15 +342,6 @@ char *s_printf(const char *fmt, ...)
 	    tmps_realloc(p, p->len * 2);
     }
     while(n == ERROR);
-#else
-    n = vsprintf(p->s, fmt, args);
-    if(n >= p->len)
-    {
-	fatal("Internal error - temp string printf overflow", EX_SOFTWARE);
-	/**NOT REACHED**/
-	return NULL;
-    }
-#endif
     /* Realloc to actual size */
     tmps_realloc(p, strlen(p->s)+1);
 

@@ -22,9 +22,6 @@
 /* Define if you have the regcomp function.  */
 #undef HAVE_REGCOMP
 
-/* Define if you have the snprintf function.  */
-#undef HAVE_SNPRINTF
-
 /* Define if you have the statfs function.  */
 #undef HAVE_STATFS
 
@@ -426,8 +423,6 @@
  *				Define this if your mail system always
  *				generates something like
  *				"Received: by NeXT.Mailer"
- *
- *   HAVE_SNPRINTF              snprintf(), vsnprintf() supported
  *
  *   HAVE_SYSLOG		syslogd, syslog(), vsyslog() supported
  *

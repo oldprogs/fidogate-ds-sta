@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: declare.h,v 1.1 2003/11/05 00:55:15 rusfidogate Exp $
+ * $Id: declare.h,v 1.2 2003/12/02 14:36:44 rusfidogate Exp $
  *
  * Declaration header for not-so-ANSI systems
  *
@@ -77,7 +77,6 @@ void   rewind	(FILE *);
 int    sscanf	(char *, const char *, ...);
 int    ungetc	(int, FILE *);
 int    vfprintf	(FILE *, const char *, va_list);
-int    vsprintf	(char *, const char *, va_list);
 /* Not ANSI-C or POSIX but missing anyway ... */
 int    pclose	(FILE *);
 

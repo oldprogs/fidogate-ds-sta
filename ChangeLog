@@ -1,3 +1,15 @@
+2003-12-01  Andrey Slusar <rusfidogate@users.sourceforge.net>
+
+	* src/gate/ftn2rfc.c: fix UseOriginForOrganization
+	    (thanks to Anton Leer)
+	* package/freebsd: update
+	* config.h.in: remove vsprintf(), change to vsnprintf()
+	* acconfig.h: remove vsprintf(), change to vsnprintf()
+	* src/areafix/areafix.c: remove support vsprintf()
+	* src/common/misc.c: remove support vsprintf()
+	* src/common/textlist.c: remove support vsprintf()
+	* src/common/tmps.c: remove support vsprintf()
+
 2003-11-25  Andrey Slusar <rusfidogate@users.sourceforge.net>
 
         * src/charset/cyrillic.map: fix cp1125 map(thanks to
