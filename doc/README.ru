@@ -1,5 +1,5 @@
 
-  $Id: README.ru,v 1.6 2004/05/19 23:41:13 rusfidogate Exp $
+  $Id: README.ru,v 1.7 2004/07/01 23:48:50 anray Exp $
 
 
    Copyright (C) 2001-2002, Dmitry Fedotov
@@ -17,11 +17,7 @@
 	
     или взять с CVS:
 
-	cvs.fidogate.sourceforge.net
-    
-    для fidogate-ds:
-    
-	cvs.rusfidogate.sourceforge.net
+	cvs.sourceforge.net
 	
 ===============================================================================
 
@@ -109,12 +105,10 @@ co -r dp fidogate
 для fidogate-ds:
 
 STABLE:
-cvs -z3 -d:pserver:anonymous@cvs.rusfidogate.sourceforge.net:/cvsroot/rusfidogate
-co fidogate-sta
+cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/rusfidogate co fidogate-sta
 
 DEVELOPMENT:
-cvs -z3 -d:pserver:anonymous@cvs.rusfidogate.sourceforge.net:/cvsroot/rusfidogate
-co fidogate
+cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/rusfidogate co fidogate
 
     Также последнюю официальную версию fidogate можно взять на сайтах:
 	http://sourceforge.net/projects/fidogate
@@ -2241,3 +2235,9 @@ FTN:	2:5020/1838
 
 FTN:	2:5030/1229
 E-mail:	dyff@fidogate.spb.ru
+
+Авторы ds-ветки Andrey Slusar и Alexandr Dobroslavskiy. Все патчи, жалобы,
+предложения, пожелания по ней следует слать по адресам:
+
+FTN:	2:467/126, 2:5020/1356
+E-mail: anray@users.sf.net, dsas@users.sf.net
