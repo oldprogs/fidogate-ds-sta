@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: packet.c,v 1.7 2004/06/12 19:21:04 rusfidogate Exp $
+ * $Id: packet.c,v 1.8 2004/10/29 00:54:05 anray Exp $
  *
  * Functions to read/write packets and messages
  *
@@ -475,7 +475,7 @@ int pkt_get_string(FILE *fp, char *buf, int nbytes)
 
 
 /*
- * Return date of message in UNIX format (secs after the epoche)
+ * Return date of message in UNIX format (secs after the epoch)
  *
  * Understood formats: see FTS-0001 (actually using getdate.y parser)
  */
@@ -497,15 +497,15 @@ time_t pkt_get_date(FILE *fp)
     if( len != MSG_MAXDATE)
     {
 	fglog("ERROR: wrong date size in message header (%d bytes instead %d)", len,
-		MSG_MAXDATE);
+	      MSG_MAXDATE);
 	return ERROR;
     }
-    // firts date format - FTS         `20 Dec 02  14:26:03'
+    // first date format - FTS         `20 Dec 02  14:26:03'
     // second date dormat - nostandart `Thu 12 Dec 02 18:19'
     if( !( (buf[2]==' ' && buf[6]==' ' && buf[9]== ' ' && buf[10]==' ' &&
-		    buf[13] == ':' && buf[16] == ':') ||
+	    buf[13] == ':' && buf[16] == ':') ||
 	   (buf[3]==' ' && buf[6]==' ' && buf[10]==' ' && buf[13]==' ' &&
-		    buf[16] == ':') ) )
+	    buf[16] == ':') ) )
     {
 	fglog("WARNING: wrong or corrupted format message date header \'%s\'", buf);
     }
@@ -533,23 +533,28 @@ int pkt_get_msg_hdr(FILE *fp, Message *msg)
 	(i0 = pkt_get_string( fp, msg->name_to  , sizeof(msg->name_to  ))) == ERROR ||
 	(i1 = pkt_get_string( fp, msg->name_from, sizeof(msg->name_from))) == ERROR ||
 	(i2 = pkt_get_string( fp, msg->subject  , sizeof(msg->subject  ))) == ERROR)
-	    return ERROR;
+    {
+	debug(2, "Broken message header(s)");
+	return ERROR;
+    }
 
-	if(i0 > 36)
-	{
-	    debug(2, "toUserName to large");
-	    return ERROR;
-	}
-    	if(i1 > 36)
-	{
-	    debug(2, "fromUserName to large");
-	    return ERROR;
-	}
-	if(i2 > 72)
-	{
-	    debug(2, "subject to large");
-	    return ERROR;
-	}
+    if(i0 > 36)
+    {
+	debug(2, "toUserName to large");
+	return ERROR;
+    }
+
+    if(i1 > 36)
+    {
+	debug(2, "fromUserName to large");
+	return ERROR;
+    }
+    
+    if(i2 > 72)
+    {
+	debug(2, "subject to large");
+	return ERROR;
+    }
 
     msg->node_orig = msg->node_from;
     msg->area      = NULL;
@@ -654,7 +659,7 @@ void pkt_put_date(FILE *pkt, time_t t)
  * Write message header to packet.
  */
 int pkt_put_msg_hdr(FILE *pkt, Message *msg, int kludge_flag)
-    /* kludge_flag --- TRUE: write AREA/^AINTL,^AFMPT,^ATOPT */
+/* kludge_flag --- TRUE: write AREA/^AINTL,^AFMPT,^ATOPT */
 {
     if(verbose >= 6)
 	pkt_debug_msg_hdr(stderr, msg, "Writing ");
@@ -774,51 +779,58 @@ int pkt_get_hdr(FILE *fp, Packet *pkt)
     pkt->capword   = 0;
 
     /* Set zone to default, i.e. use the zone from your FIRST aka
-     * specified in fidogate.conf */
+     * specified in fidogate.conf
+     */
     pkt->from.zone = pkt->to.zone = cf_defzone();
 
     /* Orig node */
-    if((val = pkt_get_int16(fp)) == ERROR)  return ERROR;
+    if((val = pkt_get_int16(fp)) == ERROR)
+	return ERROR;
     pkt->from.node = val;
     /* Dest node */
-    if((val = pkt_get_int16(fp)) == ERROR)  return ERROR;
+    if((val = pkt_get_int16(fp)) == ERROR)
+	return ERROR;
     pkt->to.node = val;
     /* Year */
-    if((val = pkt_get_int16(fp)) == ERROR)  return ERROR;
-    if(val == 0)
-	val = tm->tm_year;
-    else if(val < 1900 || val > 2099)
+    if((val = pkt_get_int16(fp)) == ERROR)
+	return ERROR;
+    if(val == 0 || val < 1900 || val > 2099)
 #ifdef FIX_BAD_PKT_YEAR
 	;
 #else
-	retVal = ERROR;
+    retVal = ERROR;
 #endif
     else
 	t.tm_year = val - 1900;
     /* Month */
-    if((val = pkt_get_int16(fp)) == ERROR)  return ERROR;
+    if((val = pkt_get_int16(fp)) == ERROR)
+	return ERROR;
     if(val > 11)
 	retVal = ERROR;
     t.tm_mon = val;
     /* Day */
-    if((val = pkt_get_int16(fp)) == ERROR)  return ERROR;
+    if((val = pkt_get_int16(fp)) == ERROR)
+	return ERROR;
     if(val > 31)
 	retVal = ERROR;
     if(val == 0)
 	val = tm->tm_mday;
     t.tm_mday = val;
     /* Hour */
-    if((val = pkt_get_int16(fp)) == ERROR)  return ERROR;
+    if((val = pkt_get_int16(fp)) == ERROR)
+	return ERROR;
     if(val > 23)
 	retVal = ERROR;
     t.tm_hour = val;
     /* Minute */
-    if((val = pkt_get_int16(fp)) == ERROR)  return ERROR;
+    if((val = pkt_get_int16(fp)) == ERROR)
+	return ERROR;
     if(val > 59)
 	retVal = ERROR;
     t.tm_min = val;
     /* Second */
-    if((val = pkt_get_int16(fp)) == ERROR)  return ERROR;
+    if((val = pkt_get_int16(fp)) == ERROR)
+	return ERROR;
     if(val > 59)
 	retVal = ERROR;
     t.tm_sec = val;
@@ -828,53 +840,68 @@ int pkt_get_hdr(FILE *fp, Packet *pkt)
     if(retVal == OK)
 	pkt->time = mktime(&t);
     /* Baud */
-    if((val = pkt_get_int16(fp)) == ERROR)  return ERROR;
+    if((val = pkt_get_int16(fp)) == ERROR)
+	return ERROR;
     pkt->baud = val;
     /* Version --- MUST BE PKT_VERSION (2) */
-    if((val = pkt_get_int16(fp)) == ERROR)  return ERROR;
+    if((val = pkt_get_int16(fp)) == ERROR)
+	return ERROR;
     if(val != PKT_VERSION)
 	retVal = ERROR;
     pkt->version = val;
     /* Orig net */
-    if((val = pkt_get_int16(fp)) == ERROR)  return ERROR;
+    if((val = pkt_get_int16(fp)) == ERROR)
+	return ERROR;
     pkt->from.net = val;
     /* Dest net */
-    if((val = pkt_get_int16(fp)) == ERROR)  return ERROR;
+    if((val = pkt_get_int16(fp)) == ERROR)
+	return ERROR;
     pkt->to.net = val;
     /* Prod code lo */
-    if((val = getc(fp)) == ERROR)           return ERROR;
+    if((val = getc(fp)) == ERROR)
+	return ERROR;
     pkt->product_l = val;
     /* Revision major */
-    if((val = getc(fp)) == ERROR)           return ERROR;
+    if((val = getc(fp)) == ERROR)
+	return ERROR;
     pkt->rev_maj = val;
     /* Password */
-    if(pkt_get_nbytes(fp, pkt->passwd, PKT_MAXPASSWD) == ERROR)  return ERROR;
+    if(pkt_get_nbytes(fp, pkt->passwd, PKT_MAXPASSWD) == ERROR)
+	return ERROR;
     pkt->passwd[PKT_MAXPASSWD] = 0;
     /* Orig zone (FTS-0001 optional, QMail) */
-    if((val = pkt_get_int16(fp)) == ERROR)  return ERROR;
+    if((val = pkt_get_int16(fp)) == ERROR)
+	return ERROR;
     ozone = val;
     if(ozone)
 	pkt->from.zone = ozone;
     /* Dest zone (FTS-0001 optional, QMail) */
-    if((val = pkt_get_int16(fp)) == ERROR)  return ERROR;
+    if((val = pkt_get_int16(fp)) == ERROR)
+	return ERROR;
     dzone = val;
     if(dzone)
 	pkt->to.zone = dzone;
     /* Spare (auxNet in FSC-0048) */
-    if((val = pkt_get_int16(fp)) == ERROR)  return ERROR;
+    if((val = pkt_get_int16(fp)) == ERROR)
+	return ERROR;
     /* Cap word byte-swapped copy */
-    if((val = getc(fp)) == ERROR)           return ERROR;
+    if((val = getc(fp)) == ERROR)
+	return ERROR;
     swap = val << 8;
-    if((val = getc(fp)) == ERROR)           return ERROR;
+    if((val = getc(fp)) == ERROR)
+	return ERROR;
     swap |= val;
     /* Prod code hi */
-    if((val = getc(fp)) == ERROR)           return ERROR;
+    if((val = getc(fp)) == ERROR)
+	return ERROR;
     pkt->product_h = val;
     /* Revision minor */
-    if((val = getc(fp)) == ERROR)           return ERROR;
+    if((val = getc(fp)) == ERROR)
+	return ERROR;
     pkt->rev_min = val;
     /* Cap word */
-    if((val = pkt_get_int16(fp)) == ERROR)  return ERROR;
+    if((val = pkt_get_int16(fp)) == ERROR)
+	return ERROR;
     cw = val;
     if(cw && cw == swap)	/* 2+ packet according to FSC-0039 */
 	debug(9, "Packet: type 2+");
@@ -882,7 +909,8 @@ int pkt_get_hdr(FILE *fp, Packet *pkt)
 	cw = 0;
     pkt->capword = cw;
     /* Orig zone (FSC-0039) */
-    if((val = pkt_get_int16(fp)) == ERROR)  return ERROR;
+    if((val = pkt_get_int16(fp)) == ERROR)
+	return ERROR;
     if(cw && val)
     {
 	pkt->from.zone = val;
@@ -891,7 +919,8 @@ int pkt_get_hdr(FILE *fp, Packet *pkt)
 		  ozone, val);
     }
     /* Dest zone (FSC-0039) */
-    if((val = pkt_get_int16(fp)) == ERROR)  return ERROR;
+    if((val = pkt_get_int16(fp)) == ERROR)
+	return ERROR;
     if(cw && val)
     {
 	pkt->to.zone = val;
@@ -900,21 +929,25 @@ int pkt_get_hdr(FILE *fp, Packet *pkt)
 		  dzone, val);
     }
     /* Orig point (FSC-0039) */
-    if((val = pkt_get_int16(fp)) == ERROR)  return ERROR;
+    if((val = pkt_get_int16(fp)) == ERROR)
+	return ERROR;
     if(cw)
 	pkt->from.point = val;
     /* Dest point (FSC-0039) */
-    if((val = pkt_get_int16(fp)) == ERROR)  return ERROR;
+    if((val = pkt_get_int16(fp)) == ERROR)
+	return ERROR;
     if(cw)
 	pkt->to.point = val;
     /* Prod specific data */
-    if(pkt_get_nbytes(fp, xpkt, 4) == ERROR)  return ERROR;
+    if(pkt_get_nbytes(fp, xpkt, 4) == ERROR)
+	return ERROR;
 
     if(verbose >= 3)
 	pkt_debug_hdr(stderr, pkt, "Reading ");
     
     if(ferror(fp) == ERROR)
 	return ERROR;
+
     return retVal;
 }
 

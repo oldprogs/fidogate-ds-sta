@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: ftntick.c,v 1.7 2004/08/02 18:44:06 anray Exp $
+ * $Id: ftntick.c,v 1.8 2004/10/29 00:54:06 anray Exp $
  *
  * Process incoming TIC files
  *
@@ -37,7 +37,7 @@
 
 
 #define PROGRAM		"ftntick"
-#define VERSION		"$Revision: 1.7 $"
+#define VERSION		"$Revision: 1.8 $"
 #define CONFIG		DEFAULT_CONFIG_MAIN
 
 
@@ -82,7 +82,7 @@ void	short_usage		(void);
 void	usage			(void);
 short	check_pass		(Tick *, short);
 int	filefix_check_forbidden_area(char *);
-int	cmd_new_int			(Node *, char *, char *);
+int	cmd_new_int             (Node *, char *, char *);
 void	areafix_init		(int);
 int	areafix_auth_check	(Node *, char *, char);
 char	*areafix_name		(void);
@@ -149,8 +149,8 @@ int do_tic(int w_flag)
 	    }
 	    
 	    debug (4,"file: name=%s time=%ld now=%ld wait=%d",
-		    tic.file, (long)st.st_mtime, (long)now,
-		    tic_wait ? tic_wait*3600 : tic_wait);
+		   tic.file, (long)st.st_mtime, (long)now,
+		   tic_wait ? tic_wait*3600 : tic_wait);
 		    
 	    if (tic_wait && (now-3600*tic_wait)<st.st_mtime)
 		goto no_action;
@@ -182,7 +182,7 @@ int do_tic(int w_flag)
 	tick_debug(&tic, 3);
 
 	fglog("area %s file %s (%lub) from %s", tic.area, tic.file, tic.size,
-	    znfp1(&tic.from));
+	      znfp1(&tic.from));
 
 	/*
 	 * Check dupe
@@ -190,20 +190,21 @@ int do_tic(int w_flag)
 #ifdef TIC_HISTORY
 	 if (lock_program(cf_p_lock_history(), w_flag ? w_flag : NOWAIT) == ERROR )
 	 {
-	     fglog("$ERROR: can't create lock file %s/%s", cf_p_lockdir(), cf_p_lock_history());
+	     fglog("$ERROR: can't create lock file %s/%s",
+		   cf_p_lockdir(), cf_p_lock_history());
 	     exit_free();
 	     exit(EXIT_BUSY);
 	 }
 
 	 hi_init_tic_history();
-	 sprintf(buffer,"%s %s %s %lx",tic.area ,znfp1(&tic.origin), tic.file,
-	             tic.crc);
+	 sprintf(buffer,"%s %s %s %lx",tic.area ,znfp1(&tic.origin),
+		 tic.file, tic.crc);
 	 if (hi_test(buffer) && (!tic.replaces || stricmp(tic.file,tic.replaces)!=0))
 	 {
 	     hi_close();
 	     unlock_program(cf_p_lock_history());
-	     fglog("dupe from %s, crc=%lx, file=%s, area=%s, size=%lub", znfp1(&tic.origin),
-	    	    tic.crc, tic.file, tic.area, tic.size);
+	     fglog("dupe from %s, crc=%lx, file=%s, area=%s, size=%lub",
+		   znfp1(&tic.origin), tic.crc, tic.file, tic.area, tic.size);
 
 	     if(!kill_dupe)
 	         goto rename_to_bad;
@@ -223,68 +224,69 @@ int do_tic(int w_flag)
 	 unlock_program(cf_p_lock_history());
 #endif /* TIC_HISTORY */
 
-    BUF_COPY2(bbslock, areas_bbs, ".lock");
-    if (lock_path(bbslock, w_flag ? w_flag : WAIT) == ERROR)
-    {
-	exit_free();
-	exit(EXIT_BUSY);
-    }
-
-	if(process_tic(&tic) == ERROR)
-	{
-	    areasbbs_rewrite();
-	    unlock_path(bbslock);
-	    fglog("%s: failed", name);
-	rename_to_bad:
-	    /*
-	     * Error: rename .tic -> .bad
-	     */
-	    str_change_ext(buf, sizeof(buf), name, "bad");
-	    rename(name, buf);
-	    fglog("%s: renamed to %s", name, buf);
-	}
-	else 
-	{
-/*
- * Write history information to database
- */
-#ifdef TIC_HISTORY
-	 if (lock_program(cf_p_lock_history(), w_flag ? w_flag : WAIT) == ERROR )
+	 BUF_COPY2(bbslock, areas_bbs, ".lock");
+	 if (lock_path(bbslock, w_flag ? w_flag : WAIT) == ERROR)
 	 {
-	     fglog("$ERROR: can't create lock file %s/%s", cf_p_lockdir(), cf_p_lock_history());
 	     exit_free();
 	     exit(EXIT_BUSY);
 	 }
 
-	 hi_init_tic_history();
-	 sprintf(buffer,"%s %s %s %lx", tic.area, znfp1(&tic.origin), tic.file, 
-	             tic.crc);
-	 if(hi_write(tic.date,buffer)  == ERROR)
-	    return ERROR;
-	 hi_close();
-	 unlock_program(cf_p_lock_history());
+	 if(process_tic(&tic) == ERROR)
+	 {
+	     areasbbs_rewrite();
+	     unlock_path(bbslock);
+	     fglog("%s: failed", name);
+	 rename_to_bad:
+	     /*
+	      * Error: rename .tic -> .bad
+	      */
+	     str_change_ext(buf, sizeof(buf), name, "bad");
+	     rename(name, buf);
+	     fglog("%s: renamed to %s", name, buf);
+	 }
+	 else 
+	 {
+/*
+ * Write history information to database
+ */
+#ifdef TIC_HISTORY
+	     if (lock_program(cf_p_lock_history(), w_flag ? w_flag : WAIT) == ERROR )
+	     {
+		 fglog("$ERROR: can't create lock file %s/%s",
+		       cf_p_lockdir(), cf_p_lock_history());
+		 exit_free();
+		 exit(EXIT_BUSY);
+	     }
+
+	     hi_init_tic_history();
+	     sprintf(buffer,"%s %s %s %lx",
+		     tic.area, znfp1(&tic.origin), tic.file, tic.crc);
+	     if(hi_write(tic.date,buffer)  == ERROR)
+		 return ERROR;
+	     hi_close();
+	     unlock_program(cf_p_lock_history());
 #endif /* TIC_HISTORY */
 
-	    areasbbs_rewrite();
-	    unlock_path(bbslock);
-	    /* Run -x script, if any */
-	    if(exec_script)
-	    {
-		int ret;
-		
-		BUF_COPY3(buffer, exec_script, " ", name);
+	     areasbbs_rewrite();
+	     unlock_path(bbslock);
+	     /* Run -x script, if any */
+	     if(exec_script)
+	     {
+		 int ret;
+	     
+		 BUF_COPY3(buffer, exec_script, " ", name);
 
-		debug(4, "Command: %s", buffer);
-		ret = run_system(buffer);
-		debug(4, "Exit code=%d", ret);
-	    }
-	    /* o.k., remove the TIC file */
-	    if(unlink(name) == ERROR)
-		fglog("$ERROR: can't remove %s", name);
-	}
+		 debug(4, "Command: %s", buffer);
+		 ret = run_system(buffer);
+		 debug(4, "Exit code=%d", ret);
+	     }
+	     /* o.k., remove the TIC file */
+	     if(unlink(name) == ERROR)
+		 fglog("$ERROR: can't remove %s", name);
+	 }
 
-	no_action:
-	tmps_freeall();
+    no_action:
+	 tmps_freeall();
     }
     
     dir_close();
@@ -351,7 +353,7 @@ int process_tic(Tick *tic)
 	    if ( !authorized_new )
 	    {
 		fglog("node %s not authorized to create filearea %s (config restriction)",
-			znfp1(&tic->from),tic->area);
+		      znfp1(&tic->from),tic->area);
 		return ERROR;
 	    }
 
@@ -384,13 +386,13 @@ int process_tic(Tick *tic)
 	    if ( errlvl == ERROR )
 	    {
 		fglog("can't create filarea %s from %s (cmd_new() returned ERROR)",
-	    	    tic->area, znfp1(&tic->from));
+		      tic->area, znfp1(&tic->from));
 	        return ERROR;
 	    }
 	    if( NULL == (bbs = areasbbs_lookup (tic->area)) )
 	    {
 		fglog("can't create filearea %s from %s (not found after creation)",
-	    	    tic->area, znfp1(&tic->from));
+		      tic->area, znfp1(&tic->from));
 		return ERROR;
 	    }
 	    fglog("New filearea %s from %s",tic->area,znfp1(&tic->from));
@@ -413,17 +415,18 @@ int process_tic(Tick *tic)
 	if(! lon_search(&bbs->nodes, &tic->from) )
 	{
 	    fglog("insecure tic area %s from %s", tic->area,
-		znfp1(&tic->from)             );
+		  znfp1(&tic->from)             );
 	    return ERROR;
 	}
 	
 #ifdef FTN_ACL
-	if ( uplink_can_be_readonly || !lon_is_uplink(&(bbs->nodes), bbs->uplinks, 
-		    &(tic->from)) )
+	if ( uplink_can_be_readonly ||
+	     !lon_is_uplink(&(bbs->nodes), bbs->uplinks, 
+			    &(tic->from))               )
 	    if(ftnacl_isreadonly(&tic->from, bbs->area, TYPE_FECHO))
 	    {
 		fglog("tic to read only area %s from %s", tic->area,
-		    znfp1(&tic->from)             );
+		      znfp1(&tic->from)             );
 		return ERROR;
 	    }
 #endif /* FTN_ACL */
@@ -431,8 +434,8 @@ int process_tic(Tick *tic)
     	bbs->time = time(NULL);
 
 	if ((NULL != bbs->state) && (areasbbs_isstate(bbs->state, 'U') ||
-				  areasbbs_isstate(bbs->state, 'W') ||
-				  areasbbs_isstate(bbs->state, 'F')))
+				     areasbbs_isstate(bbs->state, 'W') ||
+				     areasbbs_isstate(bbs->state, 'F')))
 	{
 	    fglog("setting state 'S' for filearea %s", bbs->area);
 	    areasbbs_chstate(&(bbs->state), "UWF", 'S');
@@ -452,7 +455,7 @@ int process_tic(Tick *tic)
 	    else
 		BUF_COPY3(old_name, bbs->dir, "/", tic->replaces);		
 	    if(check_access(old_name, CHECK_FILE) == TRUE && 
-		! (bbs->flags & AREASBBS_PASSTHRU))
+	       ! (bbs->flags & AREASBBS_PASSTHRU))
 #else
 	    BUF_COPY3(old_name, bbs->dir, "/", tic->replaces);
 	    if(check_access(old_name, CHECK_FILE) == TRUE)
@@ -471,11 +474,11 @@ int process_tic(Tick *tic)
 			return ERROR;
 		    }
 		    fglog("area %s file %s replaces %s, moved to %s",
-			tic->area, tic->file, tic->replaces, rdir);
+			  tic->area, tic->file, tic->replaces, rdir);
 		}
 		else
 		    fglog("area %s file %s replaces %s, removed",
-			tic->area, tic->file, tic->replaces);
+			  tic->area, tic->file, tic->replaces);
 		
 		/* Remove old file, no error if this fails */
 		unlink(old_name);
@@ -564,7 +567,7 @@ int process_tic(Tick *tic)
 	BUF_COPY(old_name,new_name);
 
 	if(!(new.size > 0) && create_flag == TRUE && 
-		bbs->flags & AREASBBS_PASSTHRU)
+	   bbs->flags & AREASBBS_PASSTHRU)
 	{
 	    Textlist req;
 	    char *fix_name = NULL;
@@ -580,7 +583,7 @@ int process_tic(Tick *tic)
 	    if ( !authorized_new )
 	    {
 		fglog("node %s not authorized to delete filearea %s (config restriction)",
-			znfp1(&from_node), tic->area);
+		      znfp1(&from_node), tic->area);
 		return ERROR;
 	    }
 
@@ -591,15 +594,15 @@ int process_tic(Tick *tic)
 		    debug(8, "config: FileFixName = %s",fix_name);
 
 		tl_appendf(&req, "%s,%s,%s,%s,-%s",
-		    znfp1(&a->uplink), a->robotname, 
-		    fix_name ? fix_name : areafix_name(),
-		    a->password,
-		    str_upper(tic->area));
-		    send_request(&req);
+			   znfp1(&a->uplink), a->robotname, 
+			   fix_name ? fix_name : areafix_name(),
+			   a->password,
+			   str_upper(tic->area));
+		send_request(&req);
 	    }
 	    else
 		fglog("uplink entry for area %s(%s) not found, unsubscribe failed",
-			tic->area, znfp1(&from_node));
+		      tic->area, znfp1(&from_node));
 
 	    unlink(old_name);
 	    fglog("delete %s", old_name);
@@ -616,11 +619,11 @@ int process_tic(Tick *tic)
 	if( (errlvl=link(old_name, new_name)) == -1)
 	{
 	    debug(9 ,"can't link %s -> %s %s", old_name, new_name,
-			    strerror(errno));
+		  strerror(errno));
 	    if(copy_file(old_name, new_name, pass_path) == ERROR)
 	    {
 		fglog("$ERROR: can't copy %s -> %s %s", old_name, new_name,
-			strerror(errno));
+		      strerror(errno));
 		return ERROR;
 	    }
 	}
@@ -631,13 +634,13 @@ int process_tic(Tick *tic)
 
 #ifdef FECHO_PASSTHROUGHT
     	    if(tick_send(tic, &p->node, new_name, 1, tick_mode,
-		    pass_path) == ERROR)
+			 pass_path) == ERROR)
 #else
 	    if(tick_send(tic, &p->node, new_name, tick_mode) == ERROR)
 #endif /* FECHO_PASSTHROUGHT */
 	    {
 		fglog("ERROR: send area %s file %s to %s failed",
-		    tic->area, tic->file, znfp1(&p->node));
+		      tic->area, tic->file, znfp1(&p->node));
 		return ERROR;
 	    }
 	}
@@ -721,8 +724,8 @@ short check_pass(Tick *tic, short mode)
     if(!t_flag && !passwd)
     {
         fglog("%s: no password for %s in PASSWD", name,
-    	znfp1(&tic->from)  );
-    	    return FALSE;
+	      znfp1(&tic->from)  );
+	return FALSE;
     }
 
     /*
@@ -735,15 +738,15 @@ short check_pass(Tick *tic, short mode)
 	    if(stricmp(passwd, tic->pw))
     	    {
 		fglog("%s: wrong password from %s: ours=%s his=%s",
-    		    name, znfp1(&tic->from), passwd,
-			tic->pw                                      );
+		      name, znfp1(&tic->from), passwd,
+		      tic->pw                          );
 		return FALSE;
 	    }
 	}
         else
         {
 	    fglog("%s: no password from %s: ours=%s", name,
-		znfp1(&tic->from), passwd );
+		  znfp1(&tic->from), passwd );
 	    return FALSE;
 	}
     }
@@ -827,7 +830,7 @@ int add_files_bbs(Tick *tic, char *dir)
     if(mkdir_r(desc_dir, DIR_MODE) == ERROR)
     {
 	fglog("$ERROR: can't create desc dir %s", desc_dir);
-	    return ERROR;
+	return ERROR;
     }
     if( (fp = fopen(files_bbs, W_MODE)) == NULL )
 #else
@@ -887,7 +890,7 @@ int do_seenby(LON *seenby, LON *nodes, LON *new, LON *passive, int bbsupl)
     for(p=nodes->first; p; p=p->next, uplinks++)
     {
 	if(bbsupl >= uplinks)
-		continue;
+	    continue;
 
 	if ( lon_search( passive, &(p->node) ) )
 	    continue;
@@ -933,9 +936,9 @@ int check_file(Tick *tic)
     BUF_COPY3(orig, in_dir, "/", tic->file);
     str_lower (tic->file);
     BUF_COPY3(name, in_dir, "/", tic->file);
-    if ( strcmp( name, orig ) )
+    if( strcmp( name, orig ) )
     {
-	if ( rename( orig, name ) )
+	if( rename( orig, name ) )
 	    fglog("$ERROR: can't rename() file %s to lower case", name);
     }
     if(stat(name, &st) == ERROR)
@@ -952,7 +955,7 @@ int check_file(Tick *tic)
 	if(tic->size != st.st_size)
 	{
 	    fglog("ERROR: wrong size for file %s: got %lu, expected %lu",
-		name, (long)st.st_size, tic->size );
+		  name, (long)st.st_size, tic->size );
 	    return ERROR;
 	}
     }
@@ -977,7 +980,7 @@ int check_file(Tick *tic)
 	if(tic->crc != crc)
 	{
 	    fglog("ERROR: wrong CRC for file %s: got %08lx, expected %08lx",
-		name, crc, tic->crc                                       );
+		  name, crc, tic->crc                                       );
 	    return ERROR;
 	}
     }
@@ -1043,20 +1046,20 @@ int main(int argc, char **argv)
     
     int option_index;
     static struct option long_options[] =
-    {
-        { "fareas-bbs",	  1, 0, 'b'},
-	{ "insecure",     0, 0, 't'},	/* Insecure */
-	{ "inbound",      1, 0, 'I'},	/* Set tick inbound */
-	{ "exec",         1, 0, 'x'},	/* Run script */
-
-	{ "verbose",      0, 0, 'v'},	/* More verbose */
-	{ "help",         0, 0, 'h'},	/* Help */
-	{ "config",       1, 0, 'c'},	/* Config file */
-	{ "addr",         1, 0, 'a'},	/* Set FIDO address */
-	{ "uplink-addr",  1, 0, 'u'},	/* Set FIDO uplink address */
-	{ "wait",         1, 0, 'w'},
-	{ 0,              0, 0, 0  }
-    };
+	{
+	    { "fareas-bbs",   1, 0, 'b'},
+	    { "insecure",     0, 0, 't'},	/* Insecure */
+	    { "inbound",      1, 0, 'I'},	/* Set tick inbound */
+	    { "exec",         1, 0, 'x'},	/* Run script */
+	    
+	    { "verbose",      0, 0, 'v'},	/* More verbose */
+	    { "help",         0, 0, 'h'},	/* Help */
+	    { "config",       1, 0, 'c'},	/* Config file */
+	    { "addr",         1, 0, 'a'},	/* Set FIDO address */
+	    { "uplink-addr",  1, 0, 'u'},	/* Set FIDO uplink address */
+	    { "wait",         1, 0, 'w'},
+	    { 0,              0, 0, 0  }
+	};
 
     /* Set log and debug output */
     log_program(PROGRAM);
@@ -1068,8 +1071,9 @@ int main(int argc, char **argv)
     /* Reading command line options */
     while ((c = getopt_long(argc, argv, "b:tI:x:vhc:w:a:u:",
 			    long_options, &option_index     )) != EOF)
-	switch (c) {
-	/***** ftntick options *****/
+	switch (c)
+	{
+	    /***** ftntick options *****/
 	case 'b':
 	    areas_bbs = optarg;
 	    break;
@@ -1083,7 +1087,7 @@ int main(int argc, char **argv)
 	    exec_script = optarg;
 	    break;
 	    
-    	/***** Common options *****/
+	    /***** Common options *****/
 	case 'v':
 	    verbose++;
 	    break;
@@ -1159,14 +1163,14 @@ int main(int argc, char **argv)
 #endif /* FTN_ACL */
     if( (p = cf_get_string("PassthroughtBoxesDir", TRUE)) )
     {
-	    debug(8, "config: PassthroughtBoxesDir %s", p);
-	    BUF_EXPAND(pass_path, p);
+	debug(8, "config: PassthroughtBoxesDir %s", p);
+	BUF_EXPAND(pass_path, p);
     }
 
     if( (p = cf_get_string("FileEchoFilesModeChange", TRUE)) )
     {
-	    debug(8, "config: FileEchoFilesModeChange %s", p);
-	    files_change_mode = atooct(p) & 0777;
+	debug(8, "config: FileEchoFilesModeChange %s", p);
+	files_change_mode = atooct(p) & 0777;
     }
     if ( (p = cf_get_string("TickMode", TRUE)) )
     {

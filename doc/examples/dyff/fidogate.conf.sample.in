@@ -1,5 +1,5 @@
 #
-# $Id: fidogate.conf.sample.in,v 1.10 2004/08/26 18:39:39 anray Exp $
+# $Id: fidogate.conf.sample.in,v 1.11 2004/10/29 00:54:05 anray Exp $
 #
 # NEW!!! (FIDOGATE 5.x.xds) single common config file
 #
@@ -208,7 +208,6 @@ FileFixNoTrafficTimeout		60
 # unsubscribe from it area and change status in fareas.bbs to 'U'(not requested)
 FileFixRequestTimeout		60
 
-
 # Autocreate command exec when echo area create from areafix
 #AutoCreateCmd
 
@@ -241,6 +240,10 @@ FStatusAreaFixList
 ##############################################################################
 # T O S S E R   C O N F I G U R A T I O N                                    #
 ##############################################################################
+#
+# Empty passwords in incoming packets is allowed
+#
+#AllowEmptyPwd
 
 # Toss process (runtoss, rununpack):
 #
@@ -742,6 +745,10 @@ Regex1stLine  ^[ 	]*([^>|].*) (writes|wrote|schreibt|schrieb):$
 # Line length for formatting long paragraphs in Fido messages
 # (replaces old MAX_LINELEN from config.h)
 MessageLineLength	90
+
+# ftn2rfc gate ^ARFC kludges to headers
+#
+#GateRfcKludge
 
 # Default newsgroup for junk messages and keys for it (see also "areas"
 # config-file)

@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: ftnpack.c,v 1.3 2004/07/05 17:24:46 anray Exp $
+ * $Id: ftnpack.c,v 1.4 2004/10/29 00:54:06 anray Exp $
  *
  * Pack output packets of ftnroute for Binkley outbound (ArcMail)
  *
@@ -40,7 +40,7 @@
 
 
 #define PROGRAM 	"ftnpack"
-#define VERSION 	"$Revision: 1.3 $"
+#define VERSION 	"$Revision: 1.4 $"
 #define CONFIG		DEFAULT_CONFIG_MAIN
 
 
@@ -342,8 +342,8 @@ Packing *packing_parse_line(char *buf)
 	r->maxarc = ma;
 	
     debug(15, "packing: pack=%c dir=%s arc=%s type=%c, maxarc=%ld",
-	  r->pack, r->dir ? r->dir : "", (r->arc ? r->arc->name : NULL), r->type,
-	  r->maxarc);
+	  r->pack, r->dir ? r->dir : "", (r->arc ? r->arc->name : NULL),
+	  r->type, r->maxarc);
     lon_debug(15, "packing: nodes=", &r->nodes, TRUE);
 
     return r;
@@ -541,46 +541,49 @@ int arcmail_search(char *name, long max_arc, long psize)
 		nne = C[c]; ne = 0;		/* Search for the first unused extension */
 
 		if(cc == C[0])
-		    cc = c < last_arcmail_chars ? C[c+1] : C[c];        /* Next number, mo0 -> mo1 */
+		    /* Next number, mo0 -> mo1 */
+		    cc = c < last_arcmail_chars ? C[c+1] : C[c];
 	    }
-	    if(max_arc && size>=(max_arc+psize/2))		/* Max size exceeded */
+	    if(max_arc && size>=(max_arc+psize/2))
 	    {
+		/* Max size exceeded */
 		if(cc == C[0])
-		    cc = c < last_arcmail_chars ? C[c+1] : C[c];        /* Next number, mo0 -> mo1 */
+		    /* Next number, mo0 -> mo1 */
+		    cc = c < last_arcmail_chars ? C[c+1] : C[c];
 	    }
-	    else if(size)				/* Search for the first file with size Ok */
+	    else if(size) /* Search for the first file with size Ok */
 	    {
 		sok = C[c];
 		fm = 0;
 	    }
-	    if(size && size < minarc)		/* Search for archive with minimal size, if       */
-	    {					/* all extensions are in use (extremal situation) */
+	    if(size && size < minarc) /* Search for archive with minimal size, if       */
+	    {			      /* all extensions are in use (extremal situation) */
 		fms = C[c];
 		minarc = size;
 	    }
 	    if(cc == C[0])
 		cc = C[c];
 	}
-	else					/* Search for the first unused extension */
+	else	                       /* Search for the first unused extension */
 	{
 	    nne = C[c];
 	    ne = 0;
 	}
     }
 
-    if(!fm)					/* if file size is Ok */
+    if(!fm)		      /* if file size is Ok */
 	cc = sok;
     else if( (cc == C[last_arcmail_chars]) && (*p = cc) &&
 	     (check_access(name, CHECK_FILE) == TRUE)   &&
 	     ((size = check_size(name)) > max_arc) )
-    {				/* If an archive suitable for appending data was not found */
-	if(ne)			/* If no holes in numeration were found, we append data    */
-	    cc = fms;		/* to the archive with minimal size, which will be bigger  */
-	else			/* than maxarc, (extremal situation)                       */
-	    cc = nne;		/* If we have found a hole in numeration, we create a      */
-    }				/* new archive                                             */
+    {			      /* If an archive suitable for appending data was not found */
+	if(ne)		      /* If no holes in numeration were found, we append data    */
+	    cc = fms;	      /* to the archive with minimal size, which will be bigger  */
+	else		      /* than maxarc, (extremal situation)                       */
+	    cc = nne;	      /* If we have found a hole in numeration, we create a      */
+    }			      /* new archive                                             */
 
-    *p = cc;			/* Set archive name digit */
+    *p = cc;		      /* Set archive name digit */
 
     debug(4, "Archive name %s", name);
 
@@ -655,15 +658,15 @@ int do_arcmail(char *name, Node *arcnode, Node *flonode,
     if(!dir)
 	switch (bundle_disp)
 	{
-	    case 0:
-		return bink_attach(flonode, '#', arcn,
-			   flav_to_asc(desc->flav), FALSE );
-	    case 1:
-		return bink_attach(flonode, '^', arcn,
-			   flav_to_asc(desc->flav), FALSE );
-	    case 2:
-		return bink_attach(flonode, '@', arcn,
-			   flav_to_asc(desc->flav), FALSE );
+	case 0:
+	    return bink_attach(flonode, '#', arcn,
+			       flav_to_asc(desc->flav), FALSE );
+	case 1:
+	    return bink_attach(flonode, '^', arcn,
+			       flav_to_asc(desc->flav), FALSE );
+	case 2:
+	    return bink_attach(flonode, '@', arcn,
+			       flav_to_asc(desc->flav), FALSE );
 	}
 
     return OK;
@@ -676,7 +679,7 @@ int do_arcmail(char *name, Node *arcnode, Node *flonode,
  */
 int do_noarc(char *name, Node *flonode,
 	     PktDesc *desc, FILE *pkt_file, char *out_name)
-    /* outname --- name of .pkt file, if not NULL */
+/* outname --- name of .pkt file, if not NULL */
 {
     FILE *fp;
     Message msg;
@@ -693,12 +696,12 @@ int do_noarc(char *name, Node *flonode,
 #endif /* !BEST_AKA */
 
     fp = out_name
-	     ? pkt_open(out_name, &desc->to, NULL, FALSE)
-	     : pkt_open(NULL, &desc->to, flav_to_asc(desc->flav), FALSE);
+	? pkt_open(out_name, &desc->to, NULL, FALSE)
+	: pkt_open(NULL, &desc->to, flav_to_asc(desc->flav), FALSE);
     if(fp == NULL)
     {
 	fglog("ERROR: can't open outbound packet for %s",
-	    znfp1(&desc->to)      );
+	      znfp1(&desc->to)      );
 	fclose(pkt_file);
 	TMPS_RETURN(ERROR);
     }
@@ -738,7 +741,6 @@ int do_noarc(char *name, Node *flonode,
 	    int ret, file_attach_action = 0;
 	    long sz;
 
-
 	    if( (p = cf_get_string("IgnoreFileAttach", TRUE)) )
 	    {
 		debug(8, "config: IgnoreFileAttach %s", p);
@@ -756,13 +758,13 @@ int do_noarc(char *name, Node *flonode,
 				      flav_to_asc(desc->flav), FALSE );
 		    if(ret == ERROR)
 			fglog("ERROR: file attach %s for %s failed",
-			    fa_name, znfp1(&desc->to));
+			      fa_name, znfp1(&desc->to));
 		    else
 			fglog("file attach %s (%ldb) for %s",
-			    fa_name, sz, znfp1(&desc->to));
+			      fa_name, sz, znfp1(&desc->to));
 		}
 		else if (file_attach_action==1) 
-			    unlink(fa_name);
+		    unlink(fa_name);
 	    }
 	    /* File attachments from inbound directory */
 	    else if(file_attach_dir[0])
@@ -774,13 +776,13 @@ int do_noarc(char *name, Node *flonode,
 		    {
 			sz  = check_size(buffer);
 			ret = bink_attach(flonode, '^', buffer,
-				      flav_to_asc(desc->flav), FALSE );
+					  flav_to_asc(desc->flav), FALSE );
 			if(ret == ERROR)
 			    fglog("ERROR: file attach %s for %s failed",
-				msg.subject, znfp1(&desc->to));
+				  msg.subject, znfp1(&desc->to));
 			else
 			    fglog("file attach %s (%ldb) for %s",
-				msg.subject, sz, znfp1(&desc->to));
+				  msg.subject, sz, znfp1(&desc->to));
 		    }
 		    else if (file_attach_action==1)
 			unlink(buffer);
@@ -922,18 +924,18 @@ int do_pack(PktDesc *desc, char *name, FILE *file, Packing *pack)
 	{
 	    if(pack->pack == PACK_ROUTE)
 		fglog("archiving packet (%ldb) for %s via %s arc (%s)",
-		    check_size(name),
-		    znfp1(&desc->to), znfp2(&arcnode),
-		    pack->arc->name );
+		      check_size(name),
+		      znfp1(&desc->to), znfp2(&arcnode),
+		      pack->arc->name );
 	    else if(pack->pack == PACK_FLO)
 		fglog("archiving packet (%ldb) for %s via %s flo (%s)",
-		    check_size(name),
-		    znfp1(&desc->to), znfp2(&flonode),
-		    pack->arc->name );
+		      check_size(name),
+		      znfp1(&desc->to), znfp2(&flonode),
+		      pack->arc->name );
 	    else
 		fglog("archiving packet (%ldb) for %s (%s)",
-		    check_size(name),
-		    znfp1(&desc->to), pack->arc->name );
+		      check_size(name),
+		      znfp1(&desc->to), pack->arc->name );
 
 	    ret = do_arcmail(name, &arcnode, &flonode, desc,
 			     file, pack->arc->prog, NULL, pack->maxarc);
@@ -941,7 +943,7 @@ int do_pack(PktDesc *desc, char *name, FILE *file, Packing *pack)
 	else
 	{
 	    fglog("packet (%ldb) for %s (noarc)",
-		check_size(name), znfp1(&desc->to));
+		  check_size(name), znfp1(&desc->to));
 	    ret = do_noarc(name, &desc->to, desc, file, NULL);
 	}
     }
@@ -950,7 +952,7 @@ int do_pack(PktDesc *desc, char *name, FILE *file, Packing *pack)
 	if(file)
 	    fclose(file);
 	fglog("packet (%ldb) for %s (%s)",
-	    check_size(name), znfp1(&desc->to), pack->arc->name);
+	      check_size(name), znfp1(&desc->to), pack->arc->name);
 	ret = do_prog(name, desc, pack);
     }
     
@@ -995,7 +997,7 @@ int do_dirpack(PktDesc *desc, char *name, FILE *file, Packing *pack)
 	if(pack->arc->prog)
 	{
 	    fglog("archiving packet (%ldb) for %s (%s) in %s",
-		check_size(name), znfp1(&desc->to), pack->arc->name, pack->dir);
+		  check_size(name), znfp1(&desc->to), pack->arc->name, pack->dir);
 
 	    ret = do_arcmail(name, &arcnode, &flonode, desc,
 			     file, pack->arc->prog, pack->dir, pack->maxarc);
@@ -1006,7 +1008,7 @@ int do_dirpack(PktDesc *desc, char *name, FILE *file, Packing *pack)
     if(pack->pack==PACK_MOVE)
     {
 	fglog("moving packet (%ldb) for %s to %s",
-	    check_size(name), znfp1(&desc->to), pack->dir);
+	      check_size(name), znfp1(&desc->to), pack->dir);
 
 	pktn = packing_pkt_name(pack->dir, name);
 	ret = do_noarc(name, &flonode, desc, file, pktn);
@@ -1036,8 +1038,13 @@ int do_packing(char *name, FILE *fp, Packet *pkt)
 	/* Unknown grade/type for .pkt's files */
 	pktdesc.from  = pkt->from;
 	pktdesc.to    = pkt->to;
+#ifdef DO_NOT_TOSS_NETMAIL
+	pktdesc.grade = 'p';
+	pktdesc.type  = 'n';
+#else
 	pktdesc.grade = '-';
 	pktdesc.type  = '-';
+#endif /* DO_NOT_TOSS_NETMAIL */
 	pktdesc.flav  = FLAV_NORMAL;
 	
 	desc = &pktdesc;
@@ -1067,7 +1074,7 @@ int do_packing(char *name, FILE *fp, Packet *pkt)
 			  r->pack, r->dir ? r->dir : "",
 		          (r->arc ? r->arc->name : NULL)      );
 		    ret = r->dir ? do_dirpack(desc, name, fp, r)
-		             : do_pack   (desc, name, fp, r);
+			: do_pack   (desc, name, fp, r);
 		    TMPS_RETURN(ret);
 		}
 	}
@@ -1087,7 +1094,8 @@ int do_file(char *pkt_name)
 
     /* Open packet and read header */
     pkt_file = fopen(pkt_name, R_MODE);
-    if(!pkt_file) {
+    if(!pkt_file)
+    {
         fglog("$ERROR: can't open packet %s", pkt_name);
         TMPS_RETURN(severe_error);
     }
@@ -1189,25 +1197,25 @@ int main(int argc, char **argv)
     
     int option_index;
     static struct option long_options[] =
-    {
-	{ "binkley",      1, 0, 'B'},	/* Binkley outbound base dir */
-	{ "file-dir",     1, 0, 'F'},	/* Dir to search for file attaches */
-	{ "grade",        1, 0, 'g'},	/* grade */
-	{ "in-dir",       1, 0, 'I'},	/* Set inbound packets directory */
-	{ "lock-file",    0, 0, 'l'},	/* Create lock file while processing */
-	{ "out-dir",      1, 0, 'O'},	/* Set packet directory */
-	{ "packing-file", 1, 0, 'p'},	/* Set packing file */
-	{ "maxarc",       1, 0, 'm'},	/* Set max archive size */
-	{ "pkt",          0, 0, 'P'},	/* Process .pkt's */
-	
-	{ "verbose",      0, 0, 'v'},	/* More verbose */
-	{ "help",         0, 0, 'h'},	/* Help */
-	{ "config",       1, 0, 'c'},	/* Config file */
-	{ "addr",         1, 0, 'a'},	/* Set FIDO address */
-	{ "uplink-addr",  1, 0, 'u'},	/* Set FIDO uplink address */
-	{ 0,              0, 0, 0  }
-    };
-
+	{
+	    { "binkley",      1, 0, 'B'},	/* Binkley outbound base dir */
+	    { "file-dir",     1, 0, 'F'},	/* Dir to search for file attaches */
+	    { "grade",        1, 0, 'g'},	/* grade */
+	    { "in-dir",       1, 0, 'I'},	/* Set inbound packets directory */
+	    { "lock-file",    0, 0, 'l'},	/* Create lock file while processing */
+	    { "out-dir",      1, 0, 'O'},	/* Set packet directory */
+	    { "packing-file", 1, 0, 'p'},	/* Set packing file */
+	    { "maxarc",       1, 0, 'm'},	/* Set max archive size */
+	    { "pkt",          0, 0, 'P'},	/* Process .pkt's */
+	    
+	    { "verbose",      0, 0, 'v'},	/* More verbose */
+	    { "help",         0, 0, 'h'},	/* Help */
+	    { "config",       1, 0, 'c'},	/* Config file */
+	    { "addr",         1, 0, 'a'},	/* Set FIDO address */
+	    { "uplink-addr",  1, 0, 'u'},	/* Set FIDO uplink address */
+	    { 0,              0, 0, 0  }
+	};
+    
     log_program(PROGRAM);
     
     /* Init configuration */
@@ -1216,8 +1224,9 @@ int main(int argc, char **argv)
 
     while ((c = getopt_long(argc, argv, "B:F:g:I:O:lp:m:Pvhc:a:u:",
 			    long_options, &option_index     )) != EOF)
-	switch (c) {
-	/***** ftnpack options *****/
+	switch (c)
+	{
+	    /***** ftnpack options *****/
 	case 'B':
 	    B_flag = optarg;
 	    break;
@@ -1246,7 +1255,7 @@ int main(int argc, char **argv)
 	    pkt_flag = TRUE;
 	    break;
 	    
-	/***** Common options *****/
+	    /***** Common options *****/
 	case 'v':
 	    verbose++;
 	    break;
@@ -1304,7 +1313,8 @@ int main(int argc, char **argv)
 	    exit_free();
 	    exit(EXIT_ERROR);
 	}
-    } else
+    }
+    else
 	bundle_disp = 0;
 
     /*

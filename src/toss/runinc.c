@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: runinc.c,v 1.10 2004/07/24 06:21:49 anray Exp $
+ * $Id: runinc.c,v 1.11 2004/10/29 00:54:06 anray Exp $
  *
  * Processing inbound packets
  *
@@ -62,7 +62,7 @@
 #endif
 
 #define PROGRAM		"runinc"
-#define VERSION		"$Revision: 1.10 $"
+#define VERSION		"$Revision: 1.11 $"
 #define CONFIG		DEFAULT_CONFIG_MAIN
 
 void* subs(char *str,char *macro,char *expand);
@@ -83,16 +83,16 @@ void		unpacking_init		(char *);
 int		system_run		(char *cmd);
 
 
-static  char		pkt_flag	 = FALSE; /* Packet found flag */
-static  char		tic_flag	 = FALSE; /* Tick found flag */
-static  Unpacking	*unpacking_first = NULL; /* unpack struct first key */
-static	Unpacking	*unpacking_last  = NULL; /* unpack struct last key */
-static	char		unpack_init      = FALSE; /* Init unpack flag */
-static  char 		*libexecdir		 = NULL; /* Fidogate library directory */
-static  char 		*bindir	 = NULL; /* Fidogate binary directory */
-static  char 		verbose_flag[16];        /* Verbose flag */
-static  char		*a_flag		 = NULL; /* Exec script after tosting */
-static  char		*b_flag		 = NULL; /* Exec script before tosting */
+static  char		pkt_flag	 = FALSE; /* Packet found flag          */
+static  char		tic_flag	 = FALSE; /* Tick found flag            */
+static  Unpacking	*unpacking_first = NULL;  /* unpack struct first key    */
+static	Unpacking	*unpacking_last  = NULL;  /* unpack struct last key     */
+static	char		unpack_init      = FALSE; /* Init unpack flag           */
+static  char 		*libexecdir      = NULL;  /* Fidogate library directory */
+static  char 		*bindir	         = NULL;  /* Fidogate binary directory  */
+static  char 		verbose_flag[16];         /* Verbose flag               */
+static  char		*a_flag		 = NULL;  /* Exec script after tosting  */
+static  char		*b_flag		 = NULL;  /* Exec script before tosting */
 static	Runtoss		toss[7];
 static	char		*site		 = "fidogate";
 
@@ -141,9 +141,12 @@ void unpack(char *inb)
 		continue;
 	    }
 
-	    if(!strncmp(type, "su", 2) || !strncmp(type, "mo", 2) ||
-	       !strncmp(type, "tu", 2) || !strncmp(type, "we", 2) ||
-	       !strncmp(type, "th", 2) || !strncmp(type, "fr", 2) ||
+	    if(!strncmp(type, "su", 2) ||
+	       !strncmp(type, "mo", 2) ||
+	       !strncmp(type, "tu", 2) ||
+	       !strncmp(type, "we", 2) ||
+	       !strncmp(type, "th", 2) ||
+	       !strncmp(type, "fr", 2) ||
 	       !strncmp(type, "sa", 2))
 	    {
 		debug(1, "found %s/%s", inb, dir->d_name);
@@ -160,7 +163,7 @@ void unpack(char *inb)
 		if(!a)
 		{
 		    fglog("unknown archive %s, moving archive to %s/bad", 
-			    dir->d_name, inb);
+			  dir->d_name, inb);
 		    move(archive, inb, "/bad/", dir->d_name);
 		    continue;
 		}
@@ -292,7 +295,7 @@ int run_unpack(char *cmd_list, char *cmd_unarc, char *archive, char *type)
 		    pclose(fp);
 		    return FALSE;
 		}
-	    }	
+	    }
 
 	}
     }
@@ -302,9 +305,7 @@ int run_unpack(char *cmd_list, char *cmd_unarc, char *archive, char *type)
     BUF_APPEND(line, " > /dev/null");
 
     if( (ret = system_run(line)) == 0 )
-    {
 	return TRUE;
-    }
 
     debug(5, "exit %d", ret);
 
@@ -437,8 +438,8 @@ void unpacking_init(char *name)
  */
 int run_tick(char *inbound)
 {
-    sprintf(buffer,"%s/ftntick -x %s/ftntickpost -I %s %s", libexecdir, libexecdir,
-		    inbound, verbose_flag);
+    sprintf(buffer,"%s/ftntick -x %s/ftntickpost -I %s %s",
+	    libexecdir, libexecdir, inbound, verbose_flag);
 
     /* Process tic files */
     return system_run(buffer);
@@ -559,7 +560,6 @@ void run_toss(Runtoss *a)
 #endif
     int minfree;
 
-
     if( (p = cf_get_string("DiskFreeMin", TRUE)) )
 	minfree = atoi(p) * 1024;
     else if( (p = cf_get_string("MinDiskFree", TRUE)) )
@@ -568,7 +568,7 @@ void run_toss(Runtoss *a)
 	minfree = 1048576;
     debug(8, "DiskFreeMin %d", minfree);
     
-    /* Calculate free memore size and number inodes */
+    /* Calculate free memory size and number inodes */
 
 #ifndef NO_FS
 #ifdef VFS 
@@ -576,7 +576,7 @@ void run_toss(Runtoss *a)
 #else
     if(statvfs(a->inbound, &drive) && (minfree < drive.f_bavail * drive.f_bsize) &&
 #endif
-	    (drive.f_ffree > 100))
+       (drive.f_ffree > 100))
     {
 	fglog("ERROR: MinDiskfree limit. Disk is full!");
 	return;
@@ -585,9 +585,10 @@ void run_toss(Runtoss *a)
     if( (p = cf_get_string("DiskFreeProg", TRUE)) )
     {
 	 char *str;
-	 if(!(str = subs(p,"%p",a->inbound))) {
-	      fglog("ERROR: can't subs macros");
-	      return;
+	 if(!(str = subs(p,"%p",a->inbound)))
+	 {
+	     fglog("ERROR: can't subs macros");
+	     return;
 	 }
 	 
 	if( !(fp = popen(str, R_MODE)) )
@@ -612,9 +613,9 @@ void run_toss(Runtoss *a)
     }
 #endif
     /* Runing scripts */
-    sprintf(ftntoss, "%s/ftntoss -l -m 400 -x -I %s %s %s %s", libexecdir, a->inbound,
-		    a->grade, a->flags, verbose_flag);
-    while(1)
+    sprintf(ftntoss, "%s/ftntoss -l -m 400 -x -I %s %s %s %s",
+	    libexecdir, a->inbound, a->grade, a->flags, verbose_flag);
+       while(1)
     {
 	ret = system_run(ftntoss);
 	if(ret == 2) continue;
@@ -625,7 +626,8 @@ void run_toss(Runtoss *a)
 	    exit_free();
 	    exit(1);
 	}
-	sprintf(buffer,"%s/ftnroute %s %s", libexecdir, a->grade, verbose_flag);
+	sprintf(buffer,"%s/ftnroute %s %s",
+		libexecdir, a->grade, verbose_flag);
 	state = system_run(buffer);
 	if(state !=0 && state != 11)
 	{
@@ -635,8 +637,8 @@ void run_toss(Runtoss *a)
 	    exit(1);
 	}
 
-	sprintf(buffer, "%s/ftnpack %s %s %s", libexecdir, a->fadir ? a->fadir : ""
-				, a->grade, verbose_flag);
+	sprintf(buffer, "%s/ftnpack %s %s %s",
+		libexecdir, a->fadir ? a->fadir : "", a->grade, verbose_flag);
 	if((state = system_run(buffer)) !=0 )
 	{
 	    fglog("$WARNING: ftnpack returned %d", state);
@@ -675,7 +677,8 @@ void send_fidogate(void)
     }
     rename(site,work);
 
-    sprintf(buffer, "%s/ctlinnd -s -t30 flush %s", cf_p_newsbindir(), site);
+    sprintf(buffer, "%s/ctlinnd -s -t30 flush %s",
+	    cf_p_newsbindir(), site);
     system_run(buffer);
 
     if(stat(site, &st) == ERROR || st.st_size == 0)
@@ -692,12 +695,12 @@ void send_fidogate(void)
 
     fglog("begin %s", batch);
 #ifdef OLD_BATCHER
-    sprintf(buf,"%s/batcher -N 20 -b500000 -p\"%s/rfc2ftn -b \
-	    -n %s\" fidogate %s", cf_p_newsbindir(), libexecdir, verbose_flag, batch);
+    sprintf(buf,"%s/batcher -N 20 -b500000 -p\"%s/rfc2ftn -b -n %s\" fidogate %s",
+	    cf_p_newsbindir(), libexecdir, verbose_flag, batch);
     system_run(buf);
 #else
-    sprintf(buffer,"%s/rfc2ftn -f %s -m 500 %s", libexecdir, site,
-		verbose_flag);
+    sprintf(buffer,"%s/rfc2ftn -f %s -m 500 %s",
+	    libexecdir, site, verbose_flag);
     system_run(buffer);
 #endif /* OLD_BATCHER */
 
@@ -807,20 +810,20 @@ void* subs(char *str,char *macro,char *expand) {
      char *newstr;
      pos = strstr(str,macro);
      if(!(newstr = malloc(strlen(str)+strlen(expand) - strlen(macro) + 1)))
-	  return NULL;
+	 return NULL;
      if(!strncpy(newstr,str,strlen(str)))
-	  return NULL;
+	 return NULL;
      if(!strncpy(newstr+(pos-str), expand, strlen(expand)))
-	  return NULL;
+	 return NULL;
      if(!strcpy(newstr+(pos-str)+strlen(expand), pos + strlen(macro)))
-	  return NULL;
+	 return NULL;
      return newstr;
 }
 
 int system_run(char *cmd)
 {
     debug(5,"exec: %s", cmd);
-    return run_system(cmd);
+    return system(cmd);
 
 }
 
@@ -861,7 +864,7 @@ int main(int argc, char **argv)
 	{ "config",       1, 0, 'c' },  /* Config file */
 	{ "before",       1, 0, 'b' },  /* Exec script before tosting */
 	{ "after",        1, 0, 'a' },  /* Exec script after tosting */
-	{ "outpkt",       0, 0, 'o' },  /* Exec script after tosting */
+	{ "outpkt",       0, 0, 'o' },  /* Exec packing */
 	{ "site",	  1, 0, 's' },  /* Site name */
 
 	{ "verbose",      0, 0, 'v'},	/* More verbose */
@@ -873,10 +876,10 @@ int main(int argc, char **argv)
     cf_initialize();
 
     while ((c = getopt_long(argc, argv, "c:b:a:os:vh",
-			    long_options, &option_index     )) != EOF)
-	switch (c) {
-
-	/***** runinc options *****/
+			    long_options, &option_index)) != EOF)
+	switch (c)
+	{
+	    /***** runinc options *****/
 	case 'c':
 	    c_flag = optarg;
 	    break;
@@ -892,7 +895,7 @@ int main(int argc, char **argv)
 	case 's':
 	    site = optarg;
 	    break;
-	/***** Common options *****/
+	    /***** Common options *****/
 	case 'v':
 	    verbose++;
 	    break;
@@ -954,7 +957,7 @@ int main(int argc, char **argv)
     {
 	if(out_flag)
 	{
-#if defined(USE_RUNINC_SFGT)
+#ifdef USE_RUNINC_SFGT
 	    send_fidogate();
 #endif /* USE_RUNINC_SFGT */
 
@@ -980,4 +983,3 @@ int main(int argc, char **argv)
     exit_free();
     exit(0);
 }
-

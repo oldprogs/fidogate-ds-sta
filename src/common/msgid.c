@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: msgid.c,v 1.8 2004/03/04 19:42:20 rusfidogate Exp $
+ * $Id: msgid.c,v 1.9 2004/10/29 00:54:05 anray Exp $
  *
  * MSGID <-> Message-ID conversion handling. See also ../doc/msgid.doc
  *
@@ -120,7 +120,7 @@ static char *msgid_domain(int zone)
 /*
  * Convert FIDO ^AMSGID/REPLY to RFC Message-ID/References
  */
-char *s_msgid_fido_to_rfc(char *msgid, int *pzone, short mail)
+char *s_msgid_fido_to_rfc(char *msgid, int *pzone, short mail, char *ref_line)
 {
     char *save;
     char *origaddr, *serialno;
@@ -179,7 +179,7 @@ char *s_msgid_fido_to_rfc(char *msgid, int *pzone, short mail)
      */
     for(p=serialno; *p && !is_space(*p); p++) ;
     *p = 0;
-    
+
 
 #if defined(DBC_HISTORY) && defined(FIDO_STYLE_MSGID)
     /***** Parse dbc for msgid ******/
@@ -193,9 +193,18 @@ char *s_msgid_fido_to_rfc(char *msgid, int *pzone, short mail)
 	hi_close();
 	unlock_program(cf_p_lock_history());
 	if(s)
-	return s;
-    }
+	{
+	    return s;
+	}
+	else
+	{
 #endif /* DBC_HISTORY && FIDO_STYLE_MSGID */
+	    if(ref_line)
+		return ref_line;
+#if defined(DBC_HISTORY) && defined(FIDO_STYLE_MSGID)
+	}
+    }
+#endif
     /***** New-style converted RFC Message-ID *****/
     if(wildmat(origaddr, "<*@*>"))
     {
@@ -278,15 +287,17 @@ char *s_msgid_rfc_to_fido(int *origid_flag, char *message_id,
 			  int for_reply)
 #else
 char *s_msgid_rfc_to_fido(int *origid_flag, char *message_id,
-			  int part, int split, char *area)
+			  int part, int split, char *area, short int x_flags_m,
+			  int for_reply)
 #endif
-    /* origid_flag - Flag for ^AORIGID */
-    /* message_id  - Original RFC-ID */
-    /* part        - part number */
-    /* split       - != 0 # of parts */
-    /* area        - FTN AREA */
-    /* dont_flush  - Do'nt flush DBC History */
-    /* for_reply   - Id will be ^AREPLY*/
+/* origid_flag - Flag for ^AORIGID       */
+/* message_id  - Original RFC-ID         */
+/* part        - part number             */
+/* split       - != 0 # of parts         */
+/* area        - FTN AREA                */
+/* dont_flush  - Do'nt flush DBC History */
+/* for_reply   - Id will be ^AREPLY      */
+/* x_flags_m   - X-Flags: m              */
 {
     char *id, *host, *p;
     char *savep;
@@ -418,14 +429,24 @@ char *s_msgid_rfc_to_fido(int *origid_flag, char *message_id,
 
     tmps = tmps_alloc(strlen(id)+1+/**Extra**/20);
 #ifndef FIDO_STYLE_MSGID
-    msgid_fts9_quote(tmps->s, id, tmps->len);
-    str_printf(tmps->s + strlen(tmps->s), tmps->len - strlen(tmps->s),
-	" %08lx", crc32);
+    if(!x_flags_m)
+    {
+	msgid_fts9_quote(tmps->s, id, tmps->len);
+	str_printf(tmps->s + strlen(tmps->s), tmps->len - strlen(tmps->s),
+		   " %08lx", crc32);
+    }
+    else
+    {
+	if(for_reply)
+	    str_printf(tmps->s, strlen(tmps->s)+strlen(id)+2, "%s ", id);
+	str_printf(tmps->s + strlen(tmps->s), tmps->len - strlen(tmps->s),
+		   "%08lx", crc32);
+    }
 #else
     if(for_reply)
         str_printf(tmps->s, strlen(tmps->s)+strlen(id)+2, "%s ", id);
     str_printf(tmps->s + strlen(tmps->s), tmps->len - strlen(tmps->s),
-	"%08lx", crc32);
+	       "%08lx", crc32);
 #endif /* !FIDO_STYLE_MSGID */
     xfree(savep);
     if(origid_flag)
@@ -442,7 +463,7 @@ char *s_msgid_rfc_to_fido(int *origid_flag, char *message_id,
 	    fglog ("can't open dbc file");
 	}
 	if(hi_write_dbc(message_id, tmps->s, dont_flush) == ERROR)
-        fglog ("can't write to dbc file");
+	    fglog ("can't write to dbc file");
 	hi_close();
 	unlock_program(cf_p_lock_history());
     }

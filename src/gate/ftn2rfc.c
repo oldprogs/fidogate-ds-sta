@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: ftn2rfc.c,v 1.9 2004/08/26 18:39:39 anray Exp $
+ * $Id: ftn2rfc.c,v 1.10 2004/10/29 00:54:06 anray Exp $
  *
  * Convert FTN mail packets to RFC mail and news batches
  *
@@ -39,7 +39,7 @@
 
 
 #define PROGRAM 	"ftn2rfc"
-#define VERSION 	"$Revision: 1.9 $"
+#define VERSION 	"$Revision: 1.10 $"
 #define CONFIG		DEFAULT_CONFIG_GATE
 
 
@@ -54,6 +54,7 @@ char   *get_subject		(Textlist *);
 Area   *news_msg		(char *, Node *);
 int	msg_format_buffer	(char *, Textlist *);
 static int msg_get_line_length	(void);
+static int gate_rfc_kludge = FALSE;	/* GateRfcKludge */
 int	unpack			(FILE *, Packet *);
 int	unpack_file		(char *);
 
@@ -172,6 +173,7 @@ char *get_from(Textlist *rfc, Textlist *kludge)
     if(!p)
 	p = rfcheader_get(rfc, "UUCPFROM");
 #endif /* IGNORE_FROM_IF_REPLY */
+
     return p;
 }    
 
@@ -241,7 +243,8 @@ Area *news_msg(char *line, Node *to)
 		}
 		else
 		{
-		    debug(7, "Article can't be posted in this newsgroup stat= %s", pg->flag);
+		    debug(7, "Article can't be posted in this newsgroup stat= %s",
+			  pg->flag);
 		}
 	    }
 	    else
@@ -359,13 +362,14 @@ static int msg_get_line_length(void)
 	       message_line_length > MAX_LINE_LENGTH) 
 	    {
 		fglog("WARNING: illegal MessageLineLength value %d",
-		    message_line_length);
+		      message_line_length);
 		message_line_length = DEFAULT_LINE_LENGTH;
 	    }
 	}
 	else
 	    message_line_length = DEFAULT_LINE_LENGTH;
     }
+
     return message_line_length;
 }
 
@@ -394,8 +398,10 @@ int msg_format_buffer(char *buffer, Textlist *tlist)
 
 	while(TRUE)
 	{
-	    /* Search backward for a whitespace to break line. If no
-	     * proper point is found, the line will not be split.  */
+	    /*
+	     * Search backward for a whitespace to break line. If no
+	     * proper point is found, the line will not be split.
+	     */
 	    for(i=max_linelen-1; i>=0; i--)
 		if(is_blank(p[i]))	/* Found a white space */
 		    break;
@@ -414,9 +420,10 @@ int msg_format_buffer(char *buffer, Textlist *tlist)
 	    BUF_COPY2(localbuffer, p, "\n");
 	    tl_append(tlist, localbuffer);
 	    lines++;
-	    
-	    /* Advance buffer pointer and test length of remaining
-	     * line */
+	    /*
+	     * Advance buffer pointer and test length of remaining
+	     * line
+	     */
 	    p = np;
 	    for(; *p && is_blank(*p); p++);	/* Skip white space */
 	    if(*p == 0)				/* The end */
@@ -500,7 +507,6 @@ int unpack(FILE *pkt_file, Packet *pkt)
 	    fglog("WARNING: premature EOF reading input packet");
 	    return OK;
 	}
-	
 	fglog("ERROR: reading input packet");
 	return ERROR;
     }
@@ -546,9 +552,9 @@ int unpack(FILE *pkt_file, Packet *pkt)
 	    if(ftnacl_lookup(&msg.node_from, &msg.node_to, NULL))
 	    {
 	        debug(7, "ftnacl_lookup(): From=%s, To=%s",
-			    znfp1(&msg.node_orig), znfp2(&msg.node_to));
+		      znfp1(&msg.node_orig), znfp2(&msg.node_to));
 		fglog("BOUNCE: Postings from address `%s' to  `%s' not allowed - skipped",
-			znfp1(&msg.node_orig), znfp2(&msg.node_to));
+		      znfp1(&msg.node_orig), znfp2(&msg.node_to));
 		tl_clear(&theader);
 		tl_clear(&tbody);
 		tl_clear(&tl);
@@ -569,9 +575,9 @@ int unpack(FILE *pkt_file, Packet *pkt)
 	    if(ftnacl_lookup(&msg.node_orig, NULL, body.area))
 	    {
 	        debug(7, "ftnacl_lookup(): From=%s, echo=%s",
-			    znfp1(&msg.node_orig), body.area);
+		      znfp1(&msg.node_orig), body.area);
 		fglog("BOUNCE: Postings from address `%s' to area `%s' not allowed - skipped",
-			znfp1(&msg.node_orig), body.area);
+		      znfp1(&msg.node_orig), body.area);
 		tl_clear(&theader);
 		tl_clear(&tbody);
 		tl_clear(&tl);
@@ -586,7 +592,8 @@ int unpack(FILE *pkt_file, Packet *pkt)
 
 	    /* Try to get address from Origin or MSGID */
 	    if (OK != msg_parse_origin(body.origin, &msg.node_orig) &&
-	        OK != msg_parse_msgid(kludge_get(&body.kludge, "MSGID", NULL),&msg.node_orig))
+	        OK != msg_parse_msgid(kludge_get(&body.kludge, "MSGID", NULL),
+				      &msg.node_orig))
 	    {
 		node_invalid(&msg.node_orig);
 	    }
@@ -663,7 +670,6 @@ int unpack(FILE *pkt_file, Packet *pkt)
 		    area = ftn_junk_group_keys;
 		    area->area = p;
 		}
-		
 		area->group =  ftn_junk_group;
 	    }
 	}
@@ -689,18 +695,19 @@ int unpack(FILE *pkt_file, Packet *pkt)
 	      check_8bit_s(body.origin, sizeof(body.origin)) ||
 	      check_8bit_s(body.tear, sizeof(body.tear))     ||
 	      check_8bit_s(msg.subject, sizeof(msg.subject))) )
-
+	{
 	    cvt8 &= ~(AREA_QP | AREA_8BIT);
-	
+	}
+
 	if ( !(mime_ver = rfcheader_get(&body.rfc, "MIME-Version") ) )
 	    mime_ver = kludge_get(&body.kludge,
-			    "RFC-MIME-Version", NULL);
+				  "RFC-MIME-Version", NULL);
 	if ( !(mime_type = rfcheader_get(&body.rfc, "Content-Type") ) )
 	    mime_type = kludge_get(&body.kludge,
-			    "RFC-Content-Type", NULL);
+				   "RFC-Content-Type", NULL);
 	if ( !(mime_enc = rfcheader_get(&body.rfc, "Content-Transfer-Encoding") ) )
 	    mime_enc = kludge_get(&body.kludge,
-			    "RFC-Content-Transfer-Encoding", NULL);
+				  "RFC-Content-Transfer-Encoding", NULL);
 	strip_space(mime_enc);
 	mime = get_mime(mime_ver, mime_type, mime_enc);
 
@@ -801,7 +808,7 @@ int unpack(FILE *pkt_file, Packet *pkt)
 	    else
 	    {
 		msg_xlate_line(buffer, sizeof(buffer), p, cvt8 & AREA_QP,
-				ignore_soft_cr);
+			       ignore_soft_cr);
 		if(rfc_lines)
 		{
 		    tl_append(&tbody, buffer);
@@ -818,7 +825,9 @@ int unpack(FILE *pkt_file, Packet *pkt)
 	 */
 	if(!cs_in)
 	    cs_in = cs_def;
-	charset_set_in_out(cs_in, CHARSET_STDRFC);
+	if(!cs_out)
+	    cs_out = CHARSET_STDRFC;
+	charset_set_in_out(cs_in, cs_out);
 	addr_from = rfcaddr_from_ftn(msg.name_from, &msg.node_orig);
 	addr_to   = rfcaddr_from_ftn(msg.name_to,   &msg.node_to  );
 
@@ -882,10 +891,10 @@ int unpack(FILE *pkt_file, Packet *pkt)
 	
 	    /* GIGO */
 	    if( (p = kludge_get(&body.kludge, "PID", NULL))  &&
-	       !strnicmp(p, "GIGO", 4)                         )
+		!strnicmp(p, "GIGO", 4) )
 	    {
 		fglog("skipping message from gateway (GIGO), area %s, origin=%s",
-		    area->area, znfp1(&msg.node_orig));
+		      area->area, znfp1(&msg.node_orig));
 		tl_clear(&theader);
 		tl_clear(&tbody);
 		tl_clear(&tl);
@@ -897,7 +906,7 @@ int unpack(FILE *pkt_file, Packet *pkt)
 	    if( (p = kludge_get(&body.kludge, "X-FZ-SPLIT", NULL)) )
 	    {
 		fglog("skipping message from gateway (X-FZ-SPLIT), area %s, origin=%s",
-		    area->area, znfp1(&msg.node_orig));
+		      area->area, znfp1(&msg.node_orig));
 		tl_clear(&theader);
 		tl_clear(&tbody);
 		tl_clear(&tl);
@@ -937,9 +946,7 @@ int unpack(FILE *pkt_file, Packet *pkt)
 	if(!msgbody_rfc_to)
 	{
 	    Alias *a;
-#ifdef CHECK_FTN2RFC_TO
 	    char *t;
-#endif /* CHECK_FTN2RFC_TO */
 	    
 	    debug(7, "Checking for alias: %s",
 		  s_rfcaddr_to_asc(&addr_to, TRUE));
@@ -954,9 +961,6 @@ int unpack(FILE *pkt_file, Packet *pkt)
 			      a->username, a->userdom,
 			      znfp1(&a->node), a->fullname);
 		    /*BUF_COPY(addr_to.addr, a->userdom);*/
-#ifndef CHECK_FTN2RFC_TO
-			BUF_COPY3(mail_to, a->username, "@", a->userdom);
-#else
 			t = a->username;
 			while(t[0])
 			{
@@ -968,7 +972,6 @@ int unpack(FILE *pkt_file, Packet *pkt)
 					a->userdom);
 			
 			BUF_APPEND(mail_to, ">");
-#endif /* CHECK_FTN2RFC_TO */
 		    }
 		    else
 		    {
@@ -988,7 +991,7 @@ int unpack(FILE *pkt_file, Packet *pkt)
 	{
 	    debug(1, "Insecure message with To line");
 	    fglog("BOUNCE: insecure mail from %s",
-		s_rfcaddr_to_asc(&addr_from, TRUE));
+		  s_rfcaddr_to_asc(&addr_from, TRUE));
 	    bounce_mail("insecure", &addr_from, &msg, msgbody_rfc_to, &tbody);
 	    tl_clear(&theader);
 	    tl_clear(&tbody);
@@ -1000,13 +1003,14 @@ int unpack(FILE *pkt_file, Packet *pkt)
 	 * they can't handle addressing the gateway so we send mail
 	 * from "MsgTrack..." etc. to TrackerMail.  */
 	if(tracker_mail_to)
-	    if(   !strnicmp(addr_from.user, "MsgTrack", 8)
-	       || !strnicmp(addr_from.user, "Reflex_Netmail_Policeman", 24)
-	       || !strnicmp(addr_from.user, "TrackM", 6)
-	       || !strnicmp(addr_from.user, "ITrack", 6)
-	       || !strnicmp(addr_from.user, "FTrack", 6)
-	       || !strnicmp(addr_from.user, "O/T-Track", 9)
-	       /* || whatever ... */		                            )
+	    if (   !strnicmp(addr_from.user, "MsgTrack", 8) ||
+		   !strnicmp(addr_from.user, "Reflex_Netmail_Policeman", 24) ||
+		   !strnicmp(addr_from.user, "TrackM", 6) ||
+		   !strnicmp(addr_from.user, "ITrack", 6) ||
+		   !strnicmp(addr_from.user, "FTrack", 6) ||
+		   !strnicmp(addr_from.user, "O/T-Track", 9)
+		   /* || whatever ... */
+		)
 	    {
 		debug(1, "Mail from FIDO message tracker");
 		BUF_COPY(x_orig_to, mail_to);
@@ -1034,7 +1038,7 @@ int unpack(FILE *pkt_file, Packet *pkt)
 		debug(1, "Not a registered node: %s",
 		      znfp1(&msg.node_orig));
 		fglog("BOUNCE: mail from unregistered %s",
-		    s_rfcaddr_to_asc(&addr_from, TRUE));
+		      s_rfcaddr_to_asc(&addr_from, TRUE));
 		bounce_mail("restricted", &addr_from, &msg,
 			    msgbody_rfc_to, &tbody);
 		tl_clear(&theader);
@@ -1050,7 +1054,7 @@ int unpack(FILE *pkt_file, Packet *pkt)
 		debug(1, "Registered node is down: %s",
 		      znfp1(&msg.node_orig));
 		fglog("BOUNCE: mail from down %s",
-		    s_rfcaddr_to_asc(&addr_from, TRUE));
+		      s_rfcaddr_to_asc(&addr_from, TRUE));
 		bounce_mail("down", &addr_from, &msg,
 			    msgbody_rfc_to, &tbody);
 		tl_clear(&theader);
@@ -1068,14 +1072,15 @@ int unpack(FILE *pkt_file, Packet *pkt)
 
 	if(area==NULL)
 	{
-	    if( strchr(mail_to, '@') || strchr(mail_to, '%') ||
-	        strchr(mail_to, '!')                            )
+	    if( strchr(mail_to, '@') ||
+		strchr(mail_to, '%') ||
+	        strchr(mail_to, '!')   )
 	    {
 		if(no_address_in_to_field)
 		{
 		    debug(1, "Message with address in mail_to: %s", mail_to);
 		    fglog("BOUNCE: mail from %s with address in to field: %s",
-			s_rfcaddr_to_asc(&addr_from, TRUE), mail_to           );
+			  s_rfcaddr_to_asc(&addr_from, TRUE), mail_to           );
 		    bounce_mail("addrinto",
 				&addr_from, &msg, mail_to, &tbody);
 		    tl_clear(&theader);
@@ -1105,7 +1110,7 @@ int unpack(FILE *pkt_file, Packet *pkt)
 		/* Addressed to `UUCP' or `GATEWAY', but no To: line */
 		debug(1, "Message to `UUCP' or `GATEWAY' without To line");
 		fglog("BOUNCE: mail from %s without To line",
-		    s_rfcaddr_to_asc(&addr_from, TRUE));
+		      s_rfcaddr_to_asc(&addr_from, TRUE));
 		bounce_mail("noto", &addr_from, &msg, msgbody_rfc_to, &tbody);
 		tl_clear(&theader);
 		tl_clear(&tbody);
@@ -1116,15 +1121,20 @@ int unpack(FILE *pkt_file, Packet *pkt)
 
 	    BUF_APPEND(mail_to, "@");
 	    if(use_ftn_to_address)
+	    {
 		/* Add @ftn-to-host */
 		BUF_APPEND(mail_to, addr_to.addr);
+	    }	    
 	    else
+	    {
 		/* Add @host.domain to local address */
 		BUF_APPEND(mail_to, cf_fqdn());
+	    }
 	}
 
 	/* Construct string for From: header line */
-	if(msgbody_rfc_from) {
+	if(msgbody_rfc_from)
+	{
 	    RFCAddr rfc;
 	    
 	    rfc = rfcaddr_from_rfc(msgbody_rfc_from);
@@ -1139,14 +1149,18 @@ int unpack(FILE *pkt_file, Packet *pkt)
 	reply_to_line = msgbody_rfc_reply_to;
 	
 	/* Construct string for To:/X-Comment-To: header line */
-	if(msgbody_rfc_to) {
-	    if(strchr(msgbody_rfc_to, '(') || strchr(msgbody_rfc_to, '<') ||
-	       !*addr_to.real || uucp_flag                                   )
+	if(msgbody_rfc_to)
+	{
+	    if( strchr(msgbody_rfc_to, '(') ||
+		strchr(msgbody_rfc_to, '<') ||
+		!*addr_to.real              ||
+		uucp_flag                     )
 		to_line = s_printf("%s", msgbody_rfc_to);
 	    else
 		to_line = s_printf("%s (%s)", msgbody_rfc_to, addr_to.real);
 	}
-	else {
+	else
+	{
 	    if(area)
 		to_line = s_printf("%s", addr_to.real);
 	    else
@@ -1163,10 +1177,15 @@ int unpack(FILE *pkt_file, Packet *pkt)
 
 	if( (p = kludge_get(&body.kludge, "ORIGID", NULL)) )
 	    id_line = s_msgid_convert_origid(p);
-	else if( (p = kludge_get(&body.kludge, "Message-Id", NULL)) )
+	else if( (p = kludge_get(&body.kludge, "Message-ID", NULL)) )
 	    id_line = s_msgid_convert_origid(p);
-	else if( (p = kludge_get(&body.kludge, "RFC-Message-ID", NULL)) )
-	    id_line = s_msgid_convert_origid(p);
+	
+	if(gate_rfc_kludge && !id_line)
+	{
+	    if( (p = kludge_get(&body.kludge, "RFC-Message-ID", NULL)) )
+		id_line = s_msgid_convert_origid(p);
+	}
+
 	if(!id_line)
 	{
 	    int id_zone;
@@ -1182,7 +1201,7 @@ int unpack(FILE *pkt_file, Packet *pkt)
 		    msg_body_clear(&body);
 		    continue;
 		}
-		id_line = s_msgid_fido_to_rfc(p, &id_zone, FALSE);
+		id_line = s_msgid_fido_to_rfc(p, &id_zone, FALSE, NULL);
 		if(no_unknown_msgid_zones)
 		    if(id_zone>=-1 && !cf_zones_check(id_zone))
 		    {
@@ -1221,9 +1240,17 @@ int unpack(FILE *pkt_file, Packet *pkt)
 	
 	if( (p = kludge_get(&body.kludge, "ORIGREF", NULL)) )
 	    ref_line = s_msgid_convert_origid(p);
-	if(!ref_line)
+	else
+	{
+	    if(gate_rfc_kludge)
+	    {
+		if( (p = kludge_get(&body.kludge, "RFC-References", NULL)) )
+		    ref_line = p;
+	    }
 	    if( (p = kludge_get(&body.kludge, "REPLY", NULL)) )
-		ref_line = s_msgid_fido_to_rfc(p, NULL, area!=NULL);
+		ref_line = s_msgid_fido_to_rfc(p, NULL, area!=NULL, ref_line);
+	}
+	
 	/* ^AGATEWAY */
 	gateway = kludge_get(&body.kludge, "GATEWAY", NULL);
 
@@ -1233,18 +1260,19 @@ int unpack(FILE *pkt_file, Packet *pkt)
 	 */
 
 	/* Different header for mail and news */
-	if(area==NULL) {			/* Mail */
+	if(area==NULL)
+	{			                /* Mail */
 	    fglog("MAIL: %s -> %s", from_line, to_line);
 	    
 	    tl_appendf(&theader,
 		       "From %s %s\n", s_rfcaddr_to_asc(&addr_from, FALSE),
-		       date(DATE_FROM, NULL) );
+		       date(DATE_FROM, NULL)                               );
 	    tl_appendf(&theader,
-		"Received: by %s (FIDOGATE %s)\n",
-		thisdomain, version_global()                            );
+		       "Received: by %s (FIDOGATE %s)\n",
+		       thisdomain, version_global()      );
 	    tl_appendf(&theader,
-		"\tid AA%05d; %s\n",
-		getpid(), date(NULL, NULL) );
+		       "\tid AA%05d; %s\n",
+		       getpid(), date(NULL, NULL) );
 	}
 	else 					/* News */
 	{
@@ -1262,47 +1290,103 @@ int unpack(FILE *pkt_file, Packet *pkt)
 	/* Common header */
 	if(msg.date > time(NULL))
 	{
-		tl_appendf(&theader, "X-Original-Date: %s\n", date(NULL, &msg.date));
-		msg.date = time(NULL);
+	    tl_appendf(&theader, "X-Original-Date: %s\n", date(NULL, &msg.date));
+	    msg.date = time(NULL);
 	}
 
 	tl_appendf(&theader, "Date: %s\n", date(NULL, &msg.date));
 	tl_appendf(&theader, "From: %s\n", from_line);
+
+	if(!reply_to_line && gate_rfc_kludge)
+	{
+	    if( (p = kludge_get(&body.kludge, "RFC-Reply-To", NULL)) )
+	    {
+		msg_xlate_line(buffer, sizeof(buffer), p,
+			       cvt8 & AREA_QP, ignore_soft_cr);
+		reply_to_line = buffer;
+	    }
+	}
 	if(reply_to_line)
 	    tl_appendf(&theader, "Reply-To: %s\n", reply_to_line);
+	
+	if(gate_rfc_kludge)
+	{
+	    if( (p = kludge_get(&body.kludge, "RFC-User-Agent", NULL)) )
+	    {
+		msg_xlate_line(buffer, sizeof(buffer), p,
+			       cvt8 & AREA_QP, ignore_soft_cr);
+		tl_appendf(&theader, "User-Agent: %s\n", buffer);
+	    }
+	    if( (p = kludge_get(&body.kludge, "RFC-X-NewsReader", NULL)) )
+	    {
+		msg_xlate_line(buffer, sizeof(buffer), p,
+			       cvt8 & AREA_QP, ignore_soft_cr);
+		tl_appendf(&theader, "X-NewsReader: %s\n", buffer);
+	    }
+	}
+	
 	if ( NULL == msgbody_rfc_subject )
 	{
-	msg_xlate_line(buffer, sizeof(buffer), msg.subject, cvt8 & AREA_QP, 
-			    ignore_soft_cr);
-
-	tl_appendf(&theader, "Subject: %s\n", buffer);
+	    msg_xlate_line(buffer, sizeof(buffer), msg.subject,
+			   cvt8 & AREA_QP, ignore_soft_cr);
+	    tl_appendf(&theader, "Subject: %s\n", buffer);
 	}
 	else
 	{
 	    tl_appendf(&theader, "Subject: %s\n", msgbody_rfc_subject);
 	}
-	tl_appendf(&theader, "Message-ID: %s\n", id_line);
+	msg_xlate_line(buffer, sizeof(buffer), id_line,
+		       cvt8 & AREA_QP, ignore_soft_cr);
+	tl_appendf(&theader, "Message-ID: %s\n", buffer);
 
 	/* Different header for mail and news */
-	if(area==NULL) {			/* Mail */
+	if(area==NULL)				/* Mail */
+	{
 	    if ((!ref_line || strlen(ref_line) != 8 ) &&
 		(s = kludge_get(&body.kludge, "RFC-References", NULL)))
-		tl_appendf(&theader, "References: %s\n", s);
+	    {
+		msg_xlate_line(buffer, sizeof(buffer), s,
+			       cvt8 & AREA_QP, ignore_soft_cr);
+		tl_appendf(&theader, "References: %s\n", buffer);
+	    }
 	    else if(ref_line)
-		tl_appendf(&theader, "References: %s\n", ref_line);
+	    {
+		msg_xlate_line(buffer, sizeof(buffer), ref_line,
+			       cvt8 & AREA_QP, ignore_soft_cr);
+		tl_appendf(&theader, "References: %s\n", buffer);
+	    }
+
 	    tl_appendf(&theader, "To: %s\n", to_line);
+
 	    if(cc_line)
+	    {
 		tl_appendf(&theader, "Cc: %s\n", cc_line);
+	    }
+
 	    if(bcc_line)
+	    {
 		tl_appendf(&theader, "Bcc: %s\n", bcc_line);
+	    }
 	    if(*x_orig_to)
+	    {
+		msg_xlate_line(buffer, sizeof(buffer), x_orig_to,
+			       cvt8 & AREA_QP, ignore_soft_cr    );
 		tl_appendf(&theader, "X-Orig-To: %s\n", x_orig_to);
+	    }
 	    if(errors_to)
-		tl_appendf(&theader, "Errors-To: %s\n", errors_to);
+	    {
+		msg_xlate_line(buffer, sizeof(buffer), errors_to,
+			       cvt8 & AREA_QP, ignore_soft_cr    );
+		tl_appendf(&theader, "Errors-To: %s\n", buffer);
+	    }
 	    /* FTN ReturnReceiptRequest -> Return-Receipt-To */
 	    if(msg.attr & MSG_RRREQ)
-		tl_appendf(&theader, "Return-Receipt-To: %s\n",
-				 s_rfcaddr_to_asc(&addr_from, FALSE)   );
+	    {
+		msg_xlate_line(buffer, sizeof(buffer),
+			       s_rfcaddr_to_asc(&addr_from,  FALSE),
+			       cvt8 & AREA_QP, ignore_soft_cr       );
+		tl_appendf(&theader, "Return-Receipt-To: %s\n", buffer);
+	    }
 	}
 	else 					/* News */
 	{
@@ -1310,7 +1394,11 @@ int unpack(FILE *pkt_file, Packet *pkt)
 	    int len_s;
 
 	    if(ref_line)
-		tl_appendf(&theader, "References: %s\n", ref_line);
+	    {
+		msg_xlate_line(buffer, sizeof(buffer), ref_line,
+			       cvt8 & AREA_QP, ignore_soft_cr   );
+		tl_appendf(&theader, "References: %s\n", buffer);
+	    }
 
 	    carbon_group = NULL;
 
@@ -1361,13 +1449,13 @@ carbon:
 		carbon_group = NULL;
 	    }
 	    else
-	    tl_appendf(&theader, "Newsgroups: %s\n", area->group);
+		tl_appendf(&theader, "Newsgroups: %s\n", area->group);
 
 	    if(!area->group)
 		tl_appendf(&theader, "X-FTN-Area: %s\n", area->area);
 	    if(area->distribution)
 		tl_appendf(&theader, "Distribution: %s\n",
-				 area->distribution               );
+			   area->distribution               );
 	    if(to_line)
 		tl_appendf(&theader, "X-Comment-To: %s\n", to_line);
 	}
@@ -1375,46 +1463,70 @@ carbon:
 	/* Common header */
 	if(body.origin)
 	{
-	  if(use_origin_for_organization)
-	  {
-	    strip_crlf(body.origin);
-	    msg_xlate_line(buffer, sizeof(buffer), body.origin, cvt8 & AREA_QP,
-			    ignore_soft_cr);
-
-	    if((p = strrchr(buffer, '(')))
-		*p = 0;
-	    strip_space(buffer);
-	    p = buffer + strlen(" * Origin: ");
-	    while(is_blank(*p))
-		p++;
-    	    if (strlen(p) == 0)
-#ifdef NOINSERT_ORGANIZATION 
-            tl_appendf(&theader, "Organization: %s\n", "(none)" );
-#else /* NOINSERT_ORGANIZATION */ 
-            tl_appendf(&theader, "Organization: %s\n", cf_p_organization() );
-#endif /* NOINSERT_ORGANIZATION */ 
+	    if(gate_rfc_kludge && (p = kludge_get(&body.kludge, "RFC-Organization", NULL)))
+	    {
+		msg_xlate_line(buffer, sizeof(buffer), p,
+			       cvt8 & AREA_QP, ignore_soft_cr);
+		tl_appendf(&theader, "Organization: %s\n", buffer);
+	    }
 	    else
-	    tl_appendf(&theader, "Organization: %s\n", p);
-          }
-	  else
-	  tl_appendf(&theader, "Organization: %s\n", cf_p_organization() );
-	}	 
+	    {
+		if(use_origin_for_organization)
+		{
+		    strip_crlf(body.origin);
+		    msg_xlate_line(buffer, sizeof(buffer), body.origin,
+				   cvt8 & AREA_QP, ignore_soft_cr);
+
+		    if((p = strrchr(buffer, '(')))
+			*p = 0;
+		    strip_space(buffer);
+		    p = buffer + strlen(" * Origin: ");
+		    while(is_blank(*p))
+			p++;
+		    if (strlen(p) == 0)
+		    {
+#ifdef NOINSERT_ORGANIZATION
+			tl_appendf(&theader, "Organization: %s\n",
+				   "(none)"                       );
+#else /* NOINSERT_ORGANIZATION */
+			tl_appendf(&theader, "Organization: %s\n",
+				   cf_p_organization()            );
+#endif /* NOINSERT_ORGANIZATION */
+		    }
+		    else
+			tl_appendf(&theader, "Organization: %s\n", p);
+		}
+		else
+		{
+		    tl_appendf(&theader, "Organization: %s\n",
+			       cf_p_organization()            );
+		}
+	    }
+	}
 	tl_appendf(&theader, "Lines: %d\n", lines);
 	if(gateway)
+	{
 	    tl_appendf(&theader, "X-Gateway: FIDO %s [FIDOGATE %s], %s\n",
 		       cf_fqdn(), version_global(), gateway               );
+	}
 	else
+	{
 	    tl_appendf(&theader, "X-Gateway: FIDO %s [FIDOGATE %s]\n",
 		       cf_fqdn(), version_global()                       );
+	}
 
 	if(area==NULL)
 	{
 	    if(x_ftn_f)
+	    {
 		tl_appendf(&theader, "X-FTN-From: %s @ %s\n",
 			   addr_from.real, znfp1(&msg.node_orig));
+	    }
 	    if(x_ftn_t)
+	    {
 		tl_appendf(&theader, "X-FTN-To: %s @ %s\n",
 			   addr_to.real, znfp1(&msg.node_to));
+	    }
 	    if(x_ftn_F)
 	    {
 		BUF_COPY(buffer, "");
@@ -1438,8 +1550,10 @@ carbon:
 	else
 	{
 	    if(x_ftn_f)
+	    {
 		tl_appendf(&theader, "X-FTN-From: %s @ %s\n",
 			   addr_from.real, znfp1(&msg.node_orig));
+	    }	    
 	    if(x_ftn_F)
 	    {
 		BUF_COPY(buffer, "");
@@ -1461,19 +1575,23 @@ carbon:
 	}
 #endif /* X_FTN_FROM_ECHOMAIL */
 	
-	if(x_ftn_T  &&  body.tear && !strncmp(body.tear, "--- ", 4))
+	if(x_ftn_T  &&  body.tear)
 	{
-	    strip_crlf(body.tear);
-	    msg_xlate_line(buffer, sizeof(buffer), body.tear, cvt8 & AREA_QP,
-			    ignore_soft_cr);
-
-	    tl_appendf(&theader, "X-FTN-Tearline: %s\n", buffer+4);
+	    if (strncmp(body.tear, "--- ", 4))
+		tl_appendf(&theader, "X-FTN-Tearline: %s\n", "(none)");
+	    else
+	    {
+		strip_crlf(body.tear);
+		msg_xlate_line(buffer, sizeof(buffer), body.tear,
+			       cvt8 & AREA_QP, ignore_soft_cr    );
+		tl_appendf(&theader, "X-FTN-Tearline: %s\n", buffer+4);
+	    }
 	}
-	if(!use_origin_for_organization  &&  x_ftn_O  &&  body.origin)
+	if(x_ftn_O  &&  body.origin)
 	{
 	    strip_crlf(body.origin);
-	    msg_xlate_line(buffer, sizeof(buffer), body.origin, cvt8 & AREA_QP,
-			    ignore_soft_cr);
+	    msg_xlate_line(buffer, sizeof(buffer), body.origin,
+			   cvt8 & AREA_QP, ignore_soft_cr      );
 
 	    p = buffer + strlen(" * Origin: ");
 	    while(is_blank(*p))
@@ -1488,15 +1606,17 @@ carbon:
 		msg_xlate_line(buffer, sizeof(buffer), p+1, 0, ignore_soft_cr);
 
 		if ( !strncmp( buffer, "Via ", 4 ) )
-			tl_appendf(&theader, "X-FTN-Via: %s\n", buffer+4);
+		    tl_appendf(&theader, "X-FTN-Via: %s\n", buffer+4);
 		else if ( !strncmp( buffer, "Recd ", 5 ) )
-			tl_appendf(&theader, "X-FTN-Recd: %s\n", buffer+5);
+		    tl_appendf(&theader, "X-FTN-Recd: %s\n", buffer+5);
 		else		/* Something wrong if we here */
-			tl_appendf(&theader, "X-FTN-Kludge: %s\n", buffer+1);
+		    tl_appendf(&theader, "X-FTN-Kludge: %s\n", buffer+1);
 	    }
 	if(x_ftn_D)
+	{
 	    tl_appendf(&theader, "X-FTN-Domain: Z%d@%s\n",
 		       cf_zone(), cf_zones_ftn_domain(cf_zone()));
+	}
 	if(x_ftn_S)
 	    for(pl=body.seenby.first; pl; pl=pl->next)
 	    {
@@ -1527,7 +1647,8 @@ carbon:
 		if(!strncmp(p2,"RFC",3))
 		    tl_appendf(&theader, "%s\n", p2 ? (p2 + 1) : (pl->line + 1));
 		else
-		    tl_appendf(&theader, "X-FTN-Kludge: %s\n", p2 ? (p2 + 1) : (pl->line + 1));
+		    tl_appendf(&theader, "X-FTN-Kludge: %s\n",
+			       p2 ? (p2 + 1) : (pl->line + 1));
 	    }
 	    p2 = xlat_s( NULL, p2 );
 	}
@@ -1543,7 +1664,7 @@ carbon:
 
 	tl_appendf(&theader, "Content-Transfer-Encoding: %s\n",
 		   cvt8 ? ((cvt8 & AREA_QP) ? "quoted-printable" : "8bit")
-		        : "7bit");
+		   : "7bit");
 
 	if(cs_save)
 	    xfree(cs_save);
@@ -1556,7 +1677,8 @@ carbon:
 	tl_appendf(&theader, "\n");
 
 	/* Write header and message body to output file */
-	if(area) {
+	if(area)
+	{
 	    if(!mail_file('n'))
 		if(mail_open('n') == ERROR)
 		{
@@ -1616,7 +1738,8 @@ int unpack_file(char *pkt_name)
 
     /* Open packet and read header */
     pkt_file = fopen(pkt_name, R_MODE);
-    if(!pkt_file) {
+    if(!pkt_file)
+    {
 	fglog("$ERROR: can't open packet %s", pkt_name);
 	if(n_flag)
 	    return ERROR;
@@ -1640,7 +1763,7 @@ int unpack_file(char *pkt_name)
     
     /* * Unpack it */
     fglog("packet %s (%ldb) from %s to %s", pkt_name, check_size(pkt_name),
-	znfp1(&pkt.from), znfp2(&pkt.to) );
+	  znfp1(&pkt.from), znfp2(&pkt.to) );
     
     if(unpack(pkt_file, &pkt) == ERROR) 
     {
@@ -1656,7 +1779,8 @@ int unpack_file(char *pkt_name)
     
     fclose(pkt_file);
     
-    if(!n_flag && unlink(pkt_name)==ERROR) {
+    if(!n_flag && unlink(pkt_name)==ERROR)
+    {
 	fglog("$ERROR: can't unlink packet %s", pkt_name);
 	rename_bad(pkt_name);
 	return OK;
@@ -1718,22 +1842,22 @@ int main(int argc, char **argv)
     
     int option_index;
     static struct option long_options[] =
-    {
-	{ "single-articles", 0, 0, '1'},/* Write single article files */
-	{ "in-dir",       1, 0, 'I'},	/* Set inbound packets directory */
-	{ "ignore-hosts", 0, 0, 'i'},	/* Do not bounce unknown hosts */
-	{ "lock-file",    0, 0, 'l'},	/* Create lock file while processing */
-	{ "no-remove",    0, 0, 'n'},	/* Don't remove/rename packet file */
-	{ "insecure",     0, 0, 't'},	/* Toss insecure packets */
-	{ "exec-program", 1, 0, 'x'},	/* Exec program after processing */
+	{
+	    { "single-articles", 0, 0, '1'},  /* Write single article files */
+	    { "in-dir",       1, 0, 'I'},     /* Set inbound packets directory */
+	    { "ignore-hosts", 0, 0, 'i'},     /* Do not bounce unknown hosts */
+	    { "lock-file",    0, 0, 'l'},     /* Create lock file while processing */
+	    { "no-remove",    0, 0, 'n'},     /* Don't remove/rename packet file */
+	    { "insecure",     0, 0, 't'},     /* Toss insecure packets */
+	    { "exec-program", 1, 0, 'x'},     /* Exec program after processing */
 
-	{ "verbose",      0, 0, 'v'},	/* More verbose */
-	{ "help",         0, 0, 'h'},	/* Help */
-	{ "config",       1, 0, 'c'},	/* Config file */
-	{ "addr",         1, 0, 'a'},	/* Set FIDO address */
-	{ "uplink-addr",  1, 0, 'u'},	/* Set FIDO uplink address */
-	{ 0,              0, 0, 0  }
-    };
+	    { "verbose",      0, 0, 'v'},     /* More verbose */
+	    { "help",         0, 0, 'h'},     /* Help */
+	    { "config",       1, 0, 'c'},     /* Config file */
+	    { "addr",         1, 0, 'a'},     /* Set FIDO address */
+	    { "uplink-addr",  1, 0, 'u'},     /* Set FIDO uplink address */
+	    { 0,              0, 0, 0  }
+	};
 
     log_program(PROGRAM);
     
@@ -1743,8 +1867,9 @@ int main(int argc, char **argv)
 
     while ((c = getopt_long(argc, argv, "1itI:lnx:vhc:a:u:",
 			    long_options, &option_index     )) != EOF)
-	switch (c) {
-	/***** ftn2rfc options *****/
+	switch (c)
+	{
+	    /***** ftn2rfc options *****/
 	case '1':
 	    /* Write single article files */
 	    single_articles = TRUE;
@@ -1774,7 +1899,7 @@ int main(int argc, char **argv)
             execprog = optarg;
             break;
 
-	/***** Common options *****/
+	    /***** Common options *****/
 	case 'v':
 	    verbose++;
 	    break;
@@ -1976,7 +2101,11 @@ int main(int argc, char **argv)
 	debug(8, "config: DontIgnore0x8d");
 	ignore_soft_cr = FALSE;
     }
-
+    if(cf_get_string("GateRfcKludge", TRUE))
+    {
+	debug(8, "config: GateRfcKludge");
+	gate_rfc_kludge = TRUE;
+    }
 
     /* Init various modules */
     areas_init();

@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: message.c,v 1.3 2004/02/22 15:35:06 rusfidogate Exp $
+ * $Id: message.c,v 1.4 2004/10/29 00:54:05 anray Exp $
  *
  * Reading and processing FTN text body
  *
@@ -318,7 +318,7 @@ static int msg_body_parse_echomail(MsgBody *body)
     /* --- Tear line */
 
     if(p->line && (!strncmp(p->line, "---\r", 4) ||
-	     !strncmp(p->line, "--- ", 4)    ))
+		   !strncmp(p->line, "--- ", 4)    ))
     {
 	body->tear = strsave(p->line);
 	tl_delete(&body->body, p);
@@ -639,7 +639,7 @@ short int pkt_get_body_parse(FILE *fp, MsgBody *body, Node *from, Node *to)
 	    if(line | FOUND_KLUDGE)
 	    {
 		if(!strncmp(buffer, "---", 3) &&
-		    (buffer[3] == ' ' || buffer[3] == '\r') && !body->tear)
+		   (buffer[3] == ' ' || buffer[3] == '\r') && !body->tear)
 		{
 		    body->tear = strsave(buffer);
 		    if(verbose)
@@ -660,25 +660,25 @@ short int pkt_get_body_parse(FILE *fp, MsgBody *body, Node *from, Node *to)
 			len = strlen(buffer);
 			if(buffer[len-1] == '\n')
 			    buffer[len-1] = '\0';
-			    debug(9,"origin: %s", buffer);
+			debug(9,"origin: %s", buffer);
 		    }
 		    line |= FOUND_ORIGIN;
 		    continue;
 		}
 	    }
 	    if(*buffer == '\001' && (!strncmp(buffer, "\001Via", 4) ||
-			!strncmp(buffer, "\001Recd", 5)))
+				     !strncmp(buffer, "\001Recd", 5)))
 	    {
-		    tl_append(&body->via, buffer);
-		    if(verbose)
-		    {
-			len = strlen(buffer);
-			if(buffer[len-1] == '\n')
-			    buffer[len-1] = '\0';
-			debug(9,"via/recd: %s", buffer);
-		    }
-		    line |= FOUND_KLUDGE;
-		    continue;
+		tl_append(&body->via, buffer);
+		if(verbose)
+		{
+		    len = strlen(buffer);
+		    if(buffer[len-1] == '\n')
+			buffer[len-1] = '\0';
+		    debug(9,"via/recd: %s", buffer);
+		}
+		line |= FOUND_KLUDGE;
+		continue;
 	    }
 	    /* control duplicate origin or tearline */
 	    if(line == 0)
@@ -819,7 +819,9 @@ short int pkt_get_body_parse(FILE *fp, MsgBody *body, Node *from, Node *to)
 	if( body->origin == NULL)
 	{
 	    debug(9, "WARNING: no ' * Origin:' line!");
+#ifdef INSERT_ORIGIN
 	    sprintf(buffer, " * Origin: (%s)\r", znfp1(from));
+#endif /* INSERT_ORIGIN */
 	    body->origin = strsave(buffer);
 	}
 	if( body->seenby.n == 0 )

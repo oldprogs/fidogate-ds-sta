@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: histdb.c,v 1.6 2004/08/02 18:44:06 anray Exp $
+ * $Id: histdb.c,v 1.7 2004/10/29 00:54:05 anray Exp $
  *
  * MSGID history functions and dupe checking
  *
@@ -174,12 +174,12 @@ short int hi_write_dbc(char *rfc_msgid, char *fido_msgid, short int dont_flush)
     GetTimeInfo(&ti);
     if (hi_file)
     {
-    /* Get offset in history text file */ 
-     if( (offset = ftell(hi_file)) == ERROR) 
-     {
-	fglog("$ERROR: ftell DBC MSGID history failed");
-	return ERROR;
-     } 
+	/* Get offset in history text file */ 
+	if( (offset = ftell(hi_file)) == ERROR) 
+	{
+	    fglog("$ERROR: ftell DBC MSGID history failed");
+	    return ERROR;
+	} 
     } 
     else 
     { 
@@ -191,7 +191,7 @@ short int hi_write_dbc(char *rfc_msgid, char *fido_msgid, short int dont_flush)
     if(strchr(fido_msgid, ' '))
 	fido_msgid = strrchr(fido_msgid, ' ') + 1;
     debug(7, "dbc history: offset=%ld: %s %s %ld", offset, fido_msgid,
-		rfc_msgid, (long)ti.time);
+	  rfc_msgid, (long)ti.time);
     ret = fprintf(hi_file, "%s\t%s\t%ld\n", fido_msgid, rfc_msgid, (long)ti.time);
     if ( ret == ERROR || (!dont_flush && fflush(hi_file) == ERROR) )
     {
@@ -227,12 +227,12 @@ short int hi_write_t(time_t t, time_t msgdate, char *msgid)
 
     if (hi_file)
     {
-     /* Get offset in history text file */ 
-     if( (offset = ftell(hi_file)) == ERROR) 
-     {
-	fglog("$ERROR: ftell MSGID history failed");
-	return ERROR;
-     }
+	/* Get offset in history text file */ 
+	if( (offset = ftell(hi_file)) == ERROR) 
+	{
+	    fglog("$ERROR: ftell MSGID history failed");
+	    return ERROR;
+	}
     }
     else 
     { 
@@ -288,12 +288,12 @@ short int hi_write_avail(char *area, char *desc)
 
     if (hi_file)
     {
-     /* Get offset in history text file */
-     if( (offset = ftell(hi_file)) == ERROR)
-     {
-	fglog("$ERROR: ftell MSGID history failed");
-	return ERROR;
-     }
+	/* Get offset in history text file */
+	if( (offset = ftell(hi_file)) == ERROR)
+	{
+	    fglog("$ERROR: ftell MSGID history failed");
+	    return ERROR;
+	}
     }
     else
     {

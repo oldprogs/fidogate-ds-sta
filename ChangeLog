@@ -1,3 +1,27 @@
+2004-10-29  Andrey Slusar <anray@users.sourceforge.net>
+
+	* src/common/message.c: added option INSERT_ORIGIN
+	    (see Changes for details)
+	* src/common/msgid.c: added checking references
+	    line to s_msgid_fido_to_rfc(), added advanced
+	    support X-Flags 'm'
+	* src/gate/rfc2ftn.c: remove define REPLY_IF_X_FLAGS_M,
+	    added advanced supporting X-Flags 'm'
+	* src/common/packet.c: pretty checking message date
+	    header
+	* src/charset/Makefile.am: add charsetc to installed
+	    libexec programs
+	* src/gate/ftn2rfc.c: add option GateRfcKludge, fix
+	    cs_out definition
+	* src/tick/ftntick.c: fixed TickFileAction message
+	* src/toss/ftnpack.c: fixed define DO_NOT_TOSS_NETMAIL
+	* src/toss/ftntoss.c: ditto
+	* src/include/prototypes.h: add new parameters to
+	    s_msgid_fido_to_rfc() and s_msgid_rfc_to_fido()
+	* scripts/www/gate.cgi.in: fixed working
+	* doc/FIDOGATE+tracker.ru: added russian tracker+fidogate
+	    FAQ(thanks to Andrew Zhuravlev)
+
 2004-09-10  Andrey Slusar <anray@users.sourceforge.net>
 
 	* src/areafix/areafix.c: added option
@@ -13,7 +37,7 @@
 2004-08-21  Andrey Slusar <anray@users.sourceforge.net>
 
 	* src/common/log.c: removed getenv()s, create
-	    security risk for setuid news programs.
+	    security risk for setuid news programs
 
 2004-08-07  Andrey Slusar <anray@users.sourceforge.net>
 

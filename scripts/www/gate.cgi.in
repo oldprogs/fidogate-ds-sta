@@ -5,34 +5,19 @@ use strict;
 use CGI;
 use CGI::Carp;
 
-<INCLUDE config.pl>
-
 $ENV{"PATH"} = "/bin:/usr/bin";
 $ENV{"CDPATH"} = "";
 
-<INCLUDE config.pl>
-
-# read config
-my $CONFIG = "<CONFIG_MAIN>";
-CONFIG_read($CONFIG);
-
-
-$NEWSVARDIR   = CONFIG_get("NEWSVARDIR");
-$INN_BATCHDIR = CONFIG_get("INN_BATCHDIR");
-$VARDIR	      = CONFIG_get("VARDIR");
-$LOCKDIR      = CONFIG_get("$LOCKDIR");
-$SPOOLDIR     = CONFIG_get("SPOOLDIR");
-$BTBASEDIR    = CONFIG_get("BTBASEDIR");
 
 my @DIRS = (
-	    "$NEWSVARDIR",
-	    "$INN_BATCHDIR",
-	    "$VARDIR",
-	    "$LOCKDIR",
-	    "$SPOOLDIR/outpkt -R",
-	    "$BTBASEDIR/in -R",
-	    "$BTBASEDIR/pin -R",
-	    "$BTBASEDIR/uuin -R",
+	    "<NEWSVARDIR>",
+	    "<INN_BATCHDIR>",
+	    "<VARDIR>",
+	    "<LOCKDIR>",
+	    "<SPOOLDIR>/outpkt -R",
+	    "<BTBASEDIR>/in -R",
+	    "<BTBASEDIR>/pin -R",
+	    "<BTBASEDIR>/uuin -R",
 	   );
 
 
@@ -48,10 +33,10 @@ my $font = 'n';
 
 print
   $q->header,
-  $q->start_html(-title   => "morannon.fido.de Gateway Status",
-		 -author  => 'mj@fido.de',
+  $q->start_html(-title   => "Global Fidonet Gateway Status",
+		 -author  => 'anray@users.sourceforge.net',
 		 -bgcolor => '#ffffff'    ), "\n\n",
-  $q->h1("morannon.fido.de Gateway Status"), "\n",
+  $q->h1("Global Fidonet Gateway Status"), "\n",
   $q->b("Date: " . localtime(time)), $q->br, $q->br, $q->br,
   $q->hr, "\n";
 
@@ -151,9 +136,9 @@ for (@DIRS) {
 print
   $q->hr, "\n",
   $q->p, "\n",
-  '<font size=-2>FIDOGATE $Id: gate.cgi.in,v 1.1 2003/11/05 00:47:51 rusfidogate Exp $ <br>',
-  '&copy; Copyright 1990-2000 ',
-  '<a href="mailto:mj@fido.de">Martin Junius</a></font>',
+  '<font size=-2>FIDOGATE $Id: gate.cgi.in,v 1.2 2004/10/29 00:54:05 anray Exp $ <br>',
+  '&copy; Copyright 1994-2004',
+  '<a href="mailto:anray@users.sourceforge.net">Andrey Slusar</a></font>',
   $q->end_html, "\n";
 
 exit 0;

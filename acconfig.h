@@ -200,11 +200,6 @@
 #undef FTN_ACL
 
 /*
- * Add ^aREPLY kludge if RFC header `X-Flags' contains `m' parameter
- */
-#undef REPLY_IF_X_FLAGS_M
-
-/*
  * Put file descriptions into `.desc/%s.desc' file instead of files.bbs
  */
  // .../fileecho/.desc/file.zip.desc
@@ -259,6 +254,11 @@
  * Enable if no insert Origin line if it absence
  */
 #undef NOINSERT_ORGANIZATION
+
+/*
+ * If Origin line is not present in tossing message.
+ */
+#undef INSERT_ORIGIN
 
 /*
  * Don't put insecure mail into dupe database
