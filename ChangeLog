@@ -1,10 +1,18 @@
+2004-12-01  Andrey Slusar  <anray@users.sourceforge.net>
+
+	* version.h (EXTRAVERSION): bump to 5.1.2ds-rc4.
+	* configure.in: ditto.
+	* Changes.ru: update.
+	* src/common/packet.c (pkt_get_msg_hdr): remove
+	very strong headers checking.
+
 2004-11-26  Andrey Slusar  <anray@users.sourceforge.net>
 
-	* Changes.ru: update
+	* Changes.ru: update.
 
 2004-11-20  Andrey Slusar  <anray@users.sourceforge.net>
 
-	* doc/README.ru: update
+	* doc/README.ru: update.
 
 2004-11-18  Andrey Slusar  <anray@users.sourceforge.net>
 
