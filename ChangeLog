@@ -1,3 +1,8 @@
+2004-03-04  Andrey Slusar <rusfidogate@users.sourceforge.net>
+
+	* src/common/msgid.c: fix trap ftn2rfc if bad
+	    REPLY and use dbc_history
+
 2004-02-26  Andrey Slusar <rusfidogate@users.sourceforge.net>
 
 	* src/common/histdb.c: fix writing fido_msgid
