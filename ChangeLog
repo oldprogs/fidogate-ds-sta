@@ -1,3 +1,8 @@
+2004-05-26  Andrey Slusar <rusfidogate@users.sourceforge.net>
+
+	* Changes.ru: update
+	* doc/FAQ.ru: add Id
+
 2004-05-24  Andrey Slusar <rusfidogate@users.sourceforge.net>
 	
 	* version.h: update version number to 5.1.1ds-rc1
