@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: node.c,v 1.1 2003/11/05 00:53:17 rusfidogate Exp $
+ * $Id: node.c,v 1.2 2004/02/14 01:00:25 rusfidogate Exp $
  *
  * Conversion Node structure <-> Z:N/F.P / pP.fF.nN.zZ
  *
@@ -662,6 +662,8 @@ void lon_print_sorted(LON *lon, FILE *fp, int cup)
 	old = *lon->sorted[i];
 	if(i < lon->size - 1)
 	    fputs(" ", fp);
+	while(i + 1 < lon->size && node_eq(&old, lon->sorted[i + 1]))
+	    i++;
     }
 
     xfree(lon->sorted);

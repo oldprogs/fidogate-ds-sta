@@ -1,3 +1,8 @@
+2004-02-12  Andrey Slusar <rusfidogate@users.sourceforge.net>
+
+	* src/common/node.c: fix the problem with dupes of
+	    the addresses in (F)Areas.bbs
+
 2004-02-11  Andrey Slusar <rusfidogate@users.sourceforge.net>
 
 	* src/tick/ftntick.c: fix the AutoCreateFileechoLine
