@@ -1,6 +1,10 @@
 2004-06-06  Andrey Slusar <rusfidogate@users.sourceforge.net>
 
 	* version.h: update version number to 5.1.1ds-rc3
+	* src/gate/send-fidogate.in: add detecting LOGDIR
+	    and LOCKDIR in fidogate.conf
+	* src/util/confval.c: change sterr to stdout if
+	    variable exist
 	* src/common/getopt.c: fix args
 	* src/common/misc.c: fix and rewrite str_append()
 
