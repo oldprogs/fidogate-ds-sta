@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: areafix.c,v 1.3 2004/01/19 18:46:11 rusfidogate Exp $
+ * $Id: areafix.c,v 1.4 2004/01/23 02:47:58 rusfidogate Exp $
  *
  * Common Areafix functions
  *
@@ -1392,7 +1392,7 @@ int cmd_list(Node *node, int flag)	/* FALSE -> %avail; TRUE -> %list */
     areafix_printf("");
     
     /* Check for unscribed areas & define echolist in config file */
-#idef AF_AVAIL
+#ifdef AF_AVAIL
     if (flag == TRUE || !(s = cf_get_string("AvailFile", TRUE)))
     {
 #endif
