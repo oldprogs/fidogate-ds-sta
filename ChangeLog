@@ -1,4 +1,8 @@
-2004-09-05  Andrey Slusar <anray@users.sourceforge.net>
+2004-07-12  Andrey Slusar <anray@users.sourceforge.net>
+
+	* src/gate/send-fidogate.in: fixed confval warning
+
+2004-07-09  Andrey Slusar <anray@users.sourceforge.net>
 
 	======= Release 5.1.1ds =============================
 	------- CVS tag R511 --------------------------------
