@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: runinc.c,v 1.2 2004/01/28 00:14:51 rusfidogate Exp $
+ * $Id: runinc.c,v 1.3 2004/02/02 01:44:36 rusfidogate Exp $
  *
  * Processing inbound packets
  *
@@ -62,7 +62,7 @@
 #endif
 
 #define PROGRAM		"runinc"
-#define VERSION		"$Revision: 1.2 $"
+#define VERSION		"$Revision: 1.3 $"
 #define CONFIG		DEFAULT_CONFIG_MAIN
 
 void* subs(char *str,char *macro,char *expand);
@@ -93,7 +93,7 @@ static  char 		*bindir	 = NULL; /* Fidogate binary directory */
 static  char 		verbose_flag[16];        /* Verbose flag */
 static  char		*a_flag		 = NULL; /* Exec script after tosting */
 static  char		*b_flag		 = NULL; /* Exec script before tosting */
-static	Runtoss		toss[5];
+static	Runtoss		toss[7];
 static	char		*site		 = "fidogate";
 
 /*
@@ -501,6 +501,20 @@ void toss_init(void)
     toss[4].fadir = NULL;
     toss[4].grade = "-gn";
     toss[4].flags = "-n -t -p";
+    
+    toss[5].name = "uuin";
+    BUF_COPY3(buffer, spool, "/", toss[5].name);
+    toss[5].inbound = strsave(buffer);
+    toss[5].fadir = NULL;
+    toss[5].grade = "-gu";
+    toss[5].flags = "-s";
+    
+    toss[6].name = "ftpin";
+    BUF_COPY3(buffer, spool, "/", toss[6].name);
+    toss[6].inbound = strsave(buffer);
+    toss[6].fadir = NULL;
+    toss[6].grade = "-gf";
+    toss[6].flags = "-s";
     
     return;
 
