@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: msgid.c,v 1.7 2004/02/22 15:38:31 rusfidogate Exp $
+ * $Id: msgid.c,v 1.6 2004/02/22 15:35:06 rusfidogate Exp $
  *
  * MSGID <-> Message-ID conversion handling. See also ../doc/msgid.doc
  *
@@ -183,7 +183,7 @@ char *s_msgid_fido_to_rfc(char *msgid, int *pzone, short mail)
 
 #if defined(DBC_HISTORY) && defined(FIDO_STYLE_MSGID)
     /***** Parse dbc for msgid ******/
-    if (!pzone && mail)
+    if (!pzone && !mail)
     {
 	if(lock_program(cf_p_lock_history(), FALSE) == ERROR)
 	    return NULL;
