@@ -52,7 +52,6 @@ char *alloca ();
 #endif
 
 #include <stdio.h>
-#include <stdlib.h>
 
 /* Comment out all this code if we are using the GNU C Library, and are not
    actually compiling the library itself.  This code is part of the GNU C
@@ -445,7 +444,7 @@ _getopt_internal (argc, argv, optstring, longopts, longind, long_only)
       int exact = 0;
       int ambig = 0;
       const struct option *pfound = NULL;
-      int indfound = 0;
+      int indfound;
 
       while (*s && *s != '=')
 	s++;

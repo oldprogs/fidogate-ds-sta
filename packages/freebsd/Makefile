@@ -9,7 +9,7 @@ PORTVERSION=		5.1.1
 CATEGORIES=		russian news mail
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE}
 MASTER_SITE_SUBDIR=	rusfidogate
-DISTNAME=		fidogate5.1.1ds
+DISTNAME=		fidogate5.1.1ds-rc3
 
 MAINTAINER=		vasallia@ukr.net
 COMMENT=		Fido-Internet Gateway and Tosser

@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: misc.c,v 1.2 2003/12/02 14:36:44 rusfidogate Exp $
+ * $Id: misc.c,v 1.3 2004/06/06 01:22:06 rusfidogate Exp $
  *
  * Miscellaneous functions
  *
@@ -152,16 +152,11 @@ char *str_copy( char *d, size_t n, char *s ) {
     return d;
 }
 
-char *str_append( char *d, size_t n, char *s ) {
-    int sz;
-    char *p = s;
-    
-    sz = strlen( d );
-    while( *p && sz < n ) {
-	d[sz] = *p;
-	 p++; sz++;
-    }
-    d[sz++] = 0;
+char *str_append( char *d, size_t n, char *s )
+{
+    int max = n - strlen(d) - 1;
+    strncat(d, s, max);
+    d[n-1] = 0;
 
     return d;
 }    
