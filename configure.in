@@ -1,11 +1,11 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl
 dnl # Copy revision into the `configure' script
-AC_REVISION([$Id: configure.in,v 1.4 2004/01/30 20:00:15 rusfidogate Exp $])
+AC_REVISION([$Id: configure.in,v 1.5 2004/05/30 22:54:05 rusfidogate Exp $])
 dnl # Minimum Autoconf version required.
 AC_PREREQ(2.53)
 dnl # No comments...
-AC_INIT([fidogate],[5.2.0ds],[rusfidogate@users.sourceforge.net])
+AC_INIT([fidogate],[5.1.1ds-rc2],[rusfidogate@users.sourceforge.net])
 dnl # File to check from `configure' script
 AC_CONFIG_SRCDIR([src/common/config.c])
 dnl # Set automake and libtool scripts are in build directory
