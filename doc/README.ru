@@ -1,5 +1,5 @@
 
-  $Id: README.ru,v 1.4 2004/03/30 17:19:33 rusfidogate Exp $
+  $Id: README.ru,v 1.5 2004/04/16 00:15:25 rusfidogate Exp $
 
 
    Copyright (C) 2001-2002, Dmitry Fedotov
@@ -1036,6 +1036,7 @@ TickWaitAction	delete
 # строка - строка передающаяся командному процессору(допустимы пробелы,
 # %s - заменяется на полное имя файла).
 #TickFileAction UNIXFTN *.bz2 /usr/lib/fidogate/bin/scriptfilearea %s
+TickFileAction NODEDIFF nodediff.* /usr/local/bin/nl-autoupd && /usr/local/bin/bfindex
 
 # Установка пермишенов на исходящие тики. (man 2 chown).
 TickMode	0600
