@@ -1,5 +1,7 @@
 2004-12-10  Andrey Slusar  <anray@users.sourceforge.net>
 
+	======= Release 5.1.2ds ========================
+	------- CVS tag R512 ---------------------------	
 	* version.h (EXTRAVERSION): bump to 5.1.2ds.
 	* configure.in: ditto.
 
