@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: runinc.c,v 1.5 2004/03/01 19:13:55 rusfidogate Exp $
+ * $Id: runinc.c,v 1.6 2004/06/15 00:49:48 rusfidogate Exp $
  *
  * Processing inbound packets
  *
@@ -62,7 +62,7 @@
 #endif
 
 #define PROGRAM		"runinc"
-#define VERSION		"$Revision: 1.5 $"
+#define VERSION		"$Revision: 1.6 $"
 #define CONFIG		DEFAULT_CONFIG_MAIN
 
 void* subs(char *str,char *macro,char *expand);
@@ -111,7 +111,15 @@ void unpack(char *inb)
 
     /* Make sure temporary unpacking directory exists and entering into */
     BUF_COPY2(buffer, inb, "/tmpunpack");
-    chdir(buffer);
+    
+    if(chdir(buffer) !== 0)
+    {
+	if(mkdir_r(buffer, 750) == ERROR)
+	{
+	    debug(7,"dir %s not exist or can't create", buffer);
+	    return;
+	}
+    }
 
     /* Reading files into inbound directory */
     if( ! (dp = opendir(inb)) )
@@ -819,11 +827,12 @@ void short_usage(void)
 options:\n\
 	  DIR			inbound short name: \"in, pin, uuin,ftpin,\n\
 	                        outpkt, outpkt/mail, outpkt/news\"\n\
+	  -c --config		main configuration file\n\
 	  -b --before SCRIPT	exec script before tosting (if packets need)\n\
 	  -a --after SCRIPT	exec script after tosting (if packets need)\n\
 	  -o --outpkt		process outpkt, outpkt/mail, outpkt/news dirs\n\
 	  -s --site SITE	site name for ctlinnd\n\
-          -v --verbose                 verbose\n\
+	  -v --verbose                 verbose\n\
 	  -h --help                    this help\n");
 
     exit(1);
@@ -835,10 +844,11 @@ int main(int argc, char **argv)
     char input[10];
     int option_index, c;
     short out_flag = FALSE;
+    char *c_flag = NULL;
 
     static struct option long_options[] =
     {
-
+	{ "config",       1, 0, 'c' },  /* Config file */
 	{ "before",       1, 0, 'b' },  /* Exec script before tosting */
 	{ "after",        1, 0, 'a' },  /* Exec script after tosting */
 	{ "outpkt",       0, 0, 'o' },  /* Exec script after tosting */
@@ -852,11 +862,14 @@ int main(int argc, char **argv)
     /* Init configuration */
     cf_initialize();
 
-    while ((c = getopt_long(argc, argv, "b:a:os:vh",
+    while ((c = getopt_long(argc, argv, "c:b:a:os:vh",
 			    long_options, &option_index     )) != EOF)
 	switch (c) {
 
 	/***** runinc options *****/
+	case 'c':
+	    c_flag = optarg;
+	    break;
 	case 'b':
 	    b_flag = optarg;
 	    break;
@@ -888,7 +901,7 @@ int main(int argc, char **argv)
     /*
      * Read config file
      */
-    cf_read_config_file(DEFAULT_CONFIG_MAIN);
+    cf_read_config_file(c_flag ? c_flag : DEFAULT_CONFIG_MAIN);
 
     sprintf(buffer,"%s/log-in", cf_p_logdir());
     log_file(buffer);
