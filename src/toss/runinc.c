@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: runinc.c,v 1.3 2004/02/02 01:44:36 rusfidogate Exp $
+ * $Id: runinc.c,v 1.4 2004/02/27 18:51:47 rusfidogate Exp $
  *
  * Processing inbound packets
  *
@@ -62,7 +62,7 @@
 #endif
 
 #define PROGRAM		"runinc"
-#define VERSION		"$Revision: 1.3 $"
+#define VERSION		"$Revision: 1.4 $"
 #define CONFIG		DEFAULT_CONFIG_MAIN
 
 void* subs(char *str,char *macro,char *expand);
@@ -820,7 +820,7 @@ options:\n\
 	  DIR			inbound short name: \"in, pin, uuin,ftpin,\n\
 	                        outpkt, outpkt/mail, outpkt/news\"\n\
 	  -b --before SCRIPT	exec script before tosting (if packets need)\n\
-	  -a --after SCRIPT	exec script befor tosting (if packets need)\n\
+	  -a --after SCRIPT	exec script after tosting (if packets need)\n\
 	  -o --outpkt		process outpkt, outpkt/mail, outpkt/news dirs\n\
 	  -s --site SITE	site name for ctlinnd\n\
           -v --verbose                 verbose\n\
