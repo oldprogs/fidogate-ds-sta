@@ -53,30 +53,30 @@
 	* doc/FIDOGATE+tracker.ru: added russian tracker+fidogate
 	FAQ(thanks to Andrew Zhuravlev)
 
-2004-09-10  Andrey Slusar <anray@users.sourceforge.net>
+2004-09-10  Andrey Slusar  <anray@users.sourceforge.net>
 
 	* src/areafix/areafix.c: added option
 	AllowEmptyPwd(see Changes)
 
-2004-08-26  Andrey Slusar <anray@users.sourceforge.net>
+2004-08-26  Andrey Slusar  <anray@users.sourceforge.net>
 
 	* src/gate/ftninpost.c: if SingleArticles defined,
 	not using FTNInRecombine
 	* src/gate/ftn2rfc.c: fix SingleArticles
 	* doc/FAQ.ru: add s-news configure
 
-2004-08-21  Andrey Slusar <anray@users.sourceforge.net>
+2004-08-21  Andrey Slusar  <anray@users.sourceforge.net>
 
 	* src/common/log.c: removed getenv()s, create
 	security risk for setuid news programs
 
-2004-08-07  Andrey Slusar <anray@users.sourceforge.net>
+2004-08-07  Andrey Slusar  <anray@users.sourceforge.net>
 
 	* configure.in: fix default prefix
 	* src/gate/Makefile.am: fix build with not default
 	    owner and group(thanks to Max Boyarov)
 
-2004-08-01  Andrey Slusar <anray@users.sourceforge.net>
+2004-08-01  Andrey Slusar  <anray@users.sourceforge.net>
 
 	* configure.in: total rewrite and fix more bugs
 	* src/toss/ftnexpire.c: fix format warnings
@@ -87,34 +87,34 @@
 	* src/common/log.c: fix incompatible type warning
 	* src/common/tick.c: fix format warnings
 
-2004-07-23  Andrey Slusar <anray@users.sourceforge.net>
+2004-07-23  Andrey Slusar  <anray@users.sourceforge.net>
 
 	* src/gate/rfc2ftn.c: fix FTS_VIA(thanks to
 	Alex Soukhotine)
 
-2004-07-22  Andrey Slusar <anray@users.sourceforge.net>
+2004-07-22  Andrey Slusar  <anray@users.sourceforge.net>
 
 	* src/gate/ftninpost.c: change system() to
 	portable run_system()
 
-2004-07-20  Andrey Slusar <anray@users.sourceforge.net>
+2004-07-20  Andrey Slusar  <anray@users.sourceforge.net>
 
 	* configure.in: change innconfval -s parsing
 
-2004-07-12  Andrey Slusar <anray@users.sourceforge.net>
+2004-07-12  Andrey Slusar  <anray@users.sourceforge.net>
 
 	* src/toss/ngoper.c: if AutoCreateRenumberCmd not
 	defined, this is silently skipped
 	* src/gate/send-fidogate.in: fixed confval warning
 
-2004-07-09  Andrey Slusar <anray@users.sourceforge.net>
+2004-07-09  Andrey Slusar  <anray@users.sourceforge.net>
 
 	======= Release 5.1.1ds =============================
 	------- CVS tag R511 --------------------------------
 	* version.h: update to stable 5.1.1ds
 	* configure.h.in: update to stable 5.1.1ds
 
-2004-07-05  Andrey Slusar <anray@users.sourceforge.net>
+2004-07-05  Andrey Slusar  <anray@users.sourceforge.net>
 
 	* doc/README.ru: update
 	* doc/FAQ.ru: update
@@ -126,7 +126,7 @@
 	    then using outbound for default zone
 	* src/gate/ftn2rfc.c: fix SingleArticles
 
-2004-06-15  Andrey Slusar <rusfidogate@users.sourceforge.net>
+2004-06-15  Andrey Slusar  <rusfidogate@users.sourceforge.net>
 
 	* version.h: update to 5.1.1ds-rc5
 	* packages/freebsd: update
@@ -134,18 +134,18 @@
 	    dirs not exsist, create it
 	* src/areafix/areafix.c: fix traping cmd_listall
 
-2004-06-11  Andrey Slusar <rusfidogate@users.sourceforge.net>
+2004-06-11  Andrey Slusar  <rusfidogate@users.sourceforge.net>
 
 	* src/common/packet.c: change checking pkt date
 	    format
 
-2004-06-08  Andrey Slusar <rusfidogate@users.sourceforge.net>
+2004-06-08  Andrey Slusar  <rusfidogate@users.sourceforge.net>
 
 	* version.h: update to 5.1.1ds-rc4
 	* scripts/nodelist/nl-autoupd.in: add detecting
 	    DIFFDIR, NLDIR, NLFDIR in fidogate.conf
 
-2004-06-06  Andrey Slusar <rusfidogate@users.sourceforge.net>
+2004-06-06  Andrey Slusar  <rusfidogate@users.sourceforge.net>
 
 	* version.h: update version number to 5.1.1ds-rc3
 	* src/gate/send-fidogate.in: add detecting LOGDIR
@@ -155,52 +155,52 @@
 	* src/common/getopt.c: fix args
 	* src/common/misc.c: fix and rewrite str_append()
 
-2004-05-26  Andrey Slusar <rusfidogate@users.sourceforge.net>
+2004-05-26  Andrey Slusar  <rusfidogate@users.sourceforge.net>
 
 	* Changes.ru: update
 	* doc/FAQ.ru: add Id
 
-2004-05-24  Andrey Slusar <rusfidogate@users.sourceforge.net>
-	
+2004-05-24  Andrey Slusar  <rusfidogate@users.sourceforge.net>
+
 	* version.h: update version number to 5.1.1ds-rc1
 	* src/areafix/areafix.c: add key for NEW command
 
-2004-04-18  Andrey Slusar <rusfidogate@users.sourceforge.net>
+2004-04-18  Andrey Slusar  <rusfidogate@users.sourceforge.net>
 
 	* packages/freebsd: update
 
-2004-04-15  Andrey Slusar <rusfidogate@users.sourceforge.net>
+2004-04-15  Andrey Slusar  <rusfidogate@users.sourceforge.net>
 
 	* scripts/nodelist/nl-autoupd.in: remove $IFINDEX
 
-2004-03-30  Andrey Slusar <rusfidogate@users.sourceforge.net>
+2004-03-30  Andrey Slusar  <rusfidogate@users.sourceforge.net>
 
 	* src/common/rfcheader.c: fix RECODE_ALL_RFC
 	* src/common/getopt.c: fix warning
 	* src/gate/ftninpost.c: fix warning
 	* src/tick/ftntick.c: fix warning
 
-2004-03-29  Andrey Slusar <rusfidogate@users.sourceforge.net>
+2004-03-29  Andrey Slusar  <rusfidogate@users.sourceforge.net>
 
 	* src/arafix/areafix.c: fix crashing ftnafutil if
 	    rulesfile is broken
 
-2004-03-24  Andrey Slusar <rusfidogate@users.sourceforge.net>
+2004-03-24  Andrey Slusar  <rusfidogate@users.sourceforge.net>
 
 	* src/areafix/areafix.c: remove unnecessary '\n' if
 	    enable AFSEND_ECHO_STATUS
 
-2004-03-16  Andrey Slusar <rusfidogate@users.sourceforge.net>
+2004-03-16  Andrey Slusar  <rusfidogate@users.sourceforge.net>
 
 	* packages/freebsd: update
 
-2004-03-12  Andrey Slusar <rusfidogate@users.sourceforge.net>
+2004-03-12  Andrey Slusar  <rusfidogate@users.sourceforge.net>
 
 	* src/areafix/areafix.c: fix cmd_listall finding
 	    dupe lines in lists (thanks to Anton Leer)
 	* TODO.rus: update
 
-2004-03-04  Andrey Slusar <rusfidogate@users.sourceforge.net>
+2004-03-04  Andrey Slusar  <rusfidogate@users.sourceforge.net>
 
 	* src/common/msgid.c: fix trap ftn2rfc if bad
 	    REPLY and use dbc_history
