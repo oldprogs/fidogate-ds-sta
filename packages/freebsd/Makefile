@@ -6,7 +6,6 @@
 
 PORTNAME=		fidogateds
 PORTVERSION=		5.1.0
-PORTREVISION=		1
 CATEGORIES=		russian news mail
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE}
 MASTER_SITE_SUBDIR=	rusfidogate
@@ -73,13 +72,12 @@ CONFIGURE_ARGS+=	--libexec=${PREFIX}/libexec/fidogate \
 			--with-vardir=${VARDIR} \
 			--with-spooldir=${SPOOLDIR} \
 			--with-btbasedir=${BTBASEDIR}
+CONFIGURE_TARGET=	--build=${MACHINE_ARCH}-portbld-freebsd${OSREL}
 
 EXTRA_DOCS=	doc/README.ru doc/README doc/FAQ.ru ChangeLog Changes.ru \
 		doc/old/FAQ_fidogate doc/old/FIDOGATE_ftrack doc/old/README.snp \
 		doc/old/README.snp.en doc/old/fidogate.txt doc/old/fidogate.texi \
 		doc/old/msgid.doc
-
-.include <bsd.port.pre.mk>
 
 .if !defined(NOPORTDOCS)
 post-install:
@@ -103,4 +101,4 @@ post-install:
 	${INSTALL_DATA} ${WRKSRC}/doc/mailer/sendmail/mailer/ftn.m4 ${EXAMPLESDIR}/sendmail/ftn.m4
 .endif
 
-.include <bsd.port.post.mk>
+.include <bsd.port.mk>
