@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: runinc.c,v 1.6 2004/06/15 00:49:48 rusfidogate Exp $
+ * $Id: runinc.c,v 1.7 2004/06/15 01:14:56 rusfidogate Exp $
  *
  * Processing inbound packets
  *
@@ -62,7 +62,7 @@
 #endif
 
 #define PROGRAM		"runinc"
-#define VERSION		"$Revision: 1.6 $"
+#define VERSION		"$Revision: 1.7 $"
 #define CONFIG		DEFAULT_CONFIG_MAIN
 
 void* subs(char *str,char *macro,char *expand);
@@ -112,14 +112,15 @@ void unpack(char *inb)
     /* Make sure temporary unpacking directory exists and entering into */
     BUF_COPY2(buffer, inb, "/tmpunpack");
     
-    if(chdir(buffer) !== 0)
+    if(check_access(buffer, CHECK_DIR) == ERROR)
     {
 	if(mkdir_r(buffer, 750) == ERROR)
 	{
-	    debug(7,"dir %s not exist or can't create", buffer);
+	    debug(7,"dir %s is not exist or can't create", buffer);
 	    return;
 	}
     }
+    chdir(buffer);
 
     /* Reading files into inbound directory */
     if( ! (dp = opendir(inb)) )
