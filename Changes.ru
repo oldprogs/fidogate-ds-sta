@@ -1,5 +1,7 @@
 Version 5.1.2ds
 ~~~~~~~~~~~~~~~
+- Убрана опция AllowEmptyPwd. Она ломала использование ключей ареафикса в
+  passwd.
 - Дефайн HAVE_REGEX_H переименован в HAS_POSIX_REGEX
 - Теперь X-FTN-Origin, X-FTN-Tearline и т.п. если были закодированы в qp
   или base64 перекодируются в plain text при гейтовании в фидо.

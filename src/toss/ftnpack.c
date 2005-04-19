@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: ftnpack.c,v 5.1 2004/12/10 19:10:01 anray Exp $
+ * $Id: ftnpack.c,v 5.2 2005/04/19 17:39:06 anray Exp $
  *
  * Pack output packets of ftnroute for Binkley outbound (ArcMail)
  *
@@ -40,7 +40,7 @@
 
 
 #define PROGRAM 	"ftnpack"
-#define VERSION 	"$Revision: 5.1 $"
+#define VERSION 	"$Revision: 5.2 $"
 #define CONFIG		DEFAULT_CONFIG_MAIN
 
 
@@ -907,13 +907,13 @@ int do_pack(PktDesc *desc, char *name, FILE *file, Packing *pack)
     set_zero(&flonode);
     
 
-    if(!node_eq(&arcnode, &flonode) &&
+    if(node_eq(&arcnode, &flonode) &&
        bink_bsy_create(&flonode, NOWAIT) == ERROR)
     {
 	debug(1, "%s busy, skipping", znfp1(&flonode));
 	if(file)
 	    fclose(file);
-	bink_bsy_delete(&arcnode);
+/*	bink_bsy_delete(&arcnode); */
 	return OK;			/* This is o.k. */
     }
        

@@ -1,3 +1,18 @@
+2005-04-19  Andrey Slusar  <anray@users.sourceforge.net>
+
+	* Changes.ru: Update.
+	* doc/README.ru: Ditto.
+	* doc/examples/dyff/fidogate.conf.sample.in:
+	Ditto.
+	* src/areafix/areafix.c (areafix_auth_check):
+	Removed option AllowEmptyPwd. It's broke the
+	areafix keys checking.
+	* src/toss/ftnpack.c (do_pack): Fixed checking
+	busy node(modified patch from Zhenya Kaluta).
+	* src/common/lock.c (lock_lockfile_id): Fixed
+	checking locks, not containing pid(patch from
+	Zhenya Kaluta).
+
 2004-12-10  Andrey Slusar  <anray@users.sourceforge.net>
 
 	======= Release 5.1.2ds ========================

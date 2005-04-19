@@ -1,5 +1,5 @@
 #
-# $Id: fidogate.conf.sample.in,v 5.1 2004/12/10 19:09:51 anray Exp $
+# $Id: fidogate.conf.sample.in,v 5.2 2005/04/19 17:39:06 anray Exp $
 #
 # NEW!!! (FIDOGATE 5.x.xds) single common config file
 #
@@ -240,11 +240,6 @@ FStatusAreaFixList
 ##############################################################################
 # T O S S E R   C O N F I G U R A T I O N                                    #
 ##############################################################################
-#
-# Empty passwords in incoming packets is allowed
-#
-#AllowEmptyPwd
-
 # Toss process (runtoss, rununpack):
 #
 # Maximum number of messages to toss before closing output packets/
@@ -526,9 +521,6 @@ EchoMail4D
 # Don't gate messages with unknown zone in ^AMSGID (known zones are defined
 # in config.common).
 #KillUnknownMSGIDZone
-
-# Don't gate messages without a valid ^AMSGID (or similar)
-#KillNoMSGID
 
 # Don't gate split messages with a ^ASPLIT kludge
 #KillSplit
