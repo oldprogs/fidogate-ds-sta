@@ -1,3 +1,15 @@
+2005-04-23  Andrey Slusar  <anray@users.sourceforge.net>
+
+	======= Release 5.1.3ds ========================
+	------- CVS tag R513 ---------------------------
+	* version.h (EXTRAVERSION): Bump to 5.1.3ds.
+	* configure.in: Ditto.
+	* doc/FAQ.ru: Now this is a confiuration mini FAQ
+	(part 10 of FAQ_Config.ru).
+	* doc/FAQ_Config.ru: Added full fidogate russian
+	configuration FAQ.
+	* doc/README.ru: Update.
+
 2005-04-19  Andrey Slusar  <anray@users.sourceforge.net>
 
 	* Changes.ru: Update.
