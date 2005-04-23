@@ -1,18 +1,18 @@
 # New ports collection makefile for: fidogateds
 # Whom:                 Andrey Slusar <vasallia@ukr.net>
 # Date created:         9 Feb 2004
-# $FreeBSD$
+# $FreeBSD: ports/news/fidogate-ds/Makefile,v 1.7 2005/04/12 03:26:21 obrien Exp $
 #
 
 PORTNAME=		fidogate
-PORTVERSION=		5.1.1
+PORTVERSION=		5.1.2
 CATEGORIES=		news mail
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE}
 MASTER_SITE_SUBDIR=	rusfidogate
 PKGNAMESUFFIX=		-ds
 DISTNAME=		fidogate${PORTVERSION}ds
 
-MAINTAINER=		vasallia@ukr.net
+MAINTAINER=		anrays@gmail.com
 COMMENT=		Fido-Internet Gateway and Tosser
 
 .if !defined(WITHOUT_INN)
@@ -20,14 +20,14 @@ BUILD_DEPENDS=		${LOCALBASE}/news/bin/innconfval:${PORTSDIR}/news/inn
 .endif
 
 USE_BZIP2=		yes
-HAS_CONFIGURE=		yes
+GNU_CONFIGURE=		yes
 USE_PERL5=		yes
 
-SPOOLDIR=/var/spool/fido/gate
-BTBASEDIR=/var/spool/fido/bt
-LOCKDIR=/var/run/fidogate
-LOGDIR=/var/log/fido/gate
-VARDIR=${PREFIX}/var/fidogate
+SPOOLDIR?=/var/spool/fido/gate
+BTBASEDIR?=/var/spool/fido/bt
+LOCKDIR?=/var/run/fidogate
+LOGDIR?=/var/log/fido/gate
+VARDIR?=${PREFIX}/var/fidogate
 
 PLIST_SUB+=		SPOOLDIR=${SPOOLDIR} \
 			BTBASEDIR=${BTBASEDIR} \
@@ -36,6 +36,7 @@ PLIST_SUB+=		SPOOLDIR=${SPOOLDIR} \
 			VARDIR=${VARDIR} \
 			PREFIX=${PREFIX}
 
+HAS_CONFIGURE=		yes
 .if defined(WITHOUT_INN)
 CONFIGURE_ARGS+=	--without-news
 .endif
@@ -73,8 +74,9 @@ CONFIGURE_ARGS+=	--libexec=${PREFIX}/libexec/fidogate \
 			--with-btbasedir=${BTBASEDIR}
 CONFIGURE_TARGET=	--build=${MACHINE_ARCH}-portbld-freebsd${OSREL}
 
-DOCS=		doc/README.ru doc/README doc/FAQ.ru ChangeLog Changes.ru \
-		doc/old/FAQ_fidogate doc/old/FIDOGATE_ftrack doc/old/README.snp \
+DOCS=		doc/README.ru doc/README doc/FAQ.ru doc/FIDOGATE+tracker.ru \
+		ChangeLog Changes.ru doc/old/FAQ_fidogate \
+		doc/old/FIDOGATE_ftrack doc/old/README.snp \
 		doc/old/fidogate.txt doc/old/fidogate.texi doc/old/msgid.doc
 
 .if !defined(NOPORTDOCS)
