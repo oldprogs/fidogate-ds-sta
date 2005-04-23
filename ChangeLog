@@ -4,6 +4,7 @@
 	------- CVS tag R513 ---------------------------
 	* version.h (EXTRAVERSION): Bump to 5.1.3ds.
 	* configure.in: Ditto.
+	* packages/freebsd: Ditto.
 	* doc/FAQ.ru: Now this is a confiuration mini FAQ
 	(part 10 of FAQ_Config.ru).
 	* doc/FAQ_Config.ru: Added full fidogate russian
