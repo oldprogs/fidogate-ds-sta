@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: areafix.c,v 5.2 2005/04/19 17:39:06 anray Exp $
+ * $Id: areafix.c,v 5.3 2005/11/23 23:12:22 anray Exp $
  *
  * Common Areafix functions
  *
@@ -1836,7 +1836,7 @@ int cmd_sub(Node *node, char *area_in, Textlist *upl)
 			areasbbs_changed();
 			continue;
 		    }
-		    if( p->zone != node->zone && ((p->zone) > 6 || (node->zone) > 6))
+		    if( (p->zone) > 6 || (node->zone) > 6) )
 		    {
 			areafix_printf("%-41s: different zone (Z%d), not added",
 				       p->area, p->zone);
@@ -1870,7 +1870,7 @@ int cmd_sub(Node *node, char *area_in, Textlist *upl)
 		    if( areasbbs_isstate(p->state, 'U') || 
 		        areasbbs_isstate(p->state, 'P'))
 		    {
-			if((a=uplinks_line_get (areafix, &l->first->node))!=NULL)
+			if(a=uplinks_line_get (areafix, &l->first->node))
 			{
 			    /* Subscribe from uplink */
 			    tl_appendf(upl, "%s,%s,%s,%s,+%s",
@@ -1946,7 +1946,7 @@ int cmd_sub(Node *node, char *area_in, Textlist *upl)
 	for (a=uplinks_lookup (areafix, area); a; a=a->next)
 	{
 		/* Create area */
-		if ( NULL != a->options )
+		if (a->options)
 		    BUF_COPY3( buf, a->areas, " ", a->options );
 		else
 		    BUF_COPY( buf,  a->areas );

@@ -1,3 +1,11 @@
+2005-11-23  Andrey Slusar  <anray@users.sourceforge.net>
+
+	* src/tick/ftntick.c (process_tic): Fix detecting
+	options from uplinks(thanks to Alexey Illarionov).
+	* src/toss/ftntoss.c: Added int_uplinks flag.
+	(do_echomail): Fix detecting options from uplinks,
+	added initing uplinks file(bug, reported by Pasha.K).
+
 2005-04-23  Andrey Slusar  <anray@users.sourceforge.net>
 
 	======= Release 5.1.3ds ========================
