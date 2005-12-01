@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: areafix.c,v 5.3 2005/11/23 23:12:22 anray Exp $
+ * $Id: areafix.c,v 5.4 2005/12/01 20:16:46 anray Exp $
  *
  * Common Areafix functions
  *
@@ -1836,7 +1836,7 @@ int cmd_sub(Node *node, char *area_in, Textlist *upl)
 			areasbbs_changed();
 			continue;
 		    }
-		    if( (p->zone) > 6 || (node->zone) > 6) )
+		    if( (p->zone > 6) || (node->zone > 6) )
 		    {
 			areafix_printf("%-41s: different zone (Z%d), not added",
 				       p->area, p->zone);
