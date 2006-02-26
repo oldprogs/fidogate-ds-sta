@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: areafix.c,v 5.4 2005/12/01 20:16:46 anray Exp $
+ * $Id: areafix.c,v 5.5 2006/02/26 15:48:31 anray Exp $
  *
  * Common Areafix functions
  *
@@ -1870,7 +1870,7 @@ int cmd_sub(Node *node, char *area_in, Textlist *upl)
 		    if( areasbbs_isstate(p->state, 'U') || 
 		        areasbbs_isstate(p->state, 'P'))
 		    {
-			if(a=uplinks_line_get (areafix, &l->first->node))
+			if((a=uplinks_line_get (areafix, &l->first->node))!=NULL)
 			{
 			    /* Subscribe from uplink */
 			    tl_appendf(upl, "%s,%s,%s,%s,+%s",
