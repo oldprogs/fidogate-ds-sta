@@ -1,3 +1,10 @@
+2006-05-09  Andrey Slusar  <anrays@gmail.com>
+
+	* configure.in: Update my email address, correct
+	fidogate version number in AM_INIT_AUTOMAKE.
+	* Makefile.am (installdirs): Add needed spaces
+	(thanks to Evgeniy Kozhuhovskiy).
+
 2006-03-22  Andrey Slusar  <anrays@gmail.com>
 
 	======= Release 5.1.4ds ========================

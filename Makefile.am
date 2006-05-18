@@ -1,6 +1,6 @@
 #
 #
-# $Id: Makefile.am,v 5.1 2004/12/10 19:09:45 anray Exp $
+# $Id: Makefile.am,v 5.2 2006/05/18 18:44:10 anray Exp $
 #
 # Makefile FIDOGATE TOPDIR
 #
@@ -46,15 +46,15 @@ GROUP = @GROUP@
 install-am: installdirs
 
 installdirs:
-	@for d in $(FDESTDIR); do\
+	@for d in $(FDESTDIR); do \
 	if ! test -d $(DESTDIR)$$d; then \
-	$(mkinstalldirs) $(DESTDIR)$$d || exit 1;\
+	$(mkinstalldirs) $(DESTDIR)$$d || exit 1; \
 	echo "create directory $(DESTDIR)$$d"; \
 	fi; \
 	done; \
 	if test `id -u` -eq 0 && test -n "${OWNER}" && test -n "${GROUP}"; then \
-	for d in $(FDESTDIR); do\
-	chown ${OWNER}:${GROUP} $(DESTDIR)$$d || exit 1;\
+	for d in $(FDESTDIR); do \
+	chown ${OWNER}:${GROUP} $(DESTDIR)$$d || exit 1; \
 	echo "chown ${OWNER}:${GROUP} $(DESTDIR)$$d"; \
 	done; \
 	fi

@@ -1,16 +1,16 @@
-dnl $Id: configure.in,v 5.3 2006/03/22 21:14:29 anray Exp $
+dnl $Id: configure.in,v 5.4 2006/05/18 18:44:10 anray Exp $
 dnl
-dnl Copyright (c) 2003-2004 Andrey Slusar <anray@users.sourceforge.net>
+dnl Copyright (c) 2003-2004 Andrey Slusar <anrays@gmail.com>
 dnl Copyright (c) 2003-2004 Alexandr Dobroslavskiy <dsas@users.sourceforge.net>
 dnl
-AC_REVISION([$Revision: 5.3 $])
+AC_REVISION([$Revision: 5.4 $])
 AC_PREREQ(2.53)
-AC_INIT([fidogate],[5.1.4ds],[anray@users.sourceforge.net])
+AC_INIT([fidogate],[5.1.4ds],[anrays@gmail.com])
 AM_CONFIG_HEADER([config.h])
 AC_CONFIG_SRCDIR([src/common/config.c])
 AC_CONFIG_AUX_DIR([build])
 AC_PREFIX_DEFAULT(/usr/local/fido)
-AM_INIT_AUTOMAKE(fidogate, 5.1.3ds, nodefine)
+AM_INIT_AUTOMAKE(fidogate, 5.1.4ds, nodefine)
 AM_MAINTAINER_MODE
 AC_CANONICAL_HOST
 
