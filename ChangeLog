@@ -1,3 +1,10 @@
+2006-10-14  Andrey Slusar  <anrays@gmail.com>
+
+	======= Release 5.1.5ds ========================
+	------- CVS tag R515 ---------------------------
+	* configure.in: Bump to 5.1.5ds.
+	* version.h (PATCHLEVEL): Ditto.
+
 2006-10-13  Andrey Slusar  <anrays@gmail.com>
 
 	* src/common/lock.c: Fix stale locks detecting(patch
