@@ -1,3 +1,10 @@
+2006-10-31  Andrey Slsuar  <anrays@gmail.com>
+
+	* src/common/msgid.c:
+	* src/include/packet.h:
+	* src/toss/ftntoss.c:
+	name_from, name_to, subject is char types.
+
 2006-10-20  Andrey Slsuar  <anrays@gmail.com>
 
 	* src/toss/ftntoss.c: Fix checking NULL entries in areas
