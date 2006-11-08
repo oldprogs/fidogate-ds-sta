@@ -5,7 +5,7 @@
 	* src/toss/ftntoss.c:
 	name_from, name_to, subject is char types.
 
-2006-10-20  Andrey Slsuar  <anrays@gmail.com>
+2006-10-20  Andrey Slusar  <anrays@gmail.com>
 
 	* src/toss/ftntoss.c: Fix checking NULL entries in areas
 	(patch from Yauheni Kaliuta).
