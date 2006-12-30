@@ -1,5 +1,5 @@
 
-  $Id: README.ru,v 5.3 2005/04/23 15:02:22 anray Exp $
+  $Id: README.ru,v 5.4 2006/12/30 11:47:09 anray Exp $
 
 
    Copyright (C) 2001-2002, Dmitry Fedotov
@@ -587,10 +587,10 @@ SPOOLDIR	/var/spool/fidogate
 # Общий каталог, в котором хранятся инбоунды и аутбоунды.
 BTBASEDIR	/var/spool/bt
 
-# Инбоунд
+# Unprotected инбоунд
 INBOUND		%B/in
 
-# Аутбоунд
+# Protected инбоунд.
 PINBOUND	%B/pin
 
 # Стандартые имена конфигов, и указание где они лежат. Если не нравится, то
@@ -959,9 +959,6 @@ AutoCreateSubscribeNodes 2:5030/1235 1262
 # Список адресов, которые подписываются автоматически на создаваемые
 # файлэхи.
 AutoCreateSubscribeFileechoNodes 2:5030/1235
-
-# Не делать проверку пароля в pkt, перед созданием эхоконференции.
-AutoCreateDontCheckPassword
 
 # Если в заголовке pkt содержится поинтовый адрес, не совпадающий с
 # адресом в ориджине, или если этого адреса нет в кладже ^AMSGID, то

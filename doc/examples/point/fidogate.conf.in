@@ -1,5 +1,5 @@
 #
-# $Id: fidogate.conf.in,v 5.2 2005/04/19 17:39:06 anray Exp $
+# $Id: fidogate.conf.in,v 5.3 2006/12/30 11:47:09 anray Exp $
 #
 # NEW!!! (FIDOGATE 5.0.0) single common config file
 #
@@ -261,9 +261,6 @@ MaxHistoryDBC 28
 
 # Keys for put to areas.bbs when echo is autocreated
 AutoCreateLine -s S -t 0
-
-# Do'nt check 'pkt password when echo autocreate
-AutoCreateDontCheckPassword
 
 ##############################################################################
 # T I C K E R   C O N F I G U R A T I O N                                    #
