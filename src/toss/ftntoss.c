@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: ftntoss.c,v 5.5 2006/12/30 11:47:09 anray Exp $
+ * $Id: ftntoss.c,v 5.6 2006/12/30 12:00:31 anray Exp $
  *
  * Toss FTN NetMail/EchoMail
  *
@@ -40,7 +40,7 @@
 
 
 #define PROGRAM 	"ftntoss"
-#define VERSION 	"$Revision: 5.5 $"
+#define VERSION 	"$Revision: 5.6 $"
 #define CONFIG		DEFAULT_CONFIG_MAIN
 
 
@@ -887,7 +887,7 @@ int do_echomail(Packet *pkt, Message *msg, MsgBody *body)
 	fglog("Insecure echomail packet from %s, area %s (%s pkt password)",
 	      znfp1(&msg->node_from), areaname,
 	      ('\0' == *(pkt->passwd)) ? "no" : "bad");
-	++msgs_insecure
+	++msgs_insecure;
 	if (!kill_insecure)
 	    return do_bad_msg(msg, body);
 	return OK;
