@@ -1,5 +1,9 @@
 2006-12-30  Andrey Slusar  <anrays@gmail.com>
 
+	======= Release 5.1.6ds ========================
+	------- CVS tag R515 ---------------------------
+	* configure.in: Update to 5.1.6ds
+	* version.h (PATCHLEVEL): Ditto.
 	* src/common/binkley.c:
 	* src/common/lock.c:
 	* src/include/prototypes.h:
