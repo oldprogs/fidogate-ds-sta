@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: prototypes.h,v 5.1 2004/12/10 19:10:00 anray Exp $
+ * $Id: prototypes.h,v 5.2 2006/12/30 12:40:08 anray Exp $
  *
  * Prototypes for functions in libfidogate.a
  *
@@ -304,10 +304,9 @@ int	unlock_file		(FILE *);
 int	lock_lockfile_nfs	(char *, int, char *);
 int	unlock_lockfile_nfs	(char *);
 #else
-int	lock_lockfile_id	(char *, int, char *);
+int	lock_lockfile		(char *, int);
 int	unlock_lockfile		(char *);
 #endif
-int	lock_program_id		(char *, int, char *);
 int	lock_program		(char *, int);
 int	unlock_program		(char *);
 int	lock_path		(char *, int);

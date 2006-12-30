@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: ftntoss.c,v 5.6 2006/12/30 12:00:31 anray Exp $
+ * $Id: ftntoss.c,v 5.7 2006/12/30 12:40:08 anray Exp $
  *
  * Toss FTN NetMail/EchoMail
  *
@@ -40,7 +40,7 @@
 
 
 #define PROGRAM 	"ftntoss"
-#define VERSION 	"$Revision: 5.6 $"
+#define VERSION 	"$Revision: 5.7 $"
 #define CONFIG		DEFAULT_CONFIG_MAIN
 
 
@@ -466,7 +466,7 @@ int toss_echomail(Message *msg, MsgBody *body, LON *seenby, LON *path,
 {
     LNode *p;
     FILE *fp;
-    Textlist save;
+    Textlist save = { NULL, NULL, 0 };
     char is_saved;
     
     for(p=nodes->first; p; p=p->next)

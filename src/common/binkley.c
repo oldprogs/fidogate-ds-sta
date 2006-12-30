@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FIDO NetMail/EchoMail
  *
- * $Id: binkley.c,v 5.1 2004/12/10 19:09:57 anray Exp $
+ * $Id: binkley.c,v 5.2 2006/12/30 12:40:08 anray Exp $
  *
  * BinkleyTerm-style outbound directory functions
  *
@@ -181,7 +181,7 @@ int bink_bsy_create(Node *node, int wait)
 # ifdef NFS_SAFE_LOCK_FILES
     return lock_lockfile_nfs(name, wait, NULL);
 # else
-    return lock_lockfile_id(name, wait, NULL);
+    return lock_lockfile(name, wait);
 # endif
 #else
     return OK;
