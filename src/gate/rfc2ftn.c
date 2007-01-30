@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway software UNIX <-> FIDO
  *
- * $Id: rfc2ftn.c,v 5.1 2004/12/10 19:09:59 anray Exp $
+ * $Id: rfc2ftn.c,v 5.2 2007/01/30 20:22:19 anray Exp $
  *
  * Read mail or news from standard input and convert it to a FIDO packet.
  *
@@ -39,7 +39,7 @@
 
 
 #define PROGRAM 	"rfc2ftn"
-#define VERSION 	"$Revision: 5.1 $"
+#define VERSION 	"$Revision: 5.2 $"
 #define CONFIG		DEFAULT_CONFIG_GATE
 
 
@@ -1072,7 +1072,7 @@ int snd_mail(RFCAddr rfc_to, long size)
 		}
 		else
 		{
-		    if(pna_notify(s_rfcaddr_to_asc(&rfc_from, FALSE)))
+		    if(s_rfcaddr_to_asc(&rfc_from, FALSE) !=NULL)
 		    {
 			fglog("BOUNCE: Postings from address `%s' to group `%s' not allowed - skipped, sent notify",
 			      s_rfcaddr_to_asc(&rfc_from, FALSE), pa->group);
@@ -1134,7 +1134,7 @@ int snd_mail(RFCAddr rfc_to, long size)
 	}
 	else
 	{
-	    if(pna_notify(s_rfcaddr_to_asc(&rfc_from, FALSE)))
+	    if(s_rfcaddr_to_asc(&rfc_from, FALSE) !=NULL)
 	    {
 		fglog("BOUNCE: Gateway netmail from address `%s' to `%s' not allowed - skipped, sent notify",
 		      s_rfcaddr_to_asc(&rfc_from, FALSE), asc_node_to);
@@ -1461,7 +1461,7 @@ again:
 	    /* Generate FSC-0035 ^AREPLYADDR, ^AREPLYTO */
 	    pt = xlat_s(s_rfcaddr_to_asc(&rfc_from, FALSE), pt);
 	    if(replyaddr_ifmail_tx)
-		fprintf(sf, "\001REPLYADDR <%s>\r\n",
+		fprintf(sf, "\001REPLYADDR %s <%s>\r\n", msg->name_from,
 			pt ? pt : s_rfcaddr_to_asc(&rfc_from, FALSE) );
 	    else
 		fprintf(sf, "\001REPLYADDR %s\r\n",
@@ -1472,8 +1472,11 @@ again:
 			znf1(node_from), msg->name_from);
 	    else
 #endif
-		fprintf(sf, "\001REPLYTO %s %s\r\n",
-		        znf1(cf_addr()), msg->name_from);
+		if(replyaddr_ifmail_tx)
+		    fprintf(sf, "\001REPLYTO %s UUCP\r\n", znf1(cf_addr()));
+		else
+		    fprintf(sf, "\001REPLYTO %s %s\r\n", znf1(cf_addr()),
+			    msg->name_from);
 	}
 
     if(x_flags_f)
