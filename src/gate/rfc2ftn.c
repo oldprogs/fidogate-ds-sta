@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway software UNIX <-> FIDO
  *
- * $Id: rfc2ftn.c,v 5.2 2007/01/30 20:22:19 anray Exp $
+ * $Id: rfc2ftn.c,v 5.3 2007/09/11 20:05:16 anray Exp $
  *
  * Read mail or news from standard input and convert it to a FIDO packet.
  *
@@ -39,7 +39,7 @@
 
 
 #define PROGRAM 	"rfc2ftn"
-#define VERSION 	"$Revision: 5.2 $"
+#define VERSION 	"$Revision: 5.3 $"
 #define CONFIG		DEFAULT_CONFIG_GATE
 
 
@@ -1072,7 +1072,7 @@ int snd_mail(RFCAddr rfc_to, long size)
 		}
 		else
 		{
-		    if(s_rfcaddr_to_asc(&rfc_from, FALSE) !=NULL)
+		    if(pna_notify(s_rfcaddr_to_asc(&rfc_from, FALSE)))
 		    {
 			fglog("BOUNCE: Postings from address `%s' to group `%s' not allowed - skipped, sent notify",
 			      s_rfcaddr_to_asc(&rfc_from, FALSE), pa->group);
@@ -1134,7 +1134,7 @@ int snd_mail(RFCAddr rfc_to, long size)
 	}
 	else
 	{
-	    if(s_rfcaddr_to_asc(&rfc_from, FALSE) !=NULL)
+	    if(pna_notify(s_rfcaddr_to_asc(&rfc_from, FALSE)))
 	    {
 		fglog("BOUNCE: Gateway netmail from address `%s' to `%s' not allowed - skipped, sent notify",
 		      s_rfcaddr_to_asc(&rfc_from, FALSE), asc_node_to);
