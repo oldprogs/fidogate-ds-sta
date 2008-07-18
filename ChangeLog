@@ -1,3 +1,8 @@
+2008-07-18  Andrey Slusar  <anrays@gmail.com>
+
+	* src/areafix/areafix.c (cmd_new): Fix segfault
+	on free(3)
+
 2007-10-14  Andrey Slusar  <anrays@gmail.com>
 
 	* src/toss/runinc.c (unpacking_parse_line):  Fix
