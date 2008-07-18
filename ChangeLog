@@ -2,6 +2,9 @@
 
 	* src/areafix/areafix.c (cmd_new): Fix segfault
 	on free(3)
+	* configure:
+	* configure.in:
+	Fix option `--enable-ai1'
 
 2007-10-14  Andrey Slusar  <anrays@gmail.com>
 

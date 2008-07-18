@@ -2,7 +2,7 @@
 /*****************************************************************************
  * FIDOGATE --- Gateway UNIX Mail/News <-> FTN NetMail/EchoMail
  *
- * $Id: areafix.c,v 5.6 2006/11/15 09:15:36 anray Exp $
+ * $Id: areafix.c,v 5.7 2008/07/18 21:20:14 anray Exp $
  *
  * Common Areafix functions
  *
@@ -953,7 +953,7 @@ int cmd_new(Node *node, char *line, char *dwnl, int inter)
     if(!strcmp(my_context,"ff"))
     {
 	if( p->flags & AREASBBS_PASSTHRU)	/* -# */
-	    p->dir = "-";
+	    p->dir = strsave("-");
 	else
 	{
 //	    p->flags &= AREASBBS_PASSTHRU;
@@ -964,7 +964,7 @@ int cmd_new(Node *node, char *line, char *dwnl, int inter)
 	    else 
 	    {
     		fglog("CONFIG: AutoCreateFechoPath not defined and filearea not passthru");
-    		p->dir = "-";
+    		p->dir = strsave("-");
 	    }
 	    sprintf(full_farea_dir,"%s/%s",autocreate_fecho_path, str_lower(name));
 	    p->dir = strsave(full_farea_dir);
@@ -997,7 +997,7 @@ int cmd_new(Node *node, char *line, char *dwnl, int inter)
 	}
     }
     else
-	p->dir="-";
+	p->dir = strsave("-");
     
     lon_init(&p->nodes);
     lon_add(&p->nodes, node);

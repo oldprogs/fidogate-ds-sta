@@ -1,9 +1,9 @@
-dnl $Id: configure.in,v 5.7 2007/01/30 20:28:30 anray Exp $
+dnl $Id: configure.in,v 5.8 2008/07/18 21:20:14 anray Exp $
 dnl
-dnl Copyright (c) 2003-2006 Andrey Slusar <anrays@gmail.com>
+dnl Copyright (c) 2003-2008 Andrey Slusar <anrays@gmail.com>
 dnl Copyright (c) 2003-2004 Alexandr Dobroslavskiy <dsas@users.sourceforge.net>
 dnl
-AC_REVISION([$Revision: 5.7 $])
+AC_REVISION([$Revision: 5.8 $])
 AC_PREREQ(2.53)
 AC_INIT([fidogate],[5.1.7ds],[anrays@gmail.com])
 AM_CONFIG_HEADER([config.h])
@@ -303,7 +303,7 @@ AC_ARG_ENABLE(aliases-local,
 
 AC_ARG_ENABLE(ai1,
 [  --enable-ai1		Add -a option to HOSTS entries, useful only with PASSTHRU_NET/ECHOMAIL],
-    AC_DEFINE(ALIASES_ARE_LOCAL),)
+    AC_DEFINE(AI_1),)
 
 AC_ARG_ENABLE(best-aka,
 [  --disable-best-aka	disable best AKA select],
